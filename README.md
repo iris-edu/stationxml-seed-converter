@@ -1,6 +1,5 @@
 # stationxml-seed-converter
-Station XML/Seed converter
-
+The purpose of this converter is providing conveniently convert documents between StationAML and Metadata SEED.
 
 Usage:
 java -jar java -jar stationxml-converter.jar [options...] arguments...
