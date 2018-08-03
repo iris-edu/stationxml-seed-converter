@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.iris</groupId>
 	<artifactId>stationxml-converter</artifactId>
-	<version>1.0.10</version>
+	<version>1.0.11-SNAPSHOT</version>
 	<name>station-seed-converter</name>
 	<url>http://www.iris.edu/ws/station/converter.jsp</url>
 
