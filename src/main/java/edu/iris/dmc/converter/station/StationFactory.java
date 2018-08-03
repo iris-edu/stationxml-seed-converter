@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -120,7 +121,8 @@ public class StationFactory {
 		Station station = new Station();
 		station.setCode(code);
 
-		SimpleDateFormat fmt = new SimpleDateFormat("YYYY,D,H:m:ss.SSSS");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy,D,H:m:ss.SSSS");
+		fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
 		Btime d = (Btime) stationBlockette.getFieldVal(13);
 		if (d != null && d.getStringTime() != null) {
 			Date dt = fmt.parse(d.getStringTime());
@@ -194,7 +196,7 @@ public class StationFactory {
 
 		channel.setCode(chanCode);
 		channel.setLocationCode(location.trim());
-		SimpleDateFormat fmt = new SimpleDateFormat("YYYY,D,H:m:ss.SSSS");
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy,D,H:m:ss.SSSS");
 
 		Btime bTime = (Btime) channelBlockette.getFieldVal(22);
 		if (bTime != null) {

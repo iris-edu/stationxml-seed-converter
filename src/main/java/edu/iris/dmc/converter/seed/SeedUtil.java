@@ -3,7 +3,6 @@ package edu.iris.dmc.converter.seed;
 import java.io.UnsupportedEncodingException;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -14,11 +13,8 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.apache.commons.codec.binary.StringUtils;
-
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Coefficients;
-import edu.iris.dmc.fdsn.station.model.ComplexNumber;
 import edu.iris.dmc.fdsn.station.model.Decimation;
 import edu.iris.dmc.fdsn.station.model.FIR;
 import edu.iris.dmc.fdsn.station.model.Gain;
