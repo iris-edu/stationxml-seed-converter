@@ -4,7 +4,7 @@ The purpose of this converter is to conveniently convert documents between Stati
 Download the jar file and run it as described below:
 
 Usage:
-java -jar java -jar stationxml-converter.jar [options...] arguments...
+java -jar stationxml-converter.jar [options...] arguments...
 
 	-h, --help, 		print this message
 	-V, --version, 		Print version number and exit.
