@@ -130,22 +130,22 @@ public class SeedUtil {
 			sBuilder.append("0|");
 		}
 
+		double azimuth=0.0;
 		if (epoch.getAzimuth() != null) {
 			if(epoch.getDip()!=null){
 				if(epoch.getDip().getValue()==90 || epoch.getDip().getValue()==-90){
 					if (epoch.getAzimuth().getValue() == 0) {
-						sBuilder.append(360).append("|");
+						azimuth=360;
 					} else {
-						sBuilder.append(epoch.getAzimuth().getValue()).append("|");
+						azimuth=epoch.getAzimuth().getValue();
 					}
 				}
 			}else{
-				sBuilder.append(epoch.getAzimuth().getValue()).append("|");
-			}
-			
-		} else {
-			sBuilder.append("0|");
+				azimuth=epoch.getAzimuth().getValue();
+			}	
 		}
+		
+		sBuilder.append(azimuth).append("|");
 
 		if (epoch.getDip() != null) {
 			sBuilder.append(epoch.getDip().getValue()).append("|");
