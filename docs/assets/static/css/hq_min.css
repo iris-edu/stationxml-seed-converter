@@ -1,0 +1,532 @@
+/*
+ * Minimal port of IRIS HQ styles.
+ */
+
+html {
+    background: #918C82;
+    color: #33332f;
+}
+
+/* --- Layout Formatting --- */
+
+/* Contains all elements of the layout, used to overcome centering problem in IE */
+#container {
+width: 980px;
+margin: auto;
+}
+
+/* The top most white portion of the layout */
+#header {
+background: url(http://www.iris.edu/dms/images/layout/header.gif);
+height: 130px;
+}
+
+/* The following two items are for transparent gifs placed over the IRIS logo on the left of the header
+This allows parts of the background of the header to link to locations such as the IRIS Homepage */
+#irisLogoLink {
+float: left;
+margin: 10px 0px 10px 30px;
+}
+
+/* Position a clear gif over the IRIS Logo which is actually part of the background for #container #header
+This lets us link the image to the IRIS homepage */
+#irisLogoLink img {
+width: 300px;
+height: 110px;
+border: 0px;
+}
+
+/* Column that holds everything in the right portion of the header*/
+
+#links {
+margin: 15px 20px 0px 0px;
+float: right;
+}
+
+#links a {
+font-size: 93%;
+text-decoration: none;
+padding-left: 14px;
+color: #656565;
+}
+
+#links a:hover {
+text-decoration: underline;
+}
+
+/* Search Box */
+#links form {
+display: inline;
+}
+
+#links .box {
+margin-left: 20px;
+border: 1px solid #a1a1a1;
+background: url(http://www.iris.edu/dms/images/layout/searchLogo.gif) no-repeat;
+padding: 1px 1px 1px 18px;
+font-size: 10pt;
+}
+
+/* Search Button */
+#links .search {
+margin-right: 10px;
+position: relative;
+top: 5px;
+}
+
+/* The following two items work the same way as the IRIS logo above, but for the NSF logo
+A clickable spot was also added in April for the mission statement */
+#links #nsfLogoLink {
+margin-top: 19px;
+}
+
+#links #nsfLogoLink img.nsf {
+width: 80px;
+height: 60px;
+margin: 0px 0px 0px 0px;
+border: 0px;
+}
+
+#links #nsfLogoLink img.mission {
+border: 0px;
+height: 50px;
+width: 353px;
+margin: 0px 0px 0px 0px;
+}
+
+/* Top Navigation - Purple Buttons 
+This menu is loosely based on the Suckerfish menu http://www.alistapart.com/articles/dropdowns/
+Some javascript is needed for it to work in IE. It is included with conditional comments in the header
+*/
+#nav {
+background: url(http://www.iris.edu/dms/images/layout/nav.gif);
+height: 37px;
+padding: 9px 0px 0px 30px;
+z-index: 100;
+position: relative;
+}
+
+/* Used to identify a top level menu item with a purple rounded button */
+#nav a.top {
+display: block;
+height: 37px;
+}
+
+/* Define background images for the purple buttons (first level items)
+The ones that begin with "on" are when a purple button looks highlighted and is raised,
+This signifies what section a user is currently in 
+The reason that the li and a items both have a class applied and not just the li is to overcome
+IE6 poor support for selectors
+All of these rules below are redefined in ie6.css as well
+*/
+#nav li.home > a {background: url(http://www.iris.edu/dms/images/layout/homeButton.gif) #eeeeee;width: 74px}
+#nav li.onhome > a {background: url(http://www.iris.edu/dms/images/layout/onhomeButton.gif) #eeeeee;width: 74px}
+#nav li.about > a {background: url(http://www.iris.edu/dms/images/layout/aboutButton.gif) #eeeeee;width: 98px}
+#nav li.onabout > a {background: url(http://www.iris.edu/dms/images/layout/onaboutButton.gif) #eeeeee;width: 98px}
+#nav li.data > a {background: url(http://www.iris.edu/dms/images/layout/dataButton.gif) #eeeeee;width: 68px}
+#nav li.ondata > a {background: url(http://www.iris.edu/dms/images/layout/ondataButton.gif) #eeeeee;width: 68px}
+#nav li.software > a {background: url(http://www.iris.edu/dms/images/layout/softwareButton.gif) #eeeeee;width: 86px}
+#nav li.onsoftware > a {background: url(http://www.iris.edu/dms/images/layout/onsoftwareButton.gif) #eeeeee;width: 86px}
+#nav li.instrumentation > a {background: url(http://www.iris.edu/dms/images/layout/instrumentationButton.gif) #eeeeee;width: 136px}
+#nav li.oninstrumentation > a {background: url(http://www.iris.edu/dms/images/layout/oninstrumentationButton.gif) #eeeeee;width: 136px}
+#nav li.publications > a {background: url(http://www.iris.edu/dms/images/layout/publicationsButton.gif) #eeeeee;width: 112px}
+#nav li.onpublications > a {background: url(http://www.iris.edu/dms/images/layout/onpublicationsButton.gif) #eeeeee;width: 112px}
+
+/* Define the widths for the sub navigations
+May need to be adjusted depending on menu items*/
+#nav ul ul li {width: 150px}
+#nav li.space ul li {width: 15px}
+#nav li.aboutdmc ul li, #nav li.onaboutdmc ul li {width: 130px}
+
+/* Shift our background on hover to change the image for rollover effect */
+#nav a.top:hover {
+background-position: 0% 100%;
+}
+
+/* Define the structure of the navigation
+Loosely based on the Suckerfish http://www.alistapart.com/articles/dropdowns/ */
+#nav ul {
+list-style: none;
+margin: 0;
+}
+
+#nav ul li {
+margin-left: 2px;
+position: relative;
+background: #959595
+}
+
+/* Extra class to overcome problem in IE6
+Applied to all top level (purple) nav elements */
+#nav ul li.base {
+float: left;
+}
+
+/* Second level nav elements */
+#nav ul ul {
+display: none;
+position: absolute;
+border-top: 1px solid #818181;
+}
+
+/* Display our sub menus on hover, a second class (.over) is also defined here. This is so the class can be applied with javascript
+for IE6 since it doesn't support :hover properly */ 
+#nav ul li:hover ul, #nav ul li.over ul {
+display: block;
+padding: 0px;
+}
+
+#nav ul ul li {
+border-top: 1px solid #bcbcbc;
+border-bottom: 1px solid #818181;
+padding: 0px;
+margin: 0px;
+float: left;
+border-left: 1px solid #818181;
+border-right: 1px solid #818181;
+}
+
+/* Class applied to first menu item on the second level */
+#nav ul ul li.first {
+border-top: 0px;
+}
+
+/* Class applied to a list item that has a sub items */
+#nav ul ul li.down {
+background: url(http://www.iris.edu/dms/images/layout/topNavArrow.gif) #959595 right center no-repeat;
+}
+
+#nav ul ul li a {
+color: #FFFFFF;
+text-decoration: none;
+font-size: 9pt;
+margin: 0px;
+padding: 5px;
+display: block;
+}
+
+#nav ul ul li a:hover {
+background: #b4b4b4;
+color: #660099;
+}
+
+/* Third Level of Dropdown Menus */
+#nav ul ul ul {
+left: -999em;
+height: 0px;
+}
+
+#nav ul ul li:hover ul, #nav ul ul li.over ul {
+left: 150px;
+top: -2px;
+}
+
+/* Bar below top navigation */
+#belowNav {
+height: 14px;
+background: url(http://www.iris.edu/dms/images/layout/belowNav.gif);
+}
+
+/* Contains the main left and right columns
+Used to properly stretch the layout vertically */
+#main {
+float: left;
+background: url(http://www.iris.edu/dms/images/layout/leftColBack.gif) repeat-y;
+width:100%;
+}
+
+/* See homepage.css for anything specific to the homepage */
+
+/* Footer */
+#footer {
+background: url(http://www.iris.edu/dms/images/layout/footerBack.gif);
+float: left;
+letter-spacing: 0;
+word-spacing: 0;
+}
+
+#footer #top {
+height: 1px;
+background: #acacac;
+margin: 0px 10px 0px 9px;
+width: 960px;
+}
+
+#footer #leftHalf {
+padding: 15px 25px;
+float: left;
+width: 780px;
+}
+
+#footer #leftHalf a {
+font-size: 9pt;
+text-decoration: none;
+color: #5e5e5e;
+}
+
+#footer #leftHalf a:hover {
+text-decoration: underline;
+}
+
+#footer #leftHalf img {
+float: left;
+margin-right: 10px;
+}
+
+#footer #leftHalf p {
+margin-top: 15px;
+color: #949493;
+font-size: 9pt;
+}
+
+#footer #rightHalf {
+padding-top: 10px;
+padding-right: 20px;
+float: left;
+}
+
+/* Link in the footer to request an update */
+#footer a.requestUpdate {
+line-height: 150%;
+color: #660099 !important;
+text-decoration: underline !important;
+}
+
+/* --- Formatting Used on Inner Pages --- */
+
+/* --- Left Column --- */
+#leftInner {
+width: 236px;
+float: left;
+padding-left: 9px;
+padding-bottom: 30px;
+//height: 800px;
+}
+
+/* Left Menu */
+#menu {
+list-style-type: none;
+margin: 0;
+}
+
+#menu li {
+margin: 0px;
+padding: 0px;
+}
+
+
+/* First Level Menu Items */
+
+/* Default menu item with no sub pages and not on the top or bottom of the list */
+#menu li a {
+display: block;
+height: 16px;
+color: #3e5f1e;
+text-decoration: none;
+padding: 5px 5px 5px 32px;
+background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu.gif);
+font-size: 108%;
+}
+
+/* All of these styles are in lowercase because the html may be automatically generated by the cms */
+
+/* Style for a menu item that appears first */
+#menu li.top a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuTop.gif) #dcdcdc}
+#menu li.toparrow a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuTopArrow.gif) #dcdcdc}
+#menu li.toparrowopen a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuTopOpen.gif) #dcdcdc}
+
+/* Style for menu items in the middle */
+#menu li.arrow a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuArrow.gif) #dcdcdc}
+#menu li.arrowopen a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuOpen.gif) #dcdcdc}
+
+/* Style for menu items on the bottom */
+#menu li.bottom a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuBottom.gif) #dcdcdc}
+#menu li.bottomarrow a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenuBottomArrow.gif) #dcdcdc}
+
+#menu li a:hover {
+color: #9657b6;
+background-position: 0% 100%;
+}
+
+/* Second Level of Menu Items */
+#menu li ul {
+list-style-type: none;
+}
+
+#menu li ul li a {
+padding: 5px 5px 5px 44px;
+background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu2.gif) !important;
+font-size: 10pt;
+}
+
+/* Style for menu items in the middle */
+#menu li ul li.arrow a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu2Arrow.gif) #dcdcdc !important}
+#menu li ul li.arrowopen a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu2Open.gif) #dcdcdc !important}
+
+/* Style for bottom menu item, this would be the absolute bottom, not just the bottom of the second level */
+#menu li ul li.bottom a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu2Bottom.gif) #dcdcdc !important}
+#menu li ul li.bottomarrow a {background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu2BottomArrow.gif) #dcdcdc !important}
+
+#menu li ul li a:hover, #menu li ul li.arrow a:hover, #menu li ul li.arrowopen a:hover {
+color: #9657b6;
+background-position: 0% 100% !important;
+}
+
+/* Third Level of Menu Items
+Third level menu items must have a class applied to ul to overcome poor selector in IE */
+#menu li ul li ul.level3 {
+list-style-type: none;
+}
+
+#menu li ul li ul.level3 li a {
+padding: 5px 5px 5px 56px;
+background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu3.gif) !important;
+font-size: 10pt;
+font-size: 9pt;
+color: #f6f6f6;
+}
+
+/* Fix problem with rollover not inheriting */
+#menu li ul li ul.level3 li.bottom a:hover {
+background-position: 0% 100% !important;
+}
+
+/* Style for menu items on the bottom, absolute bottom of menu, not just bottom of 3rd level */
+#menu li ul li ul.level3 li.bottom a {
+background: url(http://www.iris.edu/dms/images/leftMenu/leftMenu3Bottom.gif) #dcdcdc !important;
+}
+
+/* Right Column of Inner Page */
+
+#rightInner {
+padding-top: 4px;
+padding-left: 23px;
+padding-right: 11px;
+background: #FFFFFF;
+float: left;
+width: 701px;
+background: url(http://www.iris.edu/dms/images/layout/rightColBack.gif) repeat-y #FFFFFF;
+background-position: 100% 0%;
+padding-bottom: 5px;
+}
+
+/* Single Column Page */
+#fullInner {
+  padding-left: 33px;
+  padding-right: 11px;
+  background: none;
+  float: none;
+  width: 936px;
+  letter-spacing:0;
+  word-spacing:0;
+}
+
+#fullInner #content {
+  padding-left: 10px;
+  padding-right: 25px;
+}
+
+/* Breadcrumbs */
+#breadCrumbs {
+margin-top: 3px;
+color: #7e7e7e;
+margin-bottom: 15px;
+}
+
+#breadCrumbs a {
+text-decoration: none;
+}
+
+#content, #mceEditor {
+padding-right: 15px;
+}
+
+#content {
+padding-bottom: 30px;
+font-size: 116%;
+}
+
+
+/* --- General Styles --- */
+
+a {
+color: #660099;
+text-decoration: underline;
+}
+
+h1 {
+color: #660099;
+font-size: 174%;
+border-bottom: 1px solid #d7d7d7;
+font-weight: normal;
+margin: 0;
+}
+
+h2, span.h2 {
+color: #467914;
+font-size: 15pt;
+font-weight: normal;
+}
+
+h3, span.h3 {
+color: #943030;
+font-size: 14pt;
+font-weight: normal;
+margin-bottom: 10px;
+margin-top: 20px;
+}
+
+h4 {
+color: #2d2c2c;
+font-size: 11pt;
+font-weight: bold;
+margin-bottom: 10px;
+margin-top: 20px;
+}
+
+h5 {
+color: #33332f;
+font-size: 10pt;
+font-weight: bold;
+font-style: italic;
+margin-bottom: 10px;
+margin-top: 20px;
+}
+
+h6 {
+color: #808080;
+font-size: 10pt;
+font-weight: normal;
+margin-bottom: 3px;
+margin-top: 20px;
+}
+
+p, table {
+margin: 0px 0px 10px 0px;
+}
+
+ul, ol {
+margin: 5px 5px 10px 30px;
+}
+
+ul {
+  list-style-type: square;
+}
+
+/* More useful HR spacing */
+hr {
+    display: block;
+    margin: 20px 0;
+}
+
+/* DL styling */
+dl {
+    margin: .5em 0;
+}
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-left: 30px;
+    margin-bottom: .5em;
+}

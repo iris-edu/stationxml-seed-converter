@@ -1,0 +1,153 @@
+.nav_menu_container {
+  position: relative;
+  box-sizing: border-box;
+  z-index: 999;
+  border-bottom: 1px solid #ddd;
+}
+.nav_menu {
+  list-style:none;
+  padding:0;
+  position:relative; /* For IE7 */
+  margin: 0 0 -1px 0;
+  line-height:1;
+}
+.nav_menu > li {
+  float:left;
+  margin:0;
+  border-right: 1px solid #ddd;
+  line-height:10px;
+}
+.nav_menu > li > a {
+  font-size:12px;
+  outline:0;
+  text-decoration:none;
+  display:block;
+  padding: 4px 12px 9px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  margin: -1px;
+  margin-bottom: 0;
+  z-index: 1;
+  position: relative;
+  transition-property: background,border;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  transition-delay: 0.25s;
+}
+.nav_menu > li > a > h4 {
+  font-size:16px;
+  margin: 0;
+  letter-spacing:0;
+}
+.nav_menu > li > a > small {
+  margin:0;
+  padding:0;
+}
+.nav_menu_drop {
+  padding-right:30px;
+}
+.nav_menu > li:first-child > a {
+  border-top-left-radius: 9px;
+}
+.nav_menu > li:last-child > a {
+  border-top-right-radius: 9px;
+}
+.nav_menu li.nav_menu_button {
+  display: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  -ms-transition: none;
+  transition: none;
+}
+
+/* Right aligned menu item */
+.nav_menu li.nav_menu_right {
+  border-right: 0;
+}
+.nav_menu a.iris_logo, .nav_menu li:hover > a.iris_logo {
+  background-image: url(//ds.iris.edu/static/img/layout/logos/header-logo.png);
+  width: 65px;
+  height: 52px;
+  background-size: contain;
+}
+.nav_menu li:hover > a.iris_logo {
+  box-shadow: inset 0 0 20px hsl(268, 50%, 20%);
+  border-color: hsl(268, 50%, 10%);
+}
+
+/*  _______________________________________________
+
+    02 MEGA MENU CONTAINERS
+    _______________________________________________  */
+
+.nav_menu_dropdown_container {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  left: -1px;
+  right: -1px;
+  z-index: 0;
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+.nav_menu_dropdown {
+  padding: 8px 0 12px;
+  border-radius: 0 0 9px 9px;
+  transition: margin 0.5s 0.25s ease;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  background-image: linear-gradient(to bottom, #f0f0f0, #fff);
+  margin: -500px 0 12px 0;
+  border-top-width: 0;
+  box-shadow: 0 7px 7px -3px rgba(0, 0, 0, 0.15);
+}
+.nav_menu_dropdown h1,
+.nav_menu_dropdown h2,
+.nav_menu_dropdown h3,
+.nav_menu_dropdown h4,
+.nav_menu_dropdown p,
+.nav_menu_dropdown ul > li {
+  line-height:17px;
+}
+.nav_menu_dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+.nav_menu_dropdown ul > li {
+  margin:4px 0;
+}
+.nav_menu_dropdown h3 {
+  margin: 0 0 8px;
+}
+.nav_menu_dropdown h4 {
+  font-size: 14px;
+  margin: 4px -4px 0 -4px;
+  padding: 2px 4px 4px 4px;
+  color: #666;
+  background: #ccc;
+}
+.nav_menu_dropdown h5 {
+  margin: 4px 0 8px 0;
+  font-size: 14px;
+}
+.nav_menu_dropdown img.block-left {
+    float:left;width:90px;margin:10px 0 0 0;
+}
+.nav_menu_dropdown div.block-right {
+    margin-left:100px;
+}
+.nav_menu_dropdown div.block-bottom {
+    margin-bottom:100px;
+}
+/* Showing Drop Down on Mouse Hover */
+.nav_menu > li:hover > a {
+  background: #f0f0f0;
+  border-color: #ccc;
+  border-bottom-color: #f0f0f0;
+}
+.nav_menu > li:hover .nav_menu_dropdown {
+  margin-top: -1px;
+}
+.breadcrumb {
+  border-top-width: 0;
+}

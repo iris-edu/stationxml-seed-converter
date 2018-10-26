@@ -1,0 +1,150 @@
+// Extension of iris.less with responsive features turned on.
+
+// Utility classes
+// Have to be last to override when necessary
+@import "@{bs-path}/utilities.less";
+@import "@{bs-path}/responsive-utilities.less";
+
+@import "variables.less";
+@import "iris-base.less";
+
+// Responsive styles from iris-base.less
+
+// BS3 carousel-indicators poor responsive override - reset to default
+// -------------------------------------------------------------------
+@media screen and (min-width: 100px) {
+    .carousel-indicators {
+        bottom: 10px;
+    }
+}
+
+@media screen and (max-width: @screen-md) {
+  .footer-alert {
+    margin: 0 10px;
+  }
+}
+
+// Responsive styles from hq.less
+
+@media screen and (min-width: 100px) {
+  .carousel-indicators {
+    bottom: 10px;
+  }
+}
+
+/* Small screen */
+@media screen and (max-width: @screen-lg) {
+  /* Remove the small text in the nav manu */
+
+  .nav_menu_drop small
+  {
+    display: none;
+  }
+
+  #toggle-mega-menu {
+    padding-top: 18px;
+  }
+
+  #toggle-mega-menu button {
+    background-color: rgba(73, 37, 136, 1);
+    color: white;
+  }
+
+  #top-menu{
+    margin-top: -18px !important;
+  }
+
+}
+
+/* Extra small screen */
+
+@media screen and (max-width: @screen-md)  {
+  #submenu {
+    padding: 0 -15px 20px -15px !important;
+  }
+
+  #main-page-chose-community .col-sm-2 img {
+    position: relative;
+  }
+
+  #main-page-events{
+    margin-top: 30px;
+  }
+
+  #main-page-events-table-container {
+    max-height: inherit;
+  }
+
+  #top-menu,
+  #header-right,
+  #logo-name,
+  #col-left,
+  #footer-top,
+  .nav_menu_container{
+    display: none;
+  }
+
+  .nav_menu > li{
+    display: block !important;
+  }
+  .nav_menu_dropdown_container{
+    z-index: 5 !important;
+    position: relative !important;
+  }
+
+  #page-content,
+  #header,
+  #header-left,
+  #col-right,
+  #page-content  {
+    width: 100% !important;
+  }
+
+  .v-space{
+    padding: 20px;
+  }
+
+  #page-content img,
+  #page img{
+    margin: 2px !important;
+    padding: 1px !important;
+    float: none !important;
+    border: none !important;
+  }
+
+  td,
+  .nivoSlider img {
+    position: relative !important;
+  }
+
+  #page-content {
+    padding: 10px !important
+  }
+
+  .container {
+    padding: 0 !important;
+  }
+
+  #page-content  {
+    height: auto !important;
+  }
+  #footer,
+  .nivoSlider {
+    text-align: center;
+  }
+  
+  .cachebuster {
+    position: absolute;
+  }
+  
+}
+
+/* Adds horizontal scroll-bar to overflowing content */
+.auto-table-scroll-x {
+  overflow-x: auto;
+  margin-bottom: 21px;
+}
+
+.auto-table-scroll-x table {
+  margin-bottom: 0px;
+}

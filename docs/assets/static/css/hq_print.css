@@ -1,0 +1,13 @@
+/* Hide parts of the layout we don't want to print and stretch content to 100% width */
+#header, #nav, #belowNav, #leftInner, #footer {
+  display: none;
+}
+
+#rightInner, #main, #container {
+  width: 100% !important;
+  background: #FFFFFF !important;
+}
+
+body {
+  background: #FFFFFF;
+}

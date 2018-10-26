@@ -1,0 +1,20 @@
+/*
+ * DMC Specific Components
+ *
+ * @created  2012-08-21
+ * @modified 2012-08-24
+ */
+
+div#container div#header div#irisLogoLink h1 {
+    display:none;
+}
+
+div#container div#main div#rightInner div#content h4 a,
+div#container div#main div#rightInner div#content h4 a:active,
+div#container div#main div#rightInner div#content h4 a:link,
+div#container div#main div#rightInner div#content h4 a:visited {
+    color: #000000;
+}
+div#main div#content div#rightInner ul {
+    list-style-type: none;
+}
