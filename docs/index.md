@@ -14,13 +14,13 @@ The seed-xml-converter is a tool used to converter seismological metadata betwee
 
 `--input` and `--output` are the only arguments supplied to the seed-xml-converter. The argument `--input` can be either dataless or stationxml files or a directory containing only dataless or xml. The `--output` and `--input` arguments must have matching path levels (file/directory). If a directory is provided, the converter will output converted files with the naming convention input_file_name.converted.dataless or input_file_name.converted.xml to the output path supplied by the user.
 
-  `java -jar PATH/TO/seed-xml-converter-0.0.2.jar --input /PATH/TO/XML_file.xml --output /PATH/TO/XML_file.dataless`
+  `java -jar PATH/TO/stationxml-seed-converter-2.0.0.jar --input /PATH/TO/XML_file.xml --output /PATH/TO/XML_file.dataless`
 
-  `java -jar /PATH/TO/seed-xml-converter-0.0.2.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
+  `java -jar /PATH/TO/stationxml-seed-converter-2.0.0.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
 
-  `java -jar /PATH/TO/seed-xml-converter-0.0.2.jar --input /PATH/TO/XML_directory --output /PATH/TO/XD_Directory/xml.converted.dataless`
+  `java -jar /PATH/TO/stationxml-seed-converter-2.0.0.jar --input /PATH/TO/XML_directory --output /PATH/TO/XD_Directory/xml.converted.dataless`
 
-  `java -jar /PATH/TO/seed-xml-converter-0.0.2.jar --input /PATH/TO/Dataless_directory --output /PATH/TO/DX_Directory/dataless.converted.xml`
+  `java -jar /PATH/TO/stationxml-seed-converter-2.0.0.jar --input /PATH/TO/Dataless_directory --output /PATH/TO/DX_Directory/dataless.converted.xml`
   
 
 ### Errror
