@@ -4,7 +4,7 @@ layout: default
 ---
 
 
-# User's Guide the IRIS seed-xml-converter 
+# User's Guide to the IRIS stationxml-seed-converter
 
 ## Description
 
