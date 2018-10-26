@@ -8,11 +8,11 @@ layout: default
 
 ## Description
 
-The seed-xml-converter is a tool used to converter seismological metadata between dataless seed and stationxml file formats. The converter is designed to transform the metadata with minimum losses. Documentation describing the inherent differences between Dataless and Stationxml metadata can be found at [Losses between Dataless and StationXML](https://github.com/iris-edu/stationxml-seed-converter/wiki/Information-Lost-by-Converting-from-Dataless-to-StationXML). 
+The stationxml-seed-converter is a tool used to convert seismological metadata between dataless seed and stationxml file formats. The converter is designed to transform the metadata with minimum losses. Documentation describing the inherent differences between Dataless and Stationxml metadata can be found at [Losses between Dataless and StationXML](https://github.com/iris-edu/stationxml-seed-converter/wiki/Information-Lost-by-Converting-from-Dataless-to-StationXML). 
 
 ## Usage
 
-`--input` and `--output` are the only arguments supplied to the seed-xml-converter. The argument `--input` can be either dataless or stationxml files or a directory containing only dataless or xml. The `--output` and `--input` arguments must have matching path levels (file/directory). If a directory is provided, the converter will output converted files with the naming convention input_file_name.converted.dataless or input_file_name.converted.xml to the output path supplied by the user.
+`--input` and `--output` are the only arguments supplied to the stationxml-seed-converter. The argument `--input` can be either dataless or stationxml files, or a directory containing only dataless or xml. The `--output` and `--input` arguments must have matching path levels (file/directory). If a directory is provided, the converter will output converted files with the naming convention input_file_name.converted.dataless or input_file_name.converted.xml to the output path supplied by the user.
 
   `java -jar PATH/TO/stationxml-seed-converter-2.0.0.jar --input /PATH/TO/XML_file.xml --output /PATH/TO/XML_file.dataless`
 
