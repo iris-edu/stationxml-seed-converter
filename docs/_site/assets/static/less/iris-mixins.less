@@ -1,0 +1,74 @@
+// Core variables and mixins
+// @import "variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "@{bs-path}/mixins.less";
+@import "@{bs-path}/utilities.less";
+@import "iris-theme.less"; // Modify this for custom colors, font-sizes, etc
+// @import "@{bs-path}/responsive-utilities.less";
+
+
+@wrapper-border-color: #ddd;
+@wrapper-border-radius: 9px;
+
+/* ====
+ * Additional variables (copied from 2012.sass)
+ * ==== */
+
+@nsflogoborder: #e1e1e1;
+@nsftext: #868686;
+@dkpurple: #4b00a3;
+@hdrpurple: #492588;
+@hdrbuttonpurple: #5b2fa8;
+@coverflowgray: #dbdbdb;
+@midpurple: #843adb;
+@dkred: #943030;
+@paleyellow: #fffbd6;
+@breadcrumbsback: #42178a;
+@breadcrumbstext: #ece4f9;
+@submenuborder: #dadada;
+@submenulinkbkgrd: #ebebeb;
+@submenulinkhoverbkgrd: #f4f4f4;
+@submenulinkhoverforgrd: #f8f8f8;
+@buttongray: #787878;
+@footergray: #9a9a9a;
+@footergrayhover: #bcbcbc;
+@searchgray: #999999;
+@enogreen: #006600;
+
+@maxwidth: 940px;
+@colleft: 230px;
+@colright: @maxwidth - @colleft;
+@headerleftwidth: 650px;
+@headerrightwidth: 326px;
+@nsflogowidth: 56px;
+@nsftextwidth: @headerrightwidth - @nsflogowidth - 10px;
+@footerheight: 300px;
+
+/* ====
+ * Additional mixins
+ * ==== */
+
+// Tweakable modal size
+@modalWidth: 760px;
+@modalMaxBodyHeight: 500px;
+
+/* ===
+ * Allow badges to be colored like labels
+ * === */
+.badge-variant(@color) {
+  .label-variant(@color);
+}
+.badge-primary {
+  .badge-variant(@label-primary-bg);
+}
+.badge-success {
+  .badge-variant(@label-success-bg);
+}
+.badge-info {
+  .badge-variant(@label-info-bg);
+}
+.badge-warning {
+  .badge-variant(@label-warning-bg);
+}
+.badge-danger {
+  .badge-variant(@label-danger-bg);
+}

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+      <title>{{ page.title }} | {{ site.title }}</title>
+      
+  <meta name="keywords" content="seismology, seismological data,
+  earthquakes, iris dmc" />
+  <meta name="description" content="IRIS is a consortium of
+  universities dedicated to the operation of science facilities
+  for the acquisition, management, and distribution of seismological
+  data." />
+  <!-- Forces IE to render in 'latest' compatible mode -->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      
+  <link rel="stylesheet" media="all" type="text/css" href={{"/assets/static/css/iris.css" | relative_url }} >
+  <link rel="stylesheet" media="print" type="text/css" href={{"/assets/static/css/print.css"  | relative_url }} >
+
+  <link rel="shortcut icon" href={{"/assets/static/img/favicon.ico" | relative_url }} >
+  
+
+      
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+  <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+  
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-1860730-1', 'iris.edu');
+      ga('send', 'pageview');
+
+    </script>
+  
+
+  
+    <script>
+      /* Cachebuster -- this is a link to the current page with a trailing query parameter, which will cause the cache to be bypassed */
+      $(function() {
+        // Cachebuster goes in the search attribute (eg. the query string)
+        var search = window.location.search;
+        // Only operate if there's no search or it's an existing cachebuster parameter
+        if (!search || search.match(/^\?\d+$/)) {
+          var $cachebuster = $('<div class="cachebuster" title="Force reload"><span class="glyphicon glyphicon-refresh"></span></div>');
+          $cachebuster.click(function() {
+            window.location.search = '?' + (new Date()).getTime();
+          });
+          $('body').prepend($cachebuster);
+        }
+      });
+    </script>
+  
+
+
+      
+    <!-- START: Syntax highlighting -->
+  <link rel="stylesheet"
+        type="text/css"
+        href={{"/assets/static/libs/prettify/r298/css/prettify.css" | relative_url }}>
+  <script type="text/javascript"
+          src={{"/assets/static/libs/prettify/r298/js/prettify.js" | relative_url }} >
+  </script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    prettyPrint();
+  });
+  </script>
+  <!-- END: Syntax highlighting -->
+
+  <link rel="stylesheet" type="text/css" href={{"/assets/static/css/jquery-ui-iris-theme/jquery-ui-1.8.23.custom.css" | relative_url }} >
+  <link rel="stylesheet" type="text/css" href={{"/assets/static/webservicedoc/css/services.css" | relative_url }} > 
+
+    
+  </head>
+
+  <body>
+  
+    <div class="container">
+      <div class="container-inner">
+
+      
+  <header>
+  <div id="header">
+    <div id="header-left">
+      <div id="logo">
+        <a href="http://ds.iris.edu/hq/" title="IRIS">
+            <img alt="IRIS" src={{"/assets/static/img/layout/logos/iris_logo_shadow.png"| relative_url }} >
+        </a>
+      </div>
+      <div id="logo-name">
+        Incorporated Research Institutions for Seismology
+      </div>
+    </div>
+    <!-- #header-right -->
+    <div id="header-right">
+      <ul id="top-menu">
+        <li>
+          <a href="http://ds.iris.edu/ds/nodes/dmc/" title="IRIS DMC">DMC</a>
+        </li>
+        <li>
+          <a href="http://www.iris.edu/hq" title="IRIS HQ">Home</a>
+        </li>
+      </ul>
+      <div id="nsf-logo">
+        <a href="http://www.nsf.gov/" target="_blank" title="The National Science Foundation">
+            <img alt="The National Science Foundation" src={{"/assets/static/img/layout/logos/nsf.png"| relative_url }} >
+        </a>
+      </div>
+      <!-- #nsf -->
+    </div>
+    <div class="shadow-down"></div>
+  </div>
+  <!-- #header -->
+  <!--Iris only meny  -->
+</header>
+
+
+
+      <div class="wrapper">
+      <div>
+        
+          <ul class="breadcrumb">
+            
+              <li>
+                <a href="https://service.iris.edu" title="Web Services">Web Services</a>
+            </li>          
+        </ul>       
+    </div> 
+      
+    <div id="page">
+          <div id="page-content">
+              <h1>
+                  {{ page.title }}
+              </h1>
+              <div id="content">
+             {{ content }} 
+              </div>
+          </div>
+    </div>
+      </div>
+    <div id="footer">
+    <div class="shadow-up"></div>
+    <div id="footer-bottom">
+      <ul>
+          <li><span><a href="http://www.iris.edu/hq" title="IRIS"><img src={{"/assets/static/img/layout/logos/URL_TXT.png"| relative_url }} /></a></span></li>
+        <li><em><a href="http://www.nsf.gov/" title="The National Science Foundation" target="_blank">Sponsored by the National Science Foundation</a></em></li>
+        <li><a href="http://www.iris.edu/hq" title="IRIS">&copy; Copyright 2018 IRIS</a></li>
+        <li>1200 New York Avenue NW, Suite 400, Washington, DC  20005,  202-682-2220</li>
+        <li><a href="mailto:info@iris.edu">info@iris.edu</a></li>
+      </ul>
+    </div><!-- #footer-bottom -->
+  </div><!-- #footer -->
+
+
+      </div>
+    </div><!-- #site-container -->
+  
+  </body>
+</html>
+

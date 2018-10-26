@@ -1,0 +1,31 @@
+#header,
+.module caption,
+.module h2 {
+  background: #492588;
+}
+h1#site-name {
+  color: #FFFFFF;
+}
+
+.sidebar {
+  float: right;
+  width: 18em;
+  position: relative;
+  margin-right: -19em;
+}
+.sidebar > div {
+  float: none !important;
+  width: auto !important;
+  margin-right: 0 !important;
+}
+
+.markItUpPreviewFrame {
+  resize: both;
+}
+
+.description {
+  background: #f3f0ff;
+  color: #333;
+  padding-bottom: 6px;
+  font-size: 11px;
+}

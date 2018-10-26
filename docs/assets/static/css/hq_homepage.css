@@ -1,0 +1,447 @@
+/* Matt Toigo - 03/04/08 - toigo@iris.edu
+This file contains CSS specific to the homepage and should not be included on inner pages */
+
+/* Left Column on Homepage */
+#container #main #leftCol {
+width: 236px;
+float: left;
+padding-left: 9px;
+padding-bottom: 30px;
+}
+
+/* Audience Buttons in Upper Left */
+#container #main #leftCol #audience {
+list-style-type: none;
+}
+
+#container #main #leftCol #audience li {
+margin-top: 1px;
+}
+
+#container #main #leftCol #audience li a {
+display: block;
+height: 18px;
+color: #3e5f1e;
+text-decoration: none;
+padding: 7px 5px 5px 32px;
+background: url(/static/img/homepage/audienceMidButton.gif);
+}
+
+#container #main #leftCol #audience li.first a {
+background: url(/static/img/homepage/audienceTopButton.gif);
+}
+
+#container #main #leftCol #audience li.last a {
+background: url(/static/img/homepage/audienceBottomButton.gif);
+}
+
+#container #main #leftCol #audience li a:hover {
+background-position: 0% 100%;
+color: #9657b6;
+}
+
+/* Quick Links in Mid Left */
+#container #main #leftCol #quickLinks {
+border-top: 6px solid #6a9641;
+border-bottom: 6px solid #6a9641;
+background: #567b32;
+width: 213px;
+color: #FFFFFF;
+font-size: 14pt;
+padding: 8px 5px 12px 10px;
+}
+
+#container #main #leftCol #quickLinks select {
+border: 1px solid #a9a999;
+padding: 1px;
+font-size: 10pt;
+background: #FFFFFF;
+}
+
+/* Calendar in the left column */
+#container #main #leftCol #calendar {
+background: url(/static/img/homepage/calendarBack.gif) no-repeat #e9e9e9;
+padding-bottom: 10px;
+}
+
+#container #main #leftCol #calendar #calTop {
+color: #FFFFFF;
+font-size: 14pt;
+padding: 10px;
+}
+
+#container #main #leftCol #calendar #calTop img {
+width: 14px;
+height: 14px;
+position: relative;
+left: 118px;
+border: 0px;
+}
+
+#container #main #leftCol #calendar p {
+padding: 10px 5px 5px 20px;
+font-size: 9pt;
+font-style: italic;
+}
+
+#container #main #leftCol #calendar p a {
+font-size: 9pt;
+font-style: normal;
+font-weight: bold;
+}
+
+#container #main #leftCol #calendar p a:hover {
+text-decoration: underline;
+}
+
+#container #main #leftCol #calendar p.viewAll {
+padding-left: 44px;
+}
+
+#container #main #leftCol #calendar p.viewAll a {
+font-weight: normal;
+}
+
+/* Photo Gallery in the Left Column */
+#container #main #leftCol #photoGal {
+background: url(/static/img/homepage/photoGalBack.gif) no-repeat #e9e9e9;
+padding-bottom: 10px;
+padding-right: 22px;
+text-align: center;
+}
+
+#container #main #leftCol #photoGal #photoGalTop {
+color: #FFFFFF;
+font-size: 14pt;
+padding: 10px;
+text-align: left;
+}
+
+#container #main #leftCol #photoGal img.random {
+background: #f7f7f2;
+padding: 5px;
+border-left: 1px solid #dbd8ca;
+border-top: 1px solid #dbd8ca;
+border-bottom: 1px solid #b6b6aa;
+border-right: 1px solid #b6b6aa;
+margin-left: 24px;
+margin-top: 20px;
+margin-bottom: 10px;
+}
+
+#container #main #leftCol #photoGal p {
+padding: 10px 5px 5px 20px;
+font-size: 9pt;
+font-style: italic;
+}
+
+#container #main #leftCol #photoGal p a {
+font-size: 9pt;
+font-style: normal;
+font-weight: bold;
+}
+
+#container #main #leftCol #photoGal #viewAll {
+padding-left: 28px;
+}
+
+#container #main #leftCol #photoGal #viewAll a {
+font-weight: normal;
+}
+
+/* Bottom of Left Column */
+#container #main #leftCol #bottom {
+background: url(/static/img/homepage/leftColBottom.gif) no-repeat;
+height: 10px;
+}
+
+/* --- BEGIN RIGHT COLUMN OF HOMEPAGE --- */
+
+/* Seismic Monitor Block in Upper Right */
+#container #main #rightCol {
+padding-top: 4px;
+padding-left: 23px;
+background: #FFFFFF;
+float: left;
+width: 712px;
+background: url(/static/img/layout/rightColBack.gif) repeat-y #FFFFFF;
+background-position: 100% 0%;
+padding-bottom: 5px;
+}
+
+#container #main #rightCol img.seismon {
+padding: 4px;
+background: #efefef;
+border: 1px solid #d7d7d7;
+float: left;
+margin-right: 10px;
+}
+
+#container #main #rightCol #seismonText {
+margin-left: 276px;
+}
+
+#container #main #rightCol #seismonText h1 {
+color: #660099;
+font-size: 18pt;
+border-bottom: 1px solid #d7d7d7;
+font-weight: normal;
+margin-right: 10px;
+}
+
+#container #main #rightCol #seismonText p {
+font-size: 10pt;
+margin-top: 10px;
+padding-right: 30px;
+}
+
+#container #main #rightCol #seismonText a {
+font-size: 10pt;
+}
+
+/* Message Above Program Grid */
+#container #main #rightCol #aboveGrid {
+font-style: italic;
+font-weight: bold;
+text-align: left;
+padding: 25px 10px 6px 0px;
+}
+
+#container #main #rightCol #aboveGrid p {
+font-size: 10pt;
+}
+
+/* Program Grid in Mid Right */
+#container #main #rightCol #programGrid {
+border: 1px solid #d7d7d7;
+background: #ededed;
+height: 118px;
+padding-left: 4px;
+width: 654px;
+}
+
+
+#container #main #rightCol #programGrid div {
+margin: 4px 4px 6px 0px;
+width: 105px;
+float: left;
+}
+
+
+#container #main #rightCol #programGrid div p a {
+width: 105px;
+height: 110px;
+display: block;
+position: relative;
+text-decoration: none;
+}
+
+/* Define background for each grid item */
+#container #main #rightCol #programGrid #dms p a {background: url(/static/img/homepage/dmsGrid2.gif);z-index: 100;}
+#container #main #rightCol #programGrid #eno p a {background: url(/static/img/homepage/epoGrid.gif);z-index: 99;}
+#container #main #rightCol #programGrid #gsn p a {background: url(/static/img/homepage/gsnGrid2.gif);z-index: 98;}
+#container #main #rightCol #programGrid #passcal p a {background: url(/static/img/homepage/passcalGrid2.gif);z-index: 97;}
+#container #main #rightCol #programGrid #usarray p a {background: url(/static/img/homepage/usarrayGrid2.gif);z-index: 96;}
+#container #main #rightCol #programGrid #other_act p a {background: url(/static/img/homepage/otherGrid.gif);z-index: 95;}
+
+#container #main #rightCol #programGrid div p a:hover {
+background-position: 0% 100% !important;
+}
+
+/* Tooltips */
+#container #main #rightCol #programGrid div p a span.tip {
+padding: 10px;
+position: absolute;
+display: none;
+left: 55px;
+top: 80px;
+color: #345812;
+font-size: 8pt;
+text-align: left;
+width: 200px;
+}
+
+/* Tooltip for USArray so it doesn't go off of the right side of the screen */
+#container #main #rightCol #programGrid div p a span.usarraytip {
+padding: 10px;
+position: absolute;
+display: none;
+left: 10px;
+top: 80px;
+color: #345812;
+font-size: 8pt;
+text-align: left;
+width: 130px;
+}
+
+#container #main #rightCol #programGrid div p a span .title {
+font-size: 10pt;
+}
+
+#container #main #rightCol #programGrid div p a:hover span.tip, #container #main #rightCol #programGrid div p a:hover span.usarraytip {
+display: block;
+border: 2px solid #b9ee88;
+background: url(/static/img/homepage/toolTipBack.gif) #b9ee88;
+}
+
+
+
+/* Left Half of Right Column */
+#container #main #rightCol #left {
+margin-top: 23px;
+width: 323px;
+float: left;
+}
+
+/* DMS Notice */
+#container #main #rightCol #left .dmsNotice {
+background: url(/static/img/homepage/dmsBack.gif) no-repeat #FFFFFF;
+width: 323px;
+border-bottom: 4px solid #a70000;
+margin-bottom: 15px;
+}
+
+#container #main #rightCol #left .dmsNotice #title {
+color: #FFFFFF;
+font-size: 14pt;
+padding: 10px;
+height: 18px;
+}
+
+#container #main #rightCol #left .dmsNotice #title img {
+width: 14px;
+height: 14px;
+position: relative;
+left: 118px;
+}
+
+#container #main #rightCol #left .dmsNotice #message {
+background: #ffd5d5;
+padding: 10px;
+margin-bottom: 1px;
+font-size: 10pt;
+color: #a70000;
+}
+
+#container #main #rightCol #left .dmsNotice a {
+color: #fe0000;
+}
+
+#container #main #rightCol #left .dmsNotice #title img {
+width: 14px;
+height: 14px;
+position: relative;
+left: 186px;
+border: 0px;
+}
+
+/* Class to make the operations notice yellow
+Should be applied to the same class that .dmsNotice is
+*/
+.lessNotice {
+background: url(/static/img/homepage/lessNotice.gif) no-repeat #FFFFFF !important;
+border-bottom: 4px solid #f9a117 !important;
+}
+
+.lessNotice #message {
+background: #fddfb1 !important;
+color: #b42d04 !important;
+}
+
+.lessNotice #message a {
+color: #f4410b !important;
+}
+
+
+#container #main #rightCol a.readMore {
+font-size: 10pt;
+}
+
+/* IRIS News
+Used for all 3 news blocks on the homepage */
+#container #main #rightCol .news {
+margin-bottom: 20px;
+}
+
+#container #main #rightCol .news p {
+font-size: 10pt;
+margin-top: 10px;
+}
+
+#container #main #rightCol .news h1 {
+color: #282828;
+font-size: 14pt;
+border-bottom: 1px solid #d7d7d7;
+font-weight: normal;
+}
+
+#container #main #rightCol .news h1 img {
+border: 0px;
+position: relative;
+}
+
+/* IRIS Notices 
+Used to format bullete list */
+#irisNotices {margin-left: 20px}
+#irisNotices li {list-style-type: square;padding-bottom: 10px}
+#irisNotices li a {font-size: 10pt}
+
+/* Right Half of Right Column */
+#container #main #rightCol #right {
+float: left;
+width: 323px;
+margin-top: 23px;
+margin-left: 20px;
+}
+
+/* USGS Logo */
+#container #main #rightCol #right img.usgs {
+border: 0px;
+position: relative;
+top: 3px;
+}
+
+/* PASSCAL Map */
+#container #main #rightCol #right #passcal img.map {
+background: #efefef;
+border: 1px solid #d7d7d7;
+float: left;
+padding: 3px;
+margin-right: 10px;
+margin-top: 13px;
+margin-bottom: 15px;
+}
+
+
+/* US Array Status */
+#container #main #rightCol #right #usArray {
+font-size: 10pt;
+}
+
+#container #main #rightCol #right #usArray a {
+font-size: 10pt;
+}
+
+#container #main #rightCol #right #usArray img.map {
+background: #efefef !important;
+border: 1px solid #d7d7d7;
+float: left;
+margin-right: 10px;
+margin-top: 13px;
+margin-bottom: 15px;
+}
+
+#container #main #rightCol #right #usArray img.earthscope {
+border: 0px;
+float: right;
+margin-right: 20px;
+}
+
+#container #main #rightCol #right #usArray h1 {
+border: 0px;
+}
+
+/* Alternate homepage window for iPad, hidden by default */
+#noFlash {display: none}
+#noFlash img {border: 0px}
+
