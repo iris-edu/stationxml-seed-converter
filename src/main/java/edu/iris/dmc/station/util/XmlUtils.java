@@ -14,7 +14,7 @@ import javax.xml.bind.Unmarshaller;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Station;
-import edu.iris.dmc.station.MetadataConverterException;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class XmlUtils {

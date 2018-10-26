@@ -1,4 +1,4 @@
-package edu.iris.dmc.station;
+package edu.iris.dmc.station.mapper;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 

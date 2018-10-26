@@ -3,7 +3,7 @@ package edu.iris.dmc.station.converter;
 import java.io.IOException;
 import java.util.Map;
 
-import edu.iris.dmc.station.MetadataConverterException;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public interface MetadataFileFormatConverter<File> {
 

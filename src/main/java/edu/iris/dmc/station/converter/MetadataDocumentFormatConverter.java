@@ -2,7 +2,7 @@ package edu.iris.dmc.station.converter;
 
 import java.io.IOException;
 
-import edu.iris.dmc.station.MetadataConverterException;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public interface MetadataDocumentFormatConverter<T,S> {
 

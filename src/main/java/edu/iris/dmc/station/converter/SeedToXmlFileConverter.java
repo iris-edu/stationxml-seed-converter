@@ -13,7 +13,7 @@ import javax.xml.bind.Marshaller;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.station.FileConverterException;
-import edu.iris.dmc.station.MetadataConverterException;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 import edu.iris.dmc.station.util.SeedUtils;
 
 public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File> {

@@ -31,19 +31,19 @@ import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
 import edu.iris.dmc.station.ChannelCommentToBlocketteMapper;
-import edu.iris.dmc.station.FirToBlocketteMapper;
-import edu.iris.dmc.station.InstrumentSensitivityToBlocketteMapper;
-import edu.iris.dmc.station.MetadataConverterException;
-import edu.iris.dmc.station.SensitivityToBlocketteMapper;
-import edu.iris.dmc.station.StageGainToBlocketteMapper;
-import edu.iris.dmc.station.StationBlocketteMapper;
-import edu.iris.dmc.station.StationCommentToBlocketteMapper;
 import edu.iris.dmc.station.UnitToBlocketteMapper;
 import edu.iris.dmc.station.mapper.ChannelBlocketteMapper;
 import edu.iris.dmc.station.mapper.CoefficientsMapper;
 import edu.iris.dmc.station.mapper.DecimationMapper;
+import edu.iris.dmc.station.mapper.FirToBlocketteMapper;
+import edu.iris.dmc.station.mapper.InstrumentSensitivityToBlocketteMapper;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 import edu.iris.dmc.station.mapper.PolesZerosMapper;
 import edu.iris.dmc.station.mapper.PolynomialMapper;
+import edu.iris.dmc.station.mapper.SensitivityToBlocketteMapper;
+import edu.iris.dmc.station.mapper.StageGainToBlocketteMapper;
+import edu.iris.dmc.station.mapper.StationBlocketteMapper;
+import edu.iris.dmc.station.mapper.StationCommentToBlocketteMapper;
 
 public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConverter<FDSNStationXML, Volume> {
 

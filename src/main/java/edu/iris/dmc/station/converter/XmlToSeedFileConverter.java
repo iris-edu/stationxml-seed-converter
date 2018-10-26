@@ -14,7 +14,7 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.writer.SeedFileWriter;
-import edu.iris.dmc.station.MetadataConverterException;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File> {
 

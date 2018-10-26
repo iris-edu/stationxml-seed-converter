@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
-import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.BlocketteFactory;
 import edu.iris.dmc.seed.control.station.B052;
 

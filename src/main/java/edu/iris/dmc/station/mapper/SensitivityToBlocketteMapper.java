@@ -1,4 +1,4 @@
-package edu.iris.dmc.station;
+package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.Sensitivity;
 import edu.iris.dmc.seed.SeedException;

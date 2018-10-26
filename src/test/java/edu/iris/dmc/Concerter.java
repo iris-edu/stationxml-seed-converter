@@ -9,10 +9,10 @@ import java.nio.file.StandardCopyOption;
 
 import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.FileConverterException;
-import edu.iris.dmc.station.MetadataConverterException;
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
 import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class Concerter {
 
