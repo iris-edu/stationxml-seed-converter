@@ -127,7 +127,7 @@ public class Application {
 		//System.out.println("	-V, aliases = \"--version\", usage = \"Print version number and exit.\"");
 		//System.out.println("	-p, aliases = \"--prettyprint\", usage = \"Only when output is xml.\"");
 		System.out.println("	--input\", usage = \"Input as a file or URL - for System.in.\"");
-		System.out.println("	--output\", metaVar = \"<file>\", usage = \"use given output file\"");
+		System.out.println("	--output\", usage = \"Output file path and name\"");
 		System.exit(1);
 	}
 
