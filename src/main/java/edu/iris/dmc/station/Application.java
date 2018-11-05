@@ -124,10 +124,10 @@ public class Application {
 
 		System.out.println("	  [inputFile ...], usage = \"input file\"");
 		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
-		System.out.println("	-V, aliases = \"--version\", usage = \"Print version number and exit.\"");
-		System.out.println("	-p, aliases = \"--prettyprint\", usage = \"Only when output is xml.\"");
-		System.out.println("	-i, aliases = \"--input\", usage = \"Input as a file or URL - for System.in.\"");
-		System.out.println("	-o, aliases = \"--output\" }, metaVar = \"<file>\", usage = \"use given output file\"");
+		//System.out.println("	-V, aliases = \"--version\", usage = \"Print version number and exit.\"");
+		//System.out.println("	-p, aliases = \"--prettyprint\", usage = \"Only when output is xml.\"");
+		System.out.println("	--input\", usage = \"Input as a file or URL - for System.in.\"");
+		System.out.println("	--output\" }, metaVar = \"<file>\", usage = \"use given output file\"");
 		System.exit(1);
 	}
 
