@@ -63,16 +63,4 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		return (FDSNStationXML) jaxbUnmarshaller.unmarshal(inputStream);
 	}
 
-	public static void main(String[] args) {
-		File source = new File(
-				XmlToSeedFileConverter.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
-
-		try {
-			XmlToSeedFileConverter.getInstance().convert(source, new File("/Users/Suleiman/xx.seed"));
-		} catch (MetadataConverterException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }
