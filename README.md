@@ -1,4 +1,4 @@
-# seed-xml-converter
+# stationxml-seed-converter
 Complete documentation for the dataless-xml-converter is found in the [user guide](https://iris-edu.github.io/stationxml-seed-converter/). 
 
 Basic Usage:

@@ -1,5 +1,5 @@
-name: IRIS_DMC_Ops
+name: IRIS_DMC
 title: seed-xml-converter
 markdown: kramdown
 auto: true
-
+remote_theme: iris-edu-int/theme_ghpages
