@@ -120,9 +120,8 @@ public class Application {
 
 	private static void help() {
 		System.out.println("Usage:");
-		System.out.println("java -jar java -jar stationxml-converter.jar [options...] arguments...");
+		System.out.println("java -jar stationxml-converter.jar [arguments]");
 
-		System.out.println("	  [inputFile ...], usage = \"input file\"");
 		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
 		//System.out.println("	-V, aliases = \"--version\", usage = \"Print version number and exit.\"");
 		//System.out.println("	-p, aliases = \"--prettyprint\", usage = \"Only when output is xml.\"");
