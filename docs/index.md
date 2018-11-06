@@ -8,7 +8,7 @@ layout: default
 
 ## Description
 
-The stationxml-seed-converter is a tool used to convert seismological metadata between dataless seed and stationxml file formats. The converter is designed to transform metadata with minimum losses. Documentation describing differences between Dataless and Stationxml metadata can be found at [Losses between Dataless and StationXML](https://github.com/iris-edu/stationxml-seed-converter/wiki/Information-Lost-by-Converting-from-Dataless-to-StationXML). 
+The stationxml-seed-converter is a tool used to convert seismological metadata between dataless seed and stationxml file formats. The converter is designed to transform metadata with minimum losses. Documentation describing differences between Dataless and Stationxml metadata can be found at [variations between Dataless Seed and FDSN-StationXML](http://www.fdsn.org/xml/station/Variations-FDSNSXML-SEED.txt). 
 
 ## Usage
 
