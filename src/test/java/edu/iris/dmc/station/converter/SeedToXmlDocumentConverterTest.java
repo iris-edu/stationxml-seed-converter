@@ -7,6 +7,9 @@ import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.junit.Test;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
@@ -84,6 +87,14 @@ public class SeedToXmlDocumentConverterTest {
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
 			Volume other = XmlToSeedDocumentConverter.getInstance().convert(document);
 
+	
+			
+			//JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
+			//Marshaller marshaller = jaxbContext.createMarshaller();
+			//marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			//marshaller.marshal(document, System.out);
+			
+			
 			List<Blockette> v = volume.getControlBlockettes();
 			List<Blockette> o = other.getControlBlockettes();
 

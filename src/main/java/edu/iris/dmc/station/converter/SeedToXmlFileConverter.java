@@ -40,11 +40,7 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 		try (OutputStream stream = new FileOutputStream(target)) {
 			Volume volume = SeedUtils.load(source);
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
-			boolean prettyprint = false;
-			if (args != null && args.get("prettyprint") != null) {
-				prettyprint = Boolean.valueOf(args.get("prettyprint"));
-			}
-			marshal(document, stream, prettyprint);
+			marshal(document, stream);
 		} catch (Exception e) {
 			throw new FileConverterException(e, source.getPath());
 		}
@@ -57,13 +53,10 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 		marshaller.marshal(document, file);
 	}
 
-	public void marshal(FDSNStationXML document, OutputStream stream, boolean prettyPrint)
-			throws IOException, JAXBException {
+	public void marshal(FDSNStationXML document, OutputStream stream) throws IOException, JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
 		Marshaller marshaller = jaxbContext.createMarshaller();
-		if (prettyPrint) {
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		}
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(document, stream);
 	}
 
