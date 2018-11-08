@@ -52,8 +52,10 @@ public class XmlToSeedFileConverterTest {
 
 		B050 anmo = list.get(0);
 		
+		assertEquals("0500134ANMO +34.945900-106.457199+1850.00005003Albuquerque, New Mexico, USA~0013210101989,241,00:00:00.0000~1995,195,00:00:00.0000~NIU",anmo.toSeedString());
 		
-		assertNotEquals(" ANMO", anmo.getStationCode());
+		
+		assertEquals("ANMO", anmo.getStationCode());
 		
 
 	}
@@ -74,7 +76,7 @@ public class XmlToSeedFileConverterTest {
 		B050 anmo = list.get(0);
 		
 		
-		assertEquals("ANMO ", anmo.getStationCode());
+		assertEquals("ANMO", anmo.getStationCode());
 		
 
 	}
