@@ -138,8 +138,12 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		b.setDip(channel.getDip().getValue());
 
 		b.setDataRecordLength(12);
-		b.setSampleRate(channel.getSampleRate().getValue());
-		b.setMaxClockDrift(channel.getClockDrift().getValue());
+		if (channel.getSampleRate() != null) {
+			b.setSampleRate(channel.getSampleRate().getValue());
+		}
+		if (channel.getClockDrift() != null) {
+			b.setMaxClockDrift(channel.getClockDrift().getValue());
+		}
 
 		StringBuilder sb = new StringBuilder();
 
