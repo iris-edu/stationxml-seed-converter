@@ -35,7 +35,6 @@ import edu.iris.dmc.seed.control.dictionary.B042;
 import edu.iris.dmc.seed.control.dictionary.B043;
 import edu.iris.dmc.seed.control.dictionary.B044;
 import edu.iris.dmc.seed.control.dictionary.B045;
-import edu.iris.dmc.seed.control.dictionary.B046;
 import edu.iris.dmc.seed.control.dictionary.B047;
 import edu.iris.dmc.seed.control.dictionary.B048;
 import edu.iris.dmc.seed.control.station.B050;
@@ -50,7 +49,6 @@ import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B060;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
-import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.control.station.Stage;
 import edu.iris.dmc.station.mapper.ChannelBlocketteMapper;
 import edu.iris.dmc.station.mapper.CoefficientsMapper;
@@ -97,6 +95,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 			Channel channel = null;
 			Sensitivity sensitivity = null;
 			Polynomial polynomial = null;
+			Response response = null;
 			ResponseStage stage = null;
 			for (Blockette blockette : volume.getControlBlockettes()) {
 				final int type = blockette.getType();
@@ -125,9 +124,12 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 					break;
 				case 52:
 					B052 b052 = (B052) blockette;
-					if (channel != null) {
-						updateInstrumentSensitivityUnites(channel);
-					}
+
+					sensitivity = null;
+					polynomial = null;
+					response = null;
+					stage = null;
+
 					channel = ChannelBlocketteMapper.map((B052) blockette);
 					station.addChannel(channel);
 					B033 b03306 = (B033) volume.getDictionaryBlockette(33, b052.getInstrumentIdentifier());
@@ -158,15 +160,20 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 					break;
 				case 53:
 					B053 b053 = (B053) blockette;
+
+					response = channel.getResponse();
+					if (response == null) {
+						response = new Response();
+						channel.setResponse(response);
+					}
+					List<ResponseStage> stages = response.getStage();
 					if (stage == null || stage.getNumber().intValue() != b053.getStageSequence()) {
 						stage = new ResponseStage();
 						stage.setNumber(BigInteger.valueOf(b053.getStageSequence()));
-						channel.addStage(stage);
+						stages.add(stage);
 					}
 
 					PolesZeros polesZeros = PolesZerosMapper.map(b053);
-					b053.getStageSequence();
-
 					B034 b03405 = (B034) volume.getDictionaryBlockette(34, b053.getSignalInputUnit());
 					if (b03405 != null) {
 						Units ut = new Units();
@@ -182,6 +189,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						polesZeros.setOutputUnits(ut);
 					}
 					stage.add(polesZeros);
+					updateInstrumentSensitivityUnites(channel);
 					break;
 				case 54:
 					B054 b054 = (B054) blockette;
@@ -207,6 +215,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						coefficients.setOutputUnits(ut);
 					}
 					stage.add(coefficients);
+					updateInstrumentSensitivityUnites(channel);
 					break;
 				case 55:
 					B055 b055 = (B055) blockette;
@@ -245,18 +254,27 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 				case 58:
 					B058 b058 = (B058) blockette;
 					if (b058.getStageSequence() == 0) {
-						Response response = channel.getResponse();
+						response = channel.getResponse();
 						if (response == null) {
 							response = new Response();
 							channel.setResponse(response);
 						}
-						sensitivity = new Sensitivity();
+
+						sensitivity = response.getInstrumentSensitivity();
+						if (sensitivity == null) {
+							sensitivity = new Sensitivity();
+							response.setInstrumentSensitivity(sensitivity);
+						}
+
+						// sensitivity.setInputUnits(value);
+						// sensitivity.setOutputUnits(value);
+
 						sensitivity.setFrequency(b058.getFrequency());
 						// sensitivity.setFrequencyDBVariation();
 						// sensitivity.setFrequencyEnd(value);
 						// sensitivity.setFrequencyStart(value);
 						sensitivity.setValue(b058.getSensitivity());
-						response.setInstrumentSensitivity(sensitivity);
+						updateInstrumentSensitivityUnites(channel);
 					} else {
 						if (stage == null || stage.getNumber().intValue() != b058.getStageSequence()) {
 							stage = new ResponseStage();
@@ -329,6 +347,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 							}
 						}
 					}
+					updateInstrumentSensitivityUnites(channel);
 					break;
 				case 61:
 					B061 b061 = (B061) blockette;
@@ -353,11 +372,12 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						fir.setOutputUnits(ut);
 					}
 					stage.add(fir);
+					updateInstrumentSensitivityUnites(channel);
 					break;
 				case 62:
 					B062 b062 = (B062) blockette;
 					if (b062.getStageSequence() == 0) {
-						Response response = channel.getResponse();
+						response = channel.getResponse();
 						if (response == null) {
 							response = new Response();
 							channel.setResponse(response);
@@ -388,19 +408,16 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						}
 						stage.add(polynomial);
 					}
+					updateInstrumentSensitivityUnites(channel);
 					break;
 				default:
 					break;
 				}
 			}
-		} catch (
-
-		DatatypeConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (DatatypeConfigurationException e1) {
+			throw new MetadataConverterException(e1);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MetadataConverterException(e);
 		}
 		return document;
 	}
@@ -409,17 +426,27 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 		if (channel == null) {
 			return;
 		}
-
-		if (channel.getResponse() != null && channel.getResponse().getInstrumentSensitivity() != null) {
-			Sensitivity sensitivity = channel.getResponse().getInstrumentSensitivity();
-			List<ResponseStage> list = channel.getResponse().getStage();
-			if (list != null && !list.isEmpty()) {
-				ResponseStage first = list.get(0);
-				sensitivity.setInputUnits(extractInputUnits(first));
-				ResponseStage last = list.get(list.size() - 1);
-				sensitivity.setOutputUnits(extractOutputUnits(last));
-			}
+		Response response = channel.getResponse();
+		if (response == null) {
+			response = new Response();
+			channel.setResponse(response);
 		}
+		Sensitivity sensitivity = channel.getResponse().getInstrumentSensitivity();
+		if (sensitivity == null) {
+			sensitivity = new Sensitivity();
+			response.setInstrumentSensitivity(sensitivity);
+		}
+
+		List<ResponseStage> list = response.getStage();
+		if (list != null && !list.isEmpty()) {
+			ResponseStage first = list.get(0);
+			Units inputUnits = extractInputUnits(first);
+			sensitivity.setInputUnits(inputUnits);
+			ResponseStage last = list.get(list.size() - 1);
+			Units outputUnits = extractOutputUnits(last);
+			sensitivity.setOutputUnits(outputUnits);
+		}
+
 	}
 
 	private Units extractInputUnits(ResponseStage stage) {
