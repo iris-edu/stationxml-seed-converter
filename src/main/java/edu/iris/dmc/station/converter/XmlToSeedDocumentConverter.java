@@ -71,8 +71,8 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 			b010.setLabel("Converted from XML");
 			volume.add(b010);
 
-			B011 b011 = new B011();
-			volume.add(b011);
+			//B011 b011 = new B011();
+			//volume.add(b011);
 			for (Network network : document.getNetwork()) {
 				int networkIdentifierCode = 0;
 				if (network.getDescription() != null) {
