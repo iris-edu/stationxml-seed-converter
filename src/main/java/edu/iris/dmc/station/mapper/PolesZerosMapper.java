@@ -122,12 +122,17 @@ public class PolesZerosMapper extends AbstractMapper {
 				PoleZero p = factory.createPoleZeroType();
 				FloatNoUnitType fnt = factory.createFloatNoUnitType();
 				fnt.setValue(pole.getReal().getValue());
+				fnt.setMinusError(pole.getReal().getError());
 				p.setReal(fnt);
+				
 
 				fnt = factory.createFloatNoUnitType();
 				fnt.setValue(pole.getImaginary().getValue());
 				p.setImaginary(fnt);
+				fnt.setMinusError(pole.getImaginary().getError());
+
 				p.setNumber(BigInteger.valueOf(counter++));
+				
 				pzs.getPole().add(p);
 			}
 
