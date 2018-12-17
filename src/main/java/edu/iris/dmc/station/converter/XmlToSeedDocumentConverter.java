@@ -252,6 +252,7 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 											}
 
 											b061.setStageSequence(stage.getNumber().intValue());
+											System.out.println(station.getCode()+"    "+channel.getCode()+"     "+stage.getNumber().intValue());
 											volume.add(b061);
 										}
 										if (stage.getPolynomial() != null) {
