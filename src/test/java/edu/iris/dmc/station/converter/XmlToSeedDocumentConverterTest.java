@@ -11,7 +11,6 @@ import java.util.List;
 import org.junit.Test;
 
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
-import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.control.station.B050;
@@ -90,7 +89,7 @@ public class XmlToSeedDocumentConverterTest {
 
 			assertFalse(volume.isEmpty());
 
-			List<Blockette> blockettes = volume.getControlBlockettes();
+			//List<Blockette> blockettes = volume.getControlBlockettes();
 			List<B050> b050s = volume.getB050s();
 			assertEquals(2, b050s.size());
 			B050 epoch = b050s.get(0);

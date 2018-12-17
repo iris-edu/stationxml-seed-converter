@@ -34,19 +34,23 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 	public void convert(File source, File target, Map<String, String> args)
 			throws MetadataConverterException, IOException {
 
-		FDSNStationXML document;
+		FDSNStationXML document = null;
+		SeedFileWriter writer = null;
 		try {
 			document = load(source);
 			Volume volume = XmlToSeedDocumentConverter.getInstance().convert(document);
 			volume.build();
 			int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
-			SeedFileWriter writer = new SeedFileWriter(target, logicalrecordLength);
+			writer = new SeedFileWriter(target, logicalrecordLength);
 			writer.write(volume);
 		} catch (JAXBException e) {
 			throw new IOException(e);
 		} catch (SeedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MetadataConverterException(e);
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
 		}
 
 	}

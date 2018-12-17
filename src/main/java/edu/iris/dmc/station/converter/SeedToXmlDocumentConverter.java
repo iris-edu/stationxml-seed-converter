@@ -189,7 +189,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						polesZeros.setOutputUnits(ut);
 					}
 					stage.add(polesZeros);
-					updateInstrumentSensitivityUnites(channel);
+					updateInstrumentSensitivityUnits(channel);
 					break;
 				case 54:
 					B054 b054 = (B054) blockette;
@@ -215,7 +215,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						coefficients.setOutputUnits(ut);
 					}
 					stage.add(coefficients);
-					updateInstrumentSensitivityUnites(channel);
+					updateInstrumentSensitivityUnits(channel);
 					break;
 				case 55:
 					B055 b055 = (B055) blockette;
@@ -252,6 +252,8 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 					stage.setDecimation(decimation);
 					break;
 				case 58:
+					if(channel.getCode().startsWith("VM")) {
+					System.out.println("b058XXXXXXXXXXXXXX");}
 					B058 b058 = (B058) blockette;
 					if (b058.getStageSequence() == 0) {
 						response = channel.getResponse();
@@ -274,7 +276,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						// sensitivity.setFrequencyEnd(value);
 						// sensitivity.setFrequencyStart(value);
 						sensitivity.setValue(b058.getSensitivity());
-						updateInstrumentSensitivityUnites(channel);
+						updateInstrumentSensitivityUnits(channel);
 					} else {
 						if (stage == null || stage.getNumber().intValue() != b058.getStageSequence()) {
 							stage = new ResponseStage();
@@ -347,7 +349,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 							}
 						}
 					}
-					updateInstrumentSensitivityUnites(channel);
+					updateInstrumentSensitivityUnits(channel);
 					break;
 				case 61:
 					B061 b061 = (B061) blockette;
@@ -372,7 +374,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						fir.setOutputUnits(ut);
 					}
 					stage.add(fir);
-					updateInstrumentSensitivityUnites(channel);
+					updateInstrumentSensitivityUnits(channel);
 					break;
 				case 62:
 					B062 b062 = (B062) blockette;
@@ -408,7 +410,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						}
 						stage.add(polynomial);
 					}
-					updateInstrumentSensitivityUnites(channel);
+					updateInstrumentPolynomial(channel);
 					break;
 				default:
 					break;
@@ -422,7 +424,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 		return document;
 	}
 
-	private void updateInstrumentSensitivityUnites(Channel channel) {
+	private void updateInstrumentSensitivityUnits(Channel channel) {
 		if (channel == null) {
 			return;
 		}
@@ -445,6 +447,33 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 			ResponseStage last = list.get(list.size() - 1);
 			Units outputUnits = extractOutputUnits(last);
 			sensitivity.setOutputUnits(outputUnits);
+		}
+
+	}
+	
+	private void updateInstrumentPolynomial(Channel channel) {
+		if (channel == null) {
+			return;
+		}
+		Response response = channel.getResponse();
+		if (response == null) {
+			response = new Response();
+			channel.setResponse(response);
+		}
+		Polynomial polynomial = channel.getResponse().getInstrumentPolynomial();
+		if (polynomial == null) {
+			polynomial = new Polynomial();
+			response.setInstrumentPolynomial(polynomial);
+		}
+
+		List<ResponseStage> list = response.getStage();
+		if (list != null && !list.isEmpty()) {
+			ResponseStage first = list.get(0);
+			Units inputUnits = extractInputUnits(first);
+			polynomial.setInputUnits(inputUnits);
+			ResponseStage last = list.get(list.size() - 1);
+			Units outputUnits = extractOutputUnits(last);
+			polynomial.setOutputUnits(outputUnits);
 		}
 
 	}

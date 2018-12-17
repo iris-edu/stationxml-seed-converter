@@ -125,7 +125,6 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 								b031 = (B031) volume.add(b031);
 								b059.setLookupKey(b031.getLookupKey());
 								volume.add(b059);
-
 							}
 							b052.setNumberOfComments(channel.getComment().size());
 							// channel.getDataLogger();
