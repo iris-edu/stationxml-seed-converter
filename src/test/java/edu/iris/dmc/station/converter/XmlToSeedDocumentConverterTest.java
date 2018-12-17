@@ -18,6 +18,7 @@ import edu.iris.dmc.seed.control.station.B051;
 import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
+import edu.iris.dmc.seed.control.station.SeedResponseStage;
 import edu.iris.dmc.station.util.XmlUtils;
 
 public class XmlToSeedDocumentConverterTest {
@@ -89,7 +90,7 @@ public class XmlToSeedDocumentConverterTest {
 
 			assertFalse(volume.isEmpty());
 
-			//List<Blockette> blockettes = volume.getControlBlockettes();
+			// List<Blockette> blockettes = volume.getControlBlockettes();
 			List<B050> b050s = volume.getB050s();
 			assertEquals(2, b050s.size());
 			B050 epoch = b050s.get(0);
@@ -97,21 +98,19 @@ public class XmlToSeedDocumentConverterTest {
 			assertEquals(1, b052s.size());
 			B052 b052 = b052s.get(0);
 
-			List<ResponseBlockette> response = b052.getResponseBlockette();
+			List<SeedResponseStage> response = b052.getResponseStages();
 			assertNotNull(response);
 
-			B058 b058 = null;
-			for (ResponseBlockette r : response) {
-				if (r.getStageSequence() == 0) {
-					b058 = (B058)r;
-				}
-			}
-			assertNotNull(b058);
-			
+			SeedResponseStage stage = b052.getResponseStage(0);
+			assertNotNull(stage);
+
+			List<ResponseBlockette> blockettes = stage.getBlockettes();
+			B058 b058 = (B058) blockettes.get(0);
+
+
 			System.out.println(b058.getSignalInputUnit());
 			System.out.println(b058.getSignalOutputUnit());
-			
-	
+
 			System.out.println(b058.toSeedString());
 
 		} catch (Exception e) {
