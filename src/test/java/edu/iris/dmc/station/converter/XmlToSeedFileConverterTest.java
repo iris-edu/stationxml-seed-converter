@@ -81,7 +81,7 @@ public class XmlToSeedFileConverterTest {
 	@Test
 	public void t4() throws Exception {
 
-		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("NV.20181204.xml").getFile());
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
 
 		File convertedSeedFile = new File("converted.dataless");
 		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
