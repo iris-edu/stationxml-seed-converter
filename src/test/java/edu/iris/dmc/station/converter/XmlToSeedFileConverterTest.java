@@ -16,7 +16,7 @@ import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
 
 public class XmlToSeedFileConverterTest {
 
-	@Test
+	//@Test
 	public void t1() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -36,7 +36,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	@Test
+	//@Test
 	public void t2() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -59,7 +59,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	@Test
+	//@Test
 	public void t3() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -78,7 +78,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	//@Test
+	@Test
 	public void t4() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("NV.20181204.xml").getFile());
