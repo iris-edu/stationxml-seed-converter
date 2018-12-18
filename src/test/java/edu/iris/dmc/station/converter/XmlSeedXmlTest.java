@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.junit.Test;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
@@ -28,6 +31,21 @@ public class XmlSeedXmlTest {
 		Volume volume = XmlToSeedDocumentConverter.getInstance().convert(original);
 
 		final FDSNStationXML target = SeedToXmlDocumentConverter.getInstance().convert(volume);
+		
+		
+		
+		 JAXBContext jContext = JAXBContext.newInstance(FDSNStationXML.class);
+		    //creating the marshaller object
+		    Marshaller marshallObj = jContext.createMarshaller();
+		    //setting the property to show xml format output
+		    marshallObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		    //setting the values in POJO class
+
+		    //calling the marshall method
+		    marshallObj.marshal(target, System.out);
+
+		
+		
 		assertNotNull(target);
 		assertNotNull(target.getNetwork());
 		assertEquals(1, target.getNetwork().size());

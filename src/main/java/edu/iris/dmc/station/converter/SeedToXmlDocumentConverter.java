@@ -161,9 +161,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						Response response = new Response();
 						channel.setResponse(response);
 						for (SeedResponseStage seedStage : b052.getResponseStages()) {
-							ResponseStage stage = new ResponseStage();
-							stage.setNumber(BigInteger.valueOf(seedStage.getSequence()));
-							channel.getResponse().getStage().add(stage);
+							
 							if (seedStage.getSequence() == 0) {
 								for (ResponseBlockette b : seedStage.getBlockettes()) {
 									final int type = b.getType();
@@ -206,6 +204,9 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 									}
 								}
 							} else {
+								ResponseStage stage = new ResponseStage();
+								stage.setNumber(BigInteger.valueOf(seedStage.getSequence()));
+								channel.getResponse().getStage().add(stage);
 								for (ResponseBlockette b : seedStage.getBlockettes()) {
 									final int type = b.getType();
 									switch (type) {
