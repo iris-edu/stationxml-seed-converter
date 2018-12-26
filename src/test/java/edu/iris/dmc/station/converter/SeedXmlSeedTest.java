@@ -7,6 +7,9 @@ import static org.junit.Assert.assertNull;
 import java.io.File;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.junit.Test;
 
 import edu.iris.dmc.fdsn.station.model.Channel;
@@ -34,6 +37,18 @@ public class SeedXmlSeedTest {
 		Volume original = SeedUtils.load(source);
 
 		FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(original);
+		
+		JAXBContext jContext = JAXBContext.newInstance(FDSNStationXML.class);
+	    //creating the marshaller object
+	    Marshaller marshallObj = jContext.createMarshaller();
+	    //setting the property to show xml format output
+	    marshallObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    //setting the values in POJO class
+
+	    //calling the marshall method
+	    marshallObj.marshal(document, System.out);
+	    
+	    
 
 		Volume target = XmlToSeedDocumentConverter.getInstance().convert(document);
 		assertNotNull(target);

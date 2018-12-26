@@ -11,6 +11,8 @@ import edu.iris.dmc.seed.control.dictionary.B043;
 import edu.iris.dmc.seed.control.station.B053;
 import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Zero;
+import edu.iris.dmc.station.util.SeedUtils;
+import edu.iris.dmc.station.util.XmlUtils;
 
 public class PolesZerosMapper extends AbstractMapper {
 
@@ -104,12 +106,10 @@ public class PolesZerosMapper extends AbstractMapper {
 		if (b.getZeros() != null) {
 			for (Zero zero : b.getZeros()) {
 				PoleZero z = factory.createPoleZeroType();
-				FloatNoUnitType fnt = factory.createFloatNoUnitType();
-				fnt.setValue(zero.getReal().getValue());
+				FloatNoUnitType fnt = XmlUtils.createFloatNoUnitType(zero.getReal());
 				z.setReal(fnt);
 
-				fnt = factory.createFloatNoUnitType();
-				fnt.setValue(zero.getImaginary().getValue());
+				fnt = XmlUtils.createFloatNoUnitType(zero.getImaginary());
 				z.setImaginary(fnt);
 
 				z.setNumber(BigInteger.valueOf(counter++));
@@ -120,19 +120,13 @@ public class PolesZerosMapper extends AbstractMapper {
 		if (b.getPoles() != null) {
 			for (Pole pole : b.getPoles()) {
 				PoleZero p = factory.createPoleZeroType();
-				FloatNoUnitType fnt = factory.createFloatNoUnitType();
-				fnt.setValue(pole.getReal().getValue());
-				fnt.setMinusError(pole.getReal().getError());
+				FloatNoUnitType fnt = XmlUtils.createFloatNoUnitType(pole.getReal());
 				p.setReal(fnt);
-				
 
-				fnt = factory.createFloatNoUnitType();
-				fnt.setValue(pole.getImaginary().getValue());
+				fnt = XmlUtils.createFloatNoUnitType(pole.getImaginary());
 				p.setImaginary(fnt);
-				fnt.setMinusError(pole.getImaginary().getError());
 
 				p.setNumber(BigInteger.valueOf(counter++));
-				
 				pzs.getPole().add(p);
 			}
 
@@ -176,16 +170,9 @@ public class PolesZerosMapper extends AbstractMapper {
 
 		if (pzs.getPole() != null) {
 			for (PoleZero pole : pzs.getPole()) {
-				edu.iris.dmc.seed.control.station.Number real = null;
-				if (pole.getReal() != null) {
-					real = new edu.iris.dmc.seed.control.station.Number(pole.getReal().getValue(),
-							pole.getReal().getPlusError());
-				}
-				edu.iris.dmc.seed.control.station.Number imaginary = null;
-				if (pole.getImaginary() != null) {
-					imaginary = new edu.iris.dmc.seed.control.station.Number(pole.getImaginary().getValue(),
-							pole.getImaginary().getPlusError());
-				}
+				edu.iris.dmc.seed.control.station.Number real = SeedUtils.createNumber(pole.getReal());
+
+				edu.iris.dmc.seed.control.station.Number imaginary = SeedUtils.createNumber(pole.getImaginary());
 				Pole p = new Pole(real, imaginary);
 				b.add(p);
 			}

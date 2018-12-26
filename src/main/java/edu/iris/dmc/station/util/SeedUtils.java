@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import edu.iris.dmc.fdsn.station.model.FloatNoUnitType;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
@@ -29,5 +30,19 @@ public class SeedUtils {
 			volume.add(blockette);
 		}
 		return volume;
+	}
+
+	public static edu.iris.dmc.seed.control.station.Number createNumber(FloatNoUnitType fnt) {
+		if (fnt == null) {
+			return null;
+		}
+
+		double minus = Math.abs(fnt.getMinusError());
+		double plus = Math.abs(fnt.getPlusError());
+
+		double error = (plus > minus) ? plus : minus;
+
+		return new edu.iris.dmc.seed.control.station.Number(fnt.getValue(),
+				error);
 	}
 }
