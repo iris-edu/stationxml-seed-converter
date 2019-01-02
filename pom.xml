@@ -5,7 +5,7 @@
 
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>stationxml-seed-converter</artifactId>
-	<version>2.0.1-SNAPSHOT</version>
+	<version>2.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>stationxml-seed-converter</name>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>java-4-seed</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
