@@ -15,10 +15,10 @@ public class CommentMapper {
 		if (blockette instanceof B059) {
 			B059 b059 = (B059) blockette;
 			if (b059.getStartTime() != null) {
-				comment.setBeginEffectiveTime(TimeUtil.toCalendar(b059.getStartTime()));
+				comment.setBeginEffectiveTime(TimeUtil.toZonedDateTime(b059.getStartTime()));
 			}
 			if (b059.getEndTime() != null) {
-				comment.setEndEffectiveTime(TimeUtil.toCalendar(b059.getEndTime()));
+				comment.setEndEffectiveTime(TimeUtil.toZonedDateTime(b059.getEndTime()));
 			}
 			return comment;
 		} else {
@@ -31,10 +31,10 @@ public class CommentMapper {
 		if (blockette instanceof B051) {
 			B051 b051 = (B051) blockette;
 			if (b051.getStartTime() != null) {
-				comment.setBeginEffectiveTime(TimeUtil.toCalendar(b051.getStartTime()));
+				comment.setBeginEffectiveTime(TimeUtil.toZonedDateTime(b051.getStartTime()));
 			}
 			if (b051.getEndTime() != null) {
-				comment.setEndEffectiveTime(TimeUtil.toCalendar(b051.getEndTime()));
+				comment.setEndEffectiveTime(TimeUtil.toZonedDateTime(b051.getEndTime()));
 			}
 			return comment;
 		} else {

@@ -29,7 +29,7 @@ public class ChannelMapperTest {
 		assertTrue(types.contains("GEOPHYSICAL"));
 		
 		assertEquals(b052.getStartTime().getHour(),channel.getStartDate().getHour());
-		assertEquals(0,channel.getStartDate().getTimezone());
+		assertEquals("Z",channel.getStartDate().getZone().getId());
 		b052 = ChannelBlocketteMapper.map(channel);
 		assertEquals(text, b052.toSeedString());
 	}
@@ -50,7 +50,7 @@ public class ChannelMapperTest {
 		assertTrue(types.contains("GEOPHYSICAL"));
 		
 		assertEquals(b052.getStartTime().getHour(),channel.getStartDate().getHour());
-		assertEquals(0,channel.getStartDate().getTimezone());
+		assertEquals("Z",channel.getStartDate().getZone().getId());
 		b052 = ChannelBlocketteMapper.map(channel);
 		assertEquals(text, b052.toSeedString());
 	}

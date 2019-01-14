@@ -1,6 +1,8 @@
 package edu.iris.dmc.station.mapper;
 
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,7 +92,7 @@ public class SeedStringBuilder {
 		return append(sampleRate.getValue());
 	}
 
-	public SeedStringBuilder append(XMLGregorianCalendar object) {
+	public SeedStringBuilder append(ZonedDateTime object) {
 		builder.add(formatDate(object));
 		return this;
 	}
@@ -100,19 +102,13 @@ public class SeedStringBuilder {
 		return this;
 	}
 
-	public static String formatDate(XMLGregorianCalendar xmlCal) {
-		if (xmlCal == null) {
+	public static String formatDate(ZonedDateTime time) {
+		if (time == null) {
 			return null;
 		}
-		if (xmlCal.getTimezone() == DatatypeConstants.FIELD_UNDEFINED) {
-			xmlCal.setTimezone(0);
-		}
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy,DDD,HH:mm:ss.SSSS");
 
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy,DDD,HH:mm:ss.SSSS");
-		fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date d = xmlCal.toGregorianCalendar().getTime();
-
-		String s = fmt.format(d);
+		String s = dtf.format(time);
 		return s;
 	}
 

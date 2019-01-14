@@ -2,6 +2,7 @@ package edu.iris.dmc.station.util;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -38,21 +38,25 @@ public class TimeUtil {
 		return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 	}
 
-	public static BTime toBTime(XMLGregorianCalendar xmlCal) throws DatatypeConfigurationException {
-		if (xmlCal == null) {
+	public static ZonedDateTime toZonedDateTime(BTime bTime) throws DatatypeConfigurationException {
+		if (bTime == null) {
 			return null;
 		}
-		if (xmlCal.getTimezone() == DatatypeConstants.FIELD_UNDEFINED) {
-			xmlCal.setTimezone(0);
+
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy,DDD,HH:mm:ss.nZ");
+		String date = bTime.toSeedString() + "00000+0000";
+
+		return ZonedDateTime.parse(date, dateTimeFormatter);
+	}
+
+	public static BTime toBTime(ZonedDateTime time) throws DatatypeConfigurationException {
+		if (time == null) {
+			return null;
 		}
-		// xmlCal.normalize();
-		GregorianCalendar original = xmlCal.toGregorianCalendar();
+		ZonedDateTime utc = time.withZoneSameInstant(ZoneId.of("UTC"));
 
-		ZonedDateTime zdt = original.toZonedDateTime();
-		ZonedDateTime converted = zdt.withZoneSameInstant(ZoneId.of("GMT"));
-
-		return new BTime(converted.getYear(), converted.getDayOfYear(), converted.getHour(), converted.getMinute(),
-				converted.getSecond(), converted.get(ChronoField.MILLI_OF_SECOND));
+		return new BTime(utc.getYear(), utc.getDayOfYear(), utc.getHour(), utc.getMinute(), utc.getSecond(),
+				utc.get(ChronoField.MILLI_OF_SECOND));
 	}
 
 	public static XMLGregorianCalendar now() throws DatatypeConfigurationException {

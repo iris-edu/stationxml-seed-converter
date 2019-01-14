@@ -21,13 +21,13 @@ public class StationMapper {
 		BTime bTime = blockette.getStartTime();
 
 		if (bTime != null) {
-			station.setCreationDate(TimeUtil.toCalendar(bTime));
-			station.setStartDate(TimeUtil.toCalendar(bTime));
+			station.setCreationDate(TimeUtil.toZonedDateTime(bTime));
+			station.setStartDate(TimeUtil.toZonedDateTime(bTime));
 		}
 
 		bTime = blockette.getEndTime();
 		if (bTime != null) {
-			station.setEndDate(TimeUtil.toCalendar(bTime));
+			station.setEndDate(TimeUtil.toZonedDateTime(bTime));
 		}
 
 		station.setLatitude(LatitudeMapper.build(blockette.getLatitude()));

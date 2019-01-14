@@ -30,12 +30,12 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 
 		BTime bTime = blockette.getStartTime();
 		if (bTime != null) {
-			channel.setStartDate(TimeUtil.toCalendar(bTime));
+			channel.setStartDate(TimeUtil.toZonedDateTime(bTime));
 		}
 
 		bTime = blockette.getEndTime();
 		if (bTime != null) {
-			channel.setEndDate(TimeUtil.toCalendar(bTime));
+			channel.setEndDate(TimeUtil.toZonedDateTime(bTime));
 		}
 
 		Latitude latitude = factory.createLatitudeType();
