@@ -18,13 +18,11 @@ public class StationBlocketteMapper {
 		b.setSiteName(station.getSite().getName());
 		b.setBit32BitOrder(3210);
 		b.setBit16BitOrder(10);
-		try {
-			b.setStartTime(TimeUtil.toBTime(station.getStartDate()));
-			b.setEndTime(TimeUtil.toBTime(station.getEndDate()));
-			b.setUpdateFlag('N');
-			return b;
-		} catch (DatatypeConfigurationException e) {
-			throw new SeedException(e);
-		}
+
+		b.setStartTime(TimeUtil.toBTime(station.getStartDate()));
+		b.setEndTime(TimeUtil.toBTime(station.getEndDate()));
+		b.setUpdateFlag('N');
+		return b;
+
 	}
 }

@@ -1,15 +1,7 @@
 package edu.iris.dmc.station.util;
 
-import static org.junit.Assert.assertEquals;
-
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
 

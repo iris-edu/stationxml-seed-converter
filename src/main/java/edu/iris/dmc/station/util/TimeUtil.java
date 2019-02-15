@@ -1,44 +1,25 @@
 package edu.iris.dmc.station.util;
 
+import java.text.ParseException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 import edu.iris.dmc.seed.BTime;
 
 public class TimeUtil {
 
-	public static XMLGregorianCalendar toCalendar(Date date) throws DatatypeConfigurationException {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTimeZone(TimeZone.getTimeZone("GMT"));
-		c.setTime(date);
-		return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+	public static ZonedDateTime now() {
+		return ZonedDateTime.now(ZoneId.of("UTC"));
 	}
 
-	public static XMLGregorianCalendar toCalendar(BTime bTime) throws DatatypeConfigurationException {
-		GregorianCalendar c = new GregorianCalendar();
-		c.setTimeZone(TimeZone.getTimeZone("GMT"));
-		c.set(Calendar.YEAR, bTime.getYear());
-
-		c.set(Calendar.DAY_OF_YEAR, bTime.getDayOfYear());
-		c.set(Calendar.HOUR_OF_DAY, bTime.getHour());
-		c.set(Calendar.MINUTE, bTime.getMinute());
-		c.set(Calendar.SECOND, bTime.getSecond());
-		c.set(Calendar.MILLISECOND, bTime.getTenthMilliSecond());
-
-		return DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+	public static ZonedDateTime toZonedDateTime(String source) throws ParseException {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneId.of("UTC"));
+		return ZonedDateTime.parse(source, format);
 	}
 
-	public static ZonedDateTime toZonedDateTime(BTime bTime) throws DatatypeConfigurationException {
+	public static ZonedDateTime toZonedDateTime(BTime bTime) {
 		if (bTime == null) {
 			return null;
 		}
@@ -49,20 +30,13 @@ public class TimeUtil {
 		return ZonedDateTime.parse(date, dateTimeFormatter);
 	}
 
-	public static BTime toBTime(ZonedDateTime time) throws DatatypeConfigurationException {
+	public static BTime toBTime(ZonedDateTime time) {
 		if (time == null) {
 			return null;
 		}
-		ZonedDateTime utc = time.withZoneSameInstant(ZoneId.of("UTC"));
 
-		return new BTime(utc.getYear(), utc.getDayOfYear(), utc.getHour(), utc.getMinute(), utc.getSecond(),
-				utc.get(ChronoField.MILLI_OF_SECOND));
+		return new BTime(time.getYear(), time.getDayOfYear(), time.getHour(), time.getMinute(), time.getSecond(),
+				time.get(ChronoField.MILLI_OF_SECOND));
 	}
 
-	public static XMLGregorianCalendar now() throws DatatypeConfigurationException {
-		GregorianCalendar gregorianCalendar = new GregorianCalendar();
-		gregorianCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
-		DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-		return datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
-	}
 }

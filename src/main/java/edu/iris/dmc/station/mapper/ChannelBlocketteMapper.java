@@ -176,13 +176,10 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		}
 		b.setChannelFlags(sb.toString());
 
-		try {
-			b.setStartTime(TimeUtil.toBTime(channel.getStartDate()));
-			b.setEndTime(TimeUtil.toBTime(channel.getEndDate()));
-			b.setUpdateFlag('N');
-			return b;
-		} catch (DatatypeConfigurationException e) {
-			throw new SeedException(e);
-		}
+		b.setStartTime(TimeUtil.toBTime(channel.getStartDate()));
+		b.setEndTime(TimeUtil.toBTime(channel.getEndDate()));
+		b.setUpdateFlag('N');
+		return b;
+
 	}
 }

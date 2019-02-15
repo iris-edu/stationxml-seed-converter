@@ -10,6 +10,9 @@ import edu.iris.dmc.station.util.TimeUtil;
 public class CommentMapper {
 	private static ObjectFactory factory = new ObjectFactory();
 
+	public static B051 b051(Comment comment) {
+		return null;
+	}
 	public static Comment buildForChannel(Blockette blockette) throws Exception {
 		Comment comment = factory.createCommentType();
 		if (blockette instanceof B059) {
