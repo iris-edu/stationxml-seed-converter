@@ -1,7 +1,5 @@
 package edu.iris.dmc.station.mapper;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.B050;

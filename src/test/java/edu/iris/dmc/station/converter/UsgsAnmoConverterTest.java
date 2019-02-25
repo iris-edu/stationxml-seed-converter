@@ -37,7 +37,7 @@ public class UsgsAnmoConverterTest {
 	public void compare() {
 
 		try {
-			File source = new File(UsgsAnmoConverterTest.class.getClassLoader().getResource("ANMO.one.xml").getFile());
+			File source = new File(UsgsAnmoConverterTest.class.getClassLoader().getResource("CI.xml").getFile());
 			JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			InputStream is = new FileInputStream(source);

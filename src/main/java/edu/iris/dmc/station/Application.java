@@ -2,6 +2,8 @@ package edu.iris.dmc.station;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
@@ -27,26 +29,29 @@ public class Application {
 		File source = null;
 		File target = null;
 
+		Map<String, String> map = new HashMap<>();
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				if(debug) {
+				if (debug) {
 					System.out.println("SEED >< XML CONVERTER");
 				}
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
 			} else if ("--prettyprint".equals(arg) || "-p".equals(arg)) {
-				//config.put("prettyprint", "true");
+				// config.put("prettyprint", "true");
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
 			} else if ("--output".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
+			} else if ("--large".equals(arg)) {
+				map.put("large", "true");
 			} else {
-				System.err.println("Unkown argument: ["+args[i]+"]");
+				System.err.println("Unkown argument: [" + args[i] + "]");
 				help();
 				System.exit(0);
 			}
@@ -56,10 +61,10 @@ public class Application {
 			if (source == null) {
 				exitWithError("no source file is provided.");
 			} else {
-				if(debug) {
-					System.out.println("Preparing to convert "+source);
+				if (debug) {
+					System.out.println("Preparing to convert " + source);
 				}
-				convert(source, target);
+				convert(source, target, map);
 			}
 
 		} catch (Exception e) {
@@ -68,7 +73,8 @@ public class Application {
 		}
 	}
 
-	private void convert(File source, File target) throws MetadataConverterException, IOException {
+	private void convert(File source, File target, Map<String, String> map)
+			throws MetadataConverterException, IOException {
 		if (source == null || source.isHidden()) {
 			return;
 		}
@@ -76,7 +82,7 @@ public class Application {
 		if (source.isDirectory()) {
 			File[] listOfFiles = source.listFiles();
 			for (File f : listOfFiles) {
-				convert(f, target);
+				convert(f, target, map);
 			}
 		} else {
 			if (source.length() == 0) {
@@ -103,7 +109,7 @@ public class Application {
 					System.out.println(source + "   ->   " + target);
 				}
 
-				converter.convert(source, target);
+				converter.convert(source, target, map);
 			} catch (FileConverterException e) {
 				e.printStackTrace();
 			}
@@ -123,8 +129,10 @@ public class Application {
 		System.out.println("java -jar stationxml-converter.jar [arguments]");
 
 		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
-		//System.out.println("	-V, aliases = \"--version\", usage = \"Print version number and exit.\"");
-		//System.out.println("	-p, aliases = \"--prettyprint\", usage = \"Only when output is xml.\"");
+		// System.out.println(" -V, aliases = \"--version\", usage = \"Print version
+		// number and exit.\"");
+		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only when
+		// output is xml.\"");
 		System.out.println("	--input, usage = \"Input as a file or URL\"");
 		System.out.println("	--output, usage = \"Output file path and name\"");
 		System.exit(1);

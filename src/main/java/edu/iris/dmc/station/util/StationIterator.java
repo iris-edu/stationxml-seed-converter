@@ -1,5 +1,7 @@
 package edu.iris.dmc.station.util;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -11,7 +13,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.EventFilter;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -24,7 +25,7 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 
-public class StationIterator implements Iterator<Station> {
+public class StationIterator implements Iterator<Station>, Closeable {
 
 	private XMLEventReader xmlEventReader;
 	private Unmarshaller unmarshaller;
@@ -34,7 +35,10 @@ public class StationIterator implements Iterator<Station> {
 	private FDSNStationXML root;
 	private Network network;
 
+	private InputStream inputStream;
+
 	public StationIterator(InputStream inputStream) throws XMLStreamException, JAXBException, ParseException {
+		this.inputStream = inputStream;
 		XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
 		this.xmlEventReader = xmlFactory.createXMLEventReader(inputStream);
 
@@ -251,6 +255,13 @@ public class StationIterator implements Iterator<Station> {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void close() throws IOException {
+		if (this.inputStream != null) {
+			this.inputStream.close();
 		}
 	}
 }
