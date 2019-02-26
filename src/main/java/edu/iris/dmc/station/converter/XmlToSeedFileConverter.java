@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +76,10 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		B010 b010 = new B010();
 		Dictionary dictionary = new Dictionary();
 		System.out.println("Writing temperoray station file...");
-		Path stationTempFile = Files.createTempFile("station", "dataless.temp");
+		File stationTempFile = File.createTempFile("station", "dataless.temp");
+		stationTempFile.deleteOnExit();
 		try (StationIterator it = FileUtils.stationIterator(source);
-				SeedRecordOutputStream out = new SeedRecordOutputStream(new FileOutputStream(stationTempFile.toFile()),
+				SeedRecordOutputStream out = new SeedRecordOutputStream(new FileOutputStream(stationTempFile),
 						recordSize)) {
 
 			// Path tempSeed = Files.createTempFile("", ".dataless");
@@ -321,19 +320,22 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				}
 			}
 		} catch (SeedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new MetadataConverterException(e);
 		}
+
 		System.out.println("Writing temperoray dictionary file...");
 		int dictionarySequence = 0;
-		Path dictionaryTempFile = Files.createTempFile("dictionary", "dataless.temp");
-		try (SeedRecordOutputStream a = new SeedRecordOutputStream(new FileOutputStream(dictionaryTempFile.toFile()))) {
+		File dictionaryTempFile = File.createTempFile("dictionary", "dataless.temp");
+		dictionaryTempFile.deleteOnExit();
+		try (SeedRecordOutputStream a = new SeedRecordOutputStream(new FileOutputStream(dictionaryTempFile))) {
 			for (Blockette b : dictionary.getAll()) {
 				dictionarySequence = a.append(b);
 			}
 		} catch (SeedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new MetadataConverterException(e);
 		}
 		System.out.println("Finished writing temperoray dictionary file.");
 
@@ -349,7 +351,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			theFile.append(b010);
 			int startSequence = theFile.append(b011);
 			// copy dictionary
-			try (InputStream is = new FileInputStream(dictionaryTempFile.toFile())) {
+			try (InputStream is = new FileInputStream(dictionaryTempFile)) {
 				byte[] bytes = new byte[recordSize];
 				while (is.read(bytes) > 0) {
 					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
@@ -359,7 +361,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				}
 			}
 			// copy station
-			try (InputStream is = new FileInputStream(stationTempFile.toFile())) {
+			try (InputStream is = new FileInputStream(stationTempFile)) {
 				byte[] bytes = new byte[recordSize];
 				while (is.read(bytes) > 0) {
 					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
@@ -373,6 +375,9 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		} catch (SeedException e) {
 			e.printStackTrace();
 			throw new MetadataConverterException(e);
+		}
+		if (stationTempFile != null) {
+			stationTempFile.delete();
 		}
 	}
 
