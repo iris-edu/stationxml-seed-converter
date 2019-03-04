@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -43,6 +45,8 @@ import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
+import edu.iris.dmc.seed.control.station.OverFlowBlockette;
+import edu.iris.dmc.seed.io.BlocketteOutputStream;
 import edu.iris.dmc.seed.io.SeedRecordOutputStream;
 import edu.iris.dmc.seed.writer.SeedFileWriter;
 import edu.iris.dmc.station.ChannelCommentToBlocketteMapper;
@@ -62,7 +66,7 @@ import edu.iris.dmc.station.mapper.StationCommentToBlocketteMapper;
 import edu.iris.dmc.station.util.StationIterator;
 
 public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File> {
-
+	private final Logger logger = Logger.getLogger(XmlToSeedFileConverter.class.getName());
 	private static XmlToSeedFileConverter INSTANCE = new XmlToSeedFileConverter();
 
 	public static MetadataFileFormatConverter<File> getInstance() {
@@ -75,18 +79,24 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		Map<String, Integer> map = new HashMap<>();
 		B010 b010 = new B010();
 		Dictionary dictionary = new Dictionary();
-		System.out.println("Writing temperoray station file...");
+		logger.log(Level.FINER, "Writing temperoray station file...");
+
 		File stationTempFile = File.createTempFile("station", "dataless.temp");
 		stationTempFile.deleteOnExit();
-		try (StationIterator it = FileUtils.stationIterator(source);
-				SeedRecordOutputStream out = new SeedRecordOutputStream(new FileOutputStream(stationTempFile),
-						recordSize)) {
 
+		/*
+		 * try (StationIterator it = FileUtils.stationIterator(source);
+		 * SeedRecordOutputStream out = new SeedRecordOutputStream(new
+		 * FileOutputStream(stationTempFile), recordSize)) {
+		 */
+		try (StationIterator it = FileUtils.stationIterator(source);
+				BlocketteOutputStream out = new BlocketteOutputStream(new FileOutputStream(stationTempFile),
+						recordSize)) {
 			// Path tempSeed = Files.createTempFile("", ".dataless");
 
 			while (it.hasNext()) {
 				Station station = it.next();
-				System.out.println("processing: " + station.getCode() + "...");
+				logger.log(Level.FINE, "processing: " + station.getCode() + "...");
 				B050 b050 = StationBlocketteMapper.map(station);
 
 				Network network = station.getNetwork();
@@ -98,7 +108,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 					b050.setNetworkIdentifierCode(b033.getLookupKey());
 				}
 				b050.setNumberOfComments(station.getComment() == null ? 0 : station.getComment().size());
-				int sequence = out.append(b050);
+				int sequence = out.write(b050);
 				if (map.get(station.getCode().trim()) == null) {
 					map.put(station.getCode().trim(), sequence);
 				}
@@ -112,7 +122,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 						b031 = (B031) dictionary.put(b031);
 						b051.setLookupKey(b031.getLookupKey());
-						out.append(b051);
+						out.write(b051);
 					}
 
 					b050.setNumberOfChannels(station.getChannels().size());
@@ -161,17 +171,18 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 						}
 
-						out.append(b052);
+						out.write(b052);
 						for (Comment comment : channel.getComment()) {
 							B059 b059 = ChannelCommentToBlocketteMapper.map(comment);
 							B031 b031 = new B031();
 							b031.setClassCode('S');
 							b031.setDescription(comment.getValue());
-							b031.setUnitsOfCommentLevel(0);// set to zero for now
+							b031.setUnitsOfCommentLevel(0);// set to zero for
+															// now
 
 							b031 = (B031) dictionary.put(b031);
 							b059.setLookupKey(b031.getLookupKey());
-							out.append(b059);
+							out.write(b059);
 						}
 
 						if (channel.getResponse() != null) {
@@ -216,7 +227,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 											b053.setSignalOutputUnit(b03406.getLookupKey());
 										}
 										b053.setStageSequence(stage.getNumber().intValue());
-										out.append(b053);
+										out.write(b053);
 									}
 									if (stage.getCoefficients() != null) {
 										B054 b054 = CoefficientsMapper.map(stage.getCoefficients());
@@ -233,7 +244,10 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 											b054.setSignalOutputUnit(b03406.getLookupKey());
 										}
 										b054.setStageSequence(stage.getNumber().intValue());
-										out.append(b054);
+										List<Blockette> blockettes = b054.split();
+										for (Blockette oBlockette : blockettes) {
+											out.write(oBlockette);
+										}
 									}
 									if (stage.getResponseList() != null) {
 
@@ -241,12 +255,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 									if (stage.getDecimation() != null) {
 										B057 b057 = DecimationMapper.map(stage.getDecimation());
 										b057.setStageSequence(stage.getNumber().intValue());
-										out.append(b057);
+										out.write(b057);
 									}
 									if (stage.getStageGain() != null) {
 										B058 b058 = StageGainToBlocketteMapper.map(stage.getStageGain());
 										b058.setStageSequence(stage.getNumber().intValue());
-										out.append(b058);
+										out.write(b058);
 									}
 									if (stage.getFIR() != null) {
 										B061 b061 = FirToBlocketteMapper.map(stage.getFIR());
@@ -262,7 +276,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										}
 
 										b061.setStageSequence(stage.getNumber().intValue());
-										out.append(b061);
+										out.write(b061);
 									}
 									if (stage.getPolynomial() != null) {
 										B062 b062 = PolynomialMapper.map(stage.getPolynomial());
@@ -280,14 +294,14 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										}
 
 										b062.setStageSequence(stage.getNumber().intValue());
-										out.append(b062);
+										out.write(b062);
 									}
 								}
 								if (channel.getResponse().getInstrumentSensitivity() != null) {
 									B058 b058 = InstrumentSensitivityToBlocketteMapper
 											.map(channel.getResponse().getInstrumentSensitivity());
 									b058.setStageSequence(0);
-									out.append(b058);
+									out.write(b058);
 								}
 							}
 							// stage zero
@@ -313,7 +327,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 								}
 
 								b062.setStageSequence(0);
-								out.append(b062);
+								out.write(b062);
 							}
 						}
 					}
@@ -324,23 +338,19 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			throw new MetadataConverterException(e);
 		}
 
-		System.out.println("Writing temperoray dictionary file...");
 		int dictionarySequence = 0;
 		File dictionaryTempFile = File.createTempFile("dictionary", "dataless.temp");
 		dictionaryTempFile.deleteOnExit();
-		try (SeedRecordOutputStream a = new SeedRecordOutputStream(new FileOutputStream(dictionaryTempFile))) {
+		logger.log(Level.FINE, "Writing temperoray dictionary file [" + dictionaryTempFile.getAbsolutePath() + "]");
+		try (BlocketteOutputStream a = new BlocketteOutputStream(new FileOutputStream(dictionaryTempFile))) {
 			for (Blockette b : dictionary.getAll()) {
-				dictionarySequence = a.append(b);
+				dictionarySequence = a.write(b);
 			}
-		} catch (SeedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new MetadataConverterException(e);
 		}
 		System.out.println("Finished writing temperoray dictionary file.");
 
-		System.out.println("Writing dataless file.");
-		try (SeedRecordOutputStream theFile = new SeedRecordOutputStream(new FileOutputStream(target))) {
+		logger.log(Level.INFO, "Writing the dataless file " + target.getAbsolutePath());
+		try (BlocketteOutputStream theFile = new BlocketteOutputStream(new FileOutputStream(target))) {
 			// calculate b011
 			int numberOfStations = map.size();
 			int volumeSize = b010.getLength() + 10 + (numberOfStations * 11);
@@ -348,17 +358,22 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			B011 b011 = new B011();
 			map.forEach((k, v) -> b011.add(k, v + numberOfRecord));
 			// write volume
-			theFile.append(b010);
-			int startSequence = theFile.append(b011);
+
+			theFile.write(b010);
+			int startSequence = theFile.write(b011);
+			logger.log(Level.INFO, "Finished writing b011 at sequence#" + startSequence);
 			// copy dictionary
 			try (InputStream is = new FileInputStream(dictionaryTempFile)) {
 				byte[] bytes = new byte[recordSize];
+				startSequence++;
 				while (is.read(bytes) > 0) {
 					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
 					System.arraycopy(sequenceBytes, 0, bytes, 0, 6);
-					theFile.write(bytes);
+					theFile.writeRaw(bytes);
 					startSequence++;
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			// copy station
 			try (InputStream is = new FileInputStream(stationTempFile)) {
@@ -366,7 +381,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				while (is.read(bytes) > 0) {
 					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
 					System.arraycopy(sequenceBytes, 0, bytes, 0, 6);
-					theFile.write(bytes);
+					theFile.writeRaw(bytes);
 					startSequence++;
 				}
 			}
@@ -389,10 +404,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 	@Override
 	public void convert(File source, File target, Map<String, String> args)
 			throws MetadataConverterException, IOException {
-		String large = args.get("large");
-		if (large != null && Boolean.valueOf(large)) {
-			this.convertLarge(source, target, null);
-			return;
+		if (args != null) {
+			String large = args.get("large");
+			if (large != null && Boolean.valueOf(large)) {
+				this.convertLarge(source, target, null);
+				return;
+			}
 		}
 
 		FDSNStationXML document = null;

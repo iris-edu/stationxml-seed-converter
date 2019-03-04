@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
@@ -12,7 +16,9 @@ import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class Application {
 
-	// private static ResourceBundle rb = ResourceBundle.getBundle("application");
+	private static final Logger logger = Logger.getLogger(Application.class.getName());
+	// private static ResourceBundle rb =
+	// ResourceBundle.getBundle("application");
 	private boolean debug;
 
 	public static void main(String[] args) throws Exception {
@@ -34,9 +40,12 @@ public class Application {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				if (debug) {
-					System.out.println("SEED >< XML CONVERTER");
+				Logger rootLogger = LogManager.getLogManager().getLogger("");
+				rootLogger.setLevel(Level.INFO);
+				for (Handler h : rootLogger.getHandlers()) {
+					h.setLevel(Level.INFO);
 				}
+				logger.log(Level.FINEST, "SEED >< XML CONVERTER");
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
@@ -45,12 +54,13 @@ public class Application {
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
-			} else if ("--output".equals(arg) || "-i".equals(arg)) {
+			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
 			} else if ("--large".equals(arg)) {
 				map.put("large", "true");
 			} else {
+				logger.log(Level.SEVERE, "Unkown argument: [" + args[i] + "]");
 				System.err.println("Unkown argument: [" + args[i] + "]");
 				help();
 				System.exit(0);
@@ -69,7 +79,7 @@ public class Application {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			exitWithError(e.getMessage());
+			exitWithError(e);
 		}
 	}
 
@@ -106,18 +116,22 @@ public class Application {
 			}
 			try {
 				if (debug) {
-					System.out.println(source + "   ->   " + target);
+					logger.log(Level.FINEST, source + "   ->   " + target);
 				}
 
 				converter.convert(source, target, map);
 			} catch (FileConverterException e) {
-				e.printStackTrace();
+				exitWithError(e);
 			}
 		}
 	}
 
-	private static void exitWithError(String errorMsg) {
+	private static void exitWithError(Exception e) {
+		exitWithError(e.getMessage());
+	}
 
+	private static void exitWithError(String errorMsg) {
+		logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
 		System.err.println("\nError: " + errorMsg + "\n\n");
 		help();
 
@@ -129,9 +143,11 @@ public class Application {
 		System.out.println("java -jar stationxml-converter.jar [arguments]");
 
 		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
-		// System.out.println(" -V, aliases = \"--version\", usage = \"Print version
+		// System.out.println(" -V, aliases = \"--version\", usage = \"Print
+		// version
 		// number and exit.\"");
-		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only when
+		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only
+		// when
 		// output is xml.\"");
 		System.out.println("	--input, usage = \"Input as a file or URL\"");
 		System.out.println("	--output, usage = \"Output file path and name\"");

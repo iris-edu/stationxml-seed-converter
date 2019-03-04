@@ -98,6 +98,13 @@ public class SeedToXmlDocumentConverterTest {
 			List<Blockette> v = volume.getControlBlockettes();
 			List<Blockette> o = other.getControlBlockettes();
 
+			for(Blockette b:volume.getIndexBlockettes()){
+				System.out.println(b.toSeedString());
+			}
+			
+			for(Blockette b:other.getIndexBlockettes()){
+				System.out.println(b.toSeedString());
+			}
 
 			assertEquals(volume.getControlBlockettes().size(), other.getControlBlockettes().size());
 			assertEquals(volume.getIndexBlockettes().size(), other.getIndexBlockettes().size());

@@ -19,6 +19,7 @@ import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B033;
 import edu.iris.dmc.seed.control.dictionary.B034;
 import edu.iris.dmc.seed.control.index.B010;
+import edu.iris.dmc.seed.control.index.B011;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B051;
 import edu.iris.dmc.seed.control.station.B052;
