@@ -40,12 +40,12 @@ public class Application {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				Logger rootLogger = LogManager.getLogManager().getLogger("");
+				/*Logger rootLogger = LogManager.getLogManager().getLogger("");
 				rootLogger.setLevel(Level.INFO);
 				for (Handler h : rootLogger.getHandlers()) {
 					h.setLevel(Level.INFO);
 				}
-				logger.log(Level.FINEST, "SEED >< XML CONVERTER");
+				logger.log(Level.FINEST, "SEED >< XML CONVERTER");*/
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
@@ -127,6 +127,7 @@ public class Application {
 	}
 
 	private static void exitWithError(Exception e) {
+		e.printStackTrace();
 		exitWithError(e.getMessage());
 	}
 

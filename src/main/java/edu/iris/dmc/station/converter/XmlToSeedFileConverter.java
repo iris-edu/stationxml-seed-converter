@@ -276,7 +276,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										}
 
 										b061.setStageSequence(stage.getNumber().intValue());
-										out.write(b061);
+										int s = out.write(b061);
 									}
 									if (stage.getPolynomial() != null) {
 										B062 b062 = PolynomialMapper.map(stage.getPolynomial());

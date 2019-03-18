@@ -13,29 +13,30 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
 	</properties>
-	
+
 	<repositories>
-     <repository>
-      <id>ossrh</id>
-      <name>ossrh</name>
-      <url>https://oss.sonatype.org/content/repositories/releases</url>
-    </repository>
-    <repository>
-	  <id>ossrhsnap</id>
-	  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-	</repository>
-  </repositories>
+		<repository>
+			<id>ossrh</id>
+			<name>ossrh</name>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>ossrhsnap</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<release>11</release>  <!--or <release>10</release> -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -105,7 +106,7 @@
 
 	</dependencies>
 	<distributionManagement>
-	    <snapshotRepository>
+		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
