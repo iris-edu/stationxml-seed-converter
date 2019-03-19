@@ -18,11 +18,6 @@
 
 	<repositories>
 		<repository>
-			<id>ossrh</id>
-			<name>ossrh</name>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
-		</repository>
-		<repository>
 			<id>ossrhsnap</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
@@ -35,8 +30,8 @@
             </releases>
 		</repository>
         <repository>
-            <id>ossrhsnap</id>
-            <name>ossrhsnap</name>
+            <id>ossrh</id>
+            <name>ossrh</name>
             <url>https://oss.sonatype.org/content/repositories/releases</url>
 			<snapshots>
                 <enabled>false</enabled>
