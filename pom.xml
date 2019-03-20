@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<repositories>
@@ -26,28 +26,16 @@
 			<id>ossrhsnap</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
 		</repository>
-        <repository>
-            <id>ossrhsnap</id>
-            <name>ossrhsnap</name>
-            <url>https://oss.sonatype.org/content/repositories/releases</url>
-			<snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>        
-        </repository>		
-		
+
+
 	</repositories>
 
 	<build>
@@ -57,7 +45,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<release>11</release>  <!--or <release>10</release> -->
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
