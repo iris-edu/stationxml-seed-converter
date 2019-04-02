@@ -1,7 +1,15 @@
 # stationxml-seed-converter
 Complete documentation for the dataless-xml-converter is found in the [user guide](https://iris-edu.github.io/stationxml-seed-converter/). 
 
-Basic Usage:
+### Downloading releases
+
+Releases of the stationxml-seed-converter can be downloaded from the project release page:
+
+[https://github.com/iris-edu/stationxml-seed-converter/releases](https://github.com/iris-edu/stationxml-seed-converter/releases)
+
+The compiled .jar may be used immediately.
+
+### Basic Usage:
 
 `java -jar stationxml-seed-converter-2.0.3-SNAPSHOT.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
 
