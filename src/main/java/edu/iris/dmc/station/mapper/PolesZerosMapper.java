@@ -11,12 +11,10 @@ import edu.iris.dmc.seed.control.dictionary.B043;
 import edu.iris.dmc.seed.control.station.B053;
 import edu.iris.dmc.seed.control.station.Pole;
 import edu.iris.dmc.seed.control.station.Zero;
-import edu.iris.dmc.station.util.SeedUtils;
-import edu.iris.dmc.station.util.XmlUtils;
 
 public class PolesZerosMapper extends AbstractMapper {
 
-	public static PolesZeros map(B043 b) throws Exception {
+	public static PolesZeros map(B043 b) throws SeedException {
 		PolesZeros pzs = factory.createPolesZerosType();
 		String transferFunction = null;
 		switch (b.getTransferFunctionType()) {
@@ -31,7 +29,7 @@ public class PolesZerosMapper extends AbstractMapper {
 			break;
 		}
 		if (transferFunction == null) {
-			throw new Exception("Invalid blockette 053 transfer function: " + b.getTransferFunctionType());
+			throw new SeedException("Invalid blockette 053 transfer function: " + b.getTransferFunctionType());
 		}
 		pzs.setPzTransferFunctionType(transferFunction);
 		pzs.setNormalizationFactor(b.getNormalizationFactor());
@@ -57,7 +55,7 @@ public class PolesZerosMapper extends AbstractMapper {
 				pzs.getZero().add(z);
 			}
 		}
-
+		counter = 0;
 		if (b.getPoles() != null) {
 			for (Pole pole : b.getPoles()) {
 				PoleZero p = factory.createPoleZeroType();
@@ -77,7 +75,7 @@ public class PolesZerosMapper extends AbstractMapper {
 		return pzs;
 	}
 
-	public static PolesZeros map(B053 b) throws Exception {
+	public static PolesZeros map(B053 b) throws SeedException {
 		PolesZeros pzs = factory.createPolesZerosType();
 		String transferFunction = null;
 		switch (b.getTransferFunctionType()) {
@@ -92,7 +90,7 @@ public class PolesZerosMapper extends AbstractMapper {
 			break;
 		}
 		if (transferFunction == null) {
-			throw new Exception("Invalid blockette 053 transfer function: " + b.getTransferFunctionType());
+			throw new SeedException("Invalid blockette 053 transfer function: " + b.getTransferFunctionType());
 		}
 		pzs.setPzTransferFunctionType(transferFunction);
 		pzs.setNormalizationFactor(b.getNormalizationFactor());
@@ -106,10 +104,10 @@ public class PolesZerosMapper extends AbstractMapper {
 		if (b.getZeros() != null) {
 			for (Zero zero : b.getZeros()) {
 				PoleZero z = factory.createPoleZeroType();
-				FloatNoUnitType fnt = XmlUtils.createFloatNoUnitType(zero.getReal());
+				FloatNoUnitType fnt = createFloatNoUnitType(zero.getReal());
 				z.setReal(fnt);
 
-				fnt = XmlUtils.createFloatNoUnitType(zero.getImaginary());
+				fnt = createFloatNoUnitType(zero.getImaginary());
 				z.setImaginary(fnt);
 
 				z.setNumber(BigInteger.valueOf(counter++));
@@ -120,10 +118,10 @@ public class PolesZerosMapper extends AbstractMapper {
 		if (b.getPoles() != null) {
 			for (Pole pole : b.getPoles()) {
 				PoleZero p = factory.createPoleZeroType();
-				FloatNoUnitType fnt = XmlUtils.createFloatNoUnitType(pole.getReal());
+				FloatNoUnitType fnt = createFloatNoUnitType(pole.getReal());
 				p.setReal(fnt);
 
-				fnt = XmlUtils.createFloatNoUnitType(pole.getImaginary());
+				fnt = createFloatNoUnitType(pole.getImaginary());
 				p.setImaginary(fnt);
 
 				p.setNumber(BigInteger.valueOf(counter++));
@@ -170,13 +168,37 @@ public class PolesZerosMapper extends AbstractMapper {
 
 		if (pzs.getPole() != null) {
 			for (PoleZero pole : pzs.getPole()) {
-				edu.iris.dmc.seed.control.station.Number real = SeedUtils.createNumber(pole.getReal());
+				edu.iris.dmc.seed.control.station.Number real = createNumber(pole.getReal());
 
-				edu.iris.dmc.seed.control.station.Number imaginary = SeedUtils.createNumber(pole.getImaginary());
+				edu.iris.dmc.seed.control.station.Number imaginary = createNumber(pole.getImaginary());
 				Pole p = new Pole(real, imaginary);
 				b.add(p);
 			}
 		}
 		return b;
+	}
+
+	private static edu.iris.dmc.seed.control.station.Number createNumber(FloatNoUnitType fnt) {
+		if (fnt == null) {
+			return null;
+		}
+
+		double minus = Math.abs(fnt.getMinusError());
+		double plus = Math.abs(fnt.getPlusError());
+
+		double error = (plus > minus) ? plus : minus;
+
+		return new edu.iris.dmc.seed.control.station.Number(fnt.getValue(), error);
+	}
+
+	private static FloatNoUnitType createFloatNoUnitType(edu.iris.dmc.seed.control.station.Number number) {
+		if (number == null) {
+			return null;
+		}
+		FloatNoUnitType fnt = new FloatNoUnitType();
+		fnt.setValue(number.getValue());
+		fnt.setMinusError(number.getError());
+		fnt.setPlusError(number.getError());
+		return fnt;
 	}
 }

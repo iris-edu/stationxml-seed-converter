@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
@@ -25,7 +26,6 @@ import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.control.station.SeedResponseStage;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
-import edu.iris.dmc.station.util.SeedUtils;
 
 public class SeedToXmlConverterRunner {
 
@@ -37,7 +37,7 @@ public class SeedToXmlConverterRunner {
 		source = new File("/Users/Suleiman/dataless-archive/IU.dataless");
 		Volume volume;
 		try {
-			volume = SeedUtils.load(source);
+			volume = IrisUtil.readSeed(source);
 
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
 

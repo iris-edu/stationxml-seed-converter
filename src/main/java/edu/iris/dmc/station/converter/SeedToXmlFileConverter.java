@@ -10,11 +10,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.station.FileConverterException;
 import edu.iris.dmc.station.mapper.MetadataConverterException;
-import edu.iris.dmc.station.util.SeedUtils;
 
 public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File> {
 
@@ -38,7 +38,7 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 	public void convert(File source, File target, Map<String, String> args)
 			throws MetadataConverterException, IOException {
 		try (OutputStream stream = new FileOutputStream(target)) {
-			Volume volume = SeedUtils.load(source);
+			Volume volume = IrisUtil.readSeed(source);
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
 			marshal(document, stream);
 		} catch (Exception e) {

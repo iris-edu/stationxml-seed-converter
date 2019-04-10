@@ -10,6 +10,7 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
@@ -18,7 +19,6 @@ import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Volume;
-import edu.iris.dmc.station.util.XmlUtils;
 
 public class XmlSeedXmlTest {
 
@@ -27,18 +27,22 @@ public class XmlSeedXmlTest {
 		File source = new File(
 				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("CU_ANWB_BH2.xml").getFile());
 
-		final FDSNStationXML original = XmlUtils.load(source);
+		final FDSNStationXML original = IrisUtil.readXml(source);
+		
+		JAXBContext jContext = JAXBContext.newInstance(FDSNStationXML.class);
+	    //creating the marshaller object
+	    Marshaller marshallObj = jContext.createMarshaller();
+	    //setting the property to show xml format output
+	    marshallObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    
+		marshallObj.marshal(original, System.out);
 		Volume volume = XmlToSeedDocumentConverter.getInstance().convert(original);
 
 		final FDSNStationXML target = SeedToXmlDocumentConverter.getInstance().convert(volume);
 		
 		
 		
-		 JAXBContext jContext = JAXBContext.newInstance(FDSNStationXML.class);
-		    //creating the marshaller object
-		    Marshaller marshallObj = jContext.createMarshaller();
-		    //setting the property to show xml format output
-		    marshallObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		 
 		    //setting the values in POJO class
 
 		    //calling the marshall method

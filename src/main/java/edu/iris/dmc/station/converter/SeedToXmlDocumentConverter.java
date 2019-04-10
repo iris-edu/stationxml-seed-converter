@@ -63,6 +63,7 @@ import edu.iris.dmc.station.mapper.PolesZerosMapper;
 import edu.iris.dmc.station.mapper.PolynomialMapper;
 import edu.iris.dmc.station.mapper.ResponseListMapper;
 import edu.iris.dmc.station.mapper.StationMapper;
+import edu.iris.dmc.station.mapper.UnitsMapper;
 import edu.iris.dmc.station.util.TimeUtil;
 
 public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConverter<Volume, FDSNStationXML> {
@@ -136,10 +137,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 
 					B034 b03409 = (B034) volume.getDictionaryBlockette(34, b052.getUnitsOfCalibrationInput());
 					if (b03409 != null) {
-						Units units = new Units();
-						units.setName(b03409.getName());
-						units.setDescription(b03409.getDescription());
-						channel.setCalibrationUnits(units);
+						channel.setCalibrationUnits(UnitsMapper.map(b03409));
 					}
 
 					// Not needed for station xml
@@ -161,7 +159,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						Response response = new Response();
 						channel.setResponse(response);
 						for (SeedResponseStage seedStage : b052.getResponseStages()) {
-							
+
 							if (seedStage.getSequence() == 0) {
 								for (ResponseBlockette b : seedStage.getBlockettes()) {
 									final int type = b.getType();
@@ -186,18 +184,12 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										B034 b03405 = (B034) volume.getDictionaryBlockette(34,
 												b062.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											polynomial.setInputUnits(ut);
+											polynomial.setInputUnits(UnitsMapper.map(b03405));
 										}
 										B034 b03406 = (B034) volume.getDictionaryBlockette(34,
 												b062.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											polynomial.setOutputUnits(ut);
+											polynomial.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										response.setInstrumentPolynomial(polynomial);
 										break;
@@ -216,18 +208,12 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										B034 b03405 = (B034) volume.getDictionaryBlockette(34,
 												b053.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											polesZeros.setInputUnits(ut);
+											polesZeros.setInputUnits(UnitsMapper.map(b03405));
 										}
 										B034 b03406 = (B034) volume.getDictionaryBlockette(34,
 												b053.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											polesZeros.setOutputUnits(ut);
+											polesZeros.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(polesZeros);
 										break;
@@ -237,17 +223,11 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										Coefficients coefficients = CoefficientsMapper.map(b054);
 										b03405 = (B034) volume.getDictionaryBlockette(34, b054.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											coefficients.setInputUnits(ut);
+											coefficients.setInputUnits(UnitsMapper.map(b03405));
 										}
 										b03406 = (B034) volume.getDictionaryBlockette(34, b054.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											coefficients.setOutputUnits(ut);
+											coefficients.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(coefficients);
 										break;
@@ -257,17 +237,11 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										ResponseList responseList = ResponseListMapper.map(b055);
 										b03405 = (B034) volume.getDictionaryBlockette(34, b055.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											responseList.setInputUnits(ut);
+											responseList.setInputUnits(UnitsMapper.map(b03405));
 										}
 										b03406 = (B034) volume.getDictionaryBlockette(34, b055.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											responseList.setOutputUnits(ut);
+											responseList.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(responseList);
 										break;
@@ -345,17 +319,11 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										FIR fir = FirMapper.build(b061);
 										b03405 = (B034) volume.getDictionaryBlockette(34, b061.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											fir.setInputUnits(ut);
+											fir.setInputUnits(UnitsMapper.map(b03405));
 										}
 										b03406 = (B034) volume.getDictionaryBlockette(34, b061.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											fir.setOutputUnits(ut);
+											fir.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(fir);
 										break;
@@ -364,20 +332,17 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										Polynomial polynomial = PolynomialMapper.map(b062);
 										b03405 = (B034) volume.getDictionaryBlockette(34, b062.getSignalInputUnit());
 										if (b03405 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03405.getDescription());
-											ut.setName(b03405.getName());
-											polynomial.setInputUnits(ut);
+											polynomial.setInputUnits(UnitsMapper.map(b03405));
 										}
 										b03406 = (B034) volume.getDictionaryBlockette(34, b062.getSignalOutputUnit());
 										if (b03406 != null) {
-											Units ut = new Units();
-											ut.setDescription(b03406.getDescription());
-											ut.setName(b03406.getName());
-											polynomial.setOutputUnits(ut);
+											polynomial.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(polynomial);
 										break;
+									default:
+										throw new MetadataConverterException(
+												String.format("\"Unkown blockette type [%s]", type));
 									}
 								}
 							}

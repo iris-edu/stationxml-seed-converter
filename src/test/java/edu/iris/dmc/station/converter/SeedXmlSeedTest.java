@@ -12,20 +12,12 @@ import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
-import edu.iris.dmc.fdsn.station.model.Channel;
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
-import edu.iris.dmc.fdsn.station.model.Network;
-import edu.iris.dmc.fdsn.station.model.PoleZero;
-import edu.iris.dmc.fdsn.station.model.Response;
-import edu.iris.dmc.fdsn.station.model.ResponseStage;
-import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
-import edu.iris.dmc.seed.control.station.SeedResponseStage;
-import edu.iris.dmc.station.util.SeedUtils;
-import edu.iris.dmc.station.util.XmlUtils;
 
 public class SeedXmlSeedTest {
 
@@ -34,7 +26,7 @@ public class SeedXmlSeedTest {
 		File source = new File(
 				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("CU.VM_.dataless").getFile());
 
-		Volume original = SeedUtils.load(source);
+		Volume original = IrisUtil.readSeed(source);
 
 		FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(original);
 		

@@ -3,7 +3,6 @@ package edu.iris.dmc.station.util;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -21,6 +20,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
@@ -37,14 +37,18 @@ public class StationIterator implements Iterator<Station>, Closeable {
 
 	private InputStream inputStream;
 
-	public StationIterator(InputStream inputStream) throws XMLStreamException, JAXBException, ParseException {
+	public StationIterator(InputStream inputStream) throws IOException {
 		this.inputStream = inputStream;
 		XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
-		this.xmlEventReader = xmlFactory.createXMLEventReader(inputStream);
+		try {
+			this.xmlEventReader = xmlFactory.createXMLEventReader(inputStream);
 
-		JAXBContext jc = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
-		this.unmarshaller = jc.createUnmarshaller();
-		prepareNext();
+			JAXBContext jc = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
+			this.unmarshaller = jc.createUnmarshaller();
+			prepareNext();
+		} catch (XMLStreamException | JAXBException | ParseException e) {
+			throw new IOException(e);
+		}
 	}
 
 	@Override
@@ -98,12 +102,12 @@ public class StationIterator implements Iterator<Station>, Closeable {
 						} else if (attributeName.equals("startDate")) {
 							String startString = attribute.getValue();
 							if (startString != null) {
-								network.setStartDate(TimeUtil.toZonedDateTime(startString));
+								network.setStartDate(IrisUtil.toZonedDateTime(startString));
 							}
 						} else if (attributeName.equals("endDate")) {
 							String endString = attribute.getValue();
 							if (endString != null) {
-								network.setEndDate(TimeUtil.toZonedDateTime(endString));
+								network.setEndDate(IrisUtil.toZonedDateTime(endString));
 							}
 						} else {
 							// Do nothing for now
@@ -129,133 +133,6 @@ public class StationIterator implements Iterator<Station>, Closeable {
 			}
 		}
 
-	}
-
-	private void prepareNext1() {
-		// prepare the next station
-		try {
-			XMLEvent event = null;
-			while ((event = xmlEventReader.peek()) != null) {
-				System.out.println(event);
-				if (event.isStartElement()) {
-					StartElement startElement = (StartElement) event;
-					if (startElement.getName().getLocalPart().equals("FDSNStationXML")) {
-						root = new FDSNStationXML();
-						// we only peeked, get the actual one
-						startElement = (StartElement) xmlEventReader.nextEvent();
-						// Maybe parse attributes...
-						while ((event = xmlEventReader.peek()) != null) {
-							if (event.isStartElement()) {
-								startElement = (StartElement) event;
-								if (startElement.getName().getLocalPart().equals("Source")) {
-									event = xmlEventReader.nextEvent();
-									event = xmlEventReader.peek();
-									if (event != null && event.isCharacters()) {
-										event = xmlEventReader.nextEvent();
-										root.setSource(event.asCharacters().getData());
-									}
-								} else if (startElement.getName().getLocalPart().equals("Sender")) {
-									event = xmlEventReader.nextEvent();
-									event = xmlEventReader.peek();
-									if (event != null && event.isCharacters()) {
-										event = xmlEventReader.nextEvent();
-										root.setSender(event.asCharacters().getData());
-									}
-								} else if (startElement.getName().getLocalPart().equals("Module")) {
-									event = xmlEventReader.nextEvent();
-									event = xmlEventReader.peek();
-									if (event != null && event.isCharacters()) {
-										event = xmlEventReader.nextEvent();
-										root.setModule(event.asCharacters().getData());
-									}
-								} else if (startElement.getName().getLocalPart().equals("ModuleURI")) {
-									event = xmlEventReader.nextEvent();
-									event = xmlEventReader.peek();
-									if (event != null && event.isCharacters()) {
-										event = xmlEventReader.nextEvent();
-										root.setModuleURI(event.asCharacters().getData());
-									}
-
-								} else if (startElement.getName().getLocalPart().equals("Created")) {
-									event = xmlEventReader.nextEvent();
-									event = xmlEventReader.peek();
-									if (event != null && event.isCharacters()) {
-										event = xmlEventReader.nextEvent();
-										// root.setCreated(TimeUtil.toZonedDateTime(event.asCharacters().getData()));
-									}
-								} else {
-									break;
-								}
-							} else {
-								xmlEventReader.nextEvent();
-							}
-						} // END WHILE FOR ROOT
-					} else if (startElement.getName().getLocalPart().equals("Network")) {
-						network = new Network();
-						network.setRootDocument(root);
-						Iterator<Attribute> attributes = startElement.getAttributes();
-						while (attributes.hasNext()) {
-							Attribute attribute = attributes.next();
-							String attributeName = attribute.getName().getLocalPart();
-							if (attributeName.equals("code")) {
-								network.setCode(attribute.getValue());
-							} else if (attributeName.equals("startDate")) {
-								String startString = attribute.getValue();
-								if (startString != null) {
-									network.setStartDate(TimeUtil.toZonedDateTime(startString));
-								}
-							} else if (attributeName.equals("endDate")) {
-								String endString = attribute.getValue();
-								if (endString != null) {
-									network.setEndDate(TimeUtil.toZonedDateTime(endString));
-								}
-							} else {
-								// Do nothing for now
-							}
-						}
-						xmlEventReader.next();
-					} else if (startElement.getName().getLocalPart().equals("Description")) {
-						xmlEventReader.nextEvent();
-						network.setDescription(xmlEventReader.getElementText());
-
-					} else if (startElement.getName().getLocalPart().equals("TotalNumberStations")) {
-						xmlEventReader.nextEvent();
-						String tnos = xmlEventReader.getElementText();
-						if (tnos != null) {
-							network.setTotalNumberStations(new BigInteger(tnos));
-						}
-
-					} else if (startElement.getName().getLocalPart().equals("SelectedNumberStations")) {
-						xmlEventReader.nextEvent();
-						String tnos = xmlEventReader.getElementText();
-						if (tnos != null) {
-							network.setSelectedNumberStations(new BigInteger(tnos));
-						}
-
-					} else if (startElement.getName().getLocalPart().equals("Station")) {
-						JAXBElement<Station> stationElement = unmarshaller.unmarshal(xmlEventReader,
-								edu.iris.dmc.fdsn.station.model.Station.class);
-						Station station = stationElement.getValue();
-						station.setNetwork(network);
-						queue.add(station);
-						break;
-					} else {
-						xmlEventReader.next();
-					}
-				} else {
-					xmlEventReader.next();
-				}
-			}
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override

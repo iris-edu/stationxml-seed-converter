@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
@@ -17,8 +15,7 @@ import edu.iris.dmc.station.mapper.MetadataConverterException;
 public class Application {
 
 	private static final Logger logger = Logger.getLogger(Application.class.getName());
-	// private static ResourceBundle rb =
-	// ResourceBundle.getBundle("application");
+
 	private boolean debug;
 
 	public static void main(String[] args) throws Exception {
@@ -50,7 +47,6 @@ public class Application {
 				help();
 				System.exit(0);
 			} else if ("--prettyprint".equals(arg) || "-p".equals(arg)) {
-				// config.put("prettyprint", "true");
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
@@ -63,7 +59,7 @@ public class Application {
 				logger.log(Level.SEVERE, "Unkown argument: [" + args[i] + "]");
 				System.err.println("Unkown argument: [" + args[i] + "]");
 				help();
-				System.exit(0);
+				System.exit(1);
 			}
 		}
 
@@ -78,7 +74,6 @@ public class Application {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			exitWithError(e);
 		}
 	}
@@ -127,7 +122,6 @@ public class Application {
 	}
 
 	private static void exitWithError(Exception e) {
-		e.printStackTrace();
 		exitWithError(e.getMessage());
 	}
 

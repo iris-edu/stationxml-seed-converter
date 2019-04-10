@@ -1,10 +1,11 @@
 package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.Latitude;
+import edu.iris.dmc.seed.SeedException;
 
 public class LatitudeMapper extends AbstractMapper {
 
-	public static Latitude build(Double latitude) throws Exception {
+	public static Latitude build(Double latitude) throws SeedException {
 		if (latitude == null) {
 			return null;
 		}

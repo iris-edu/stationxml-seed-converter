@@ -1,8 +1,6 @@
 package edu.iris.dmc.station.converter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,19 +15,10 @@ import org.junit.Test;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
-import edu.iris.dmc.fdsn.station.model.Response;
 import edu.iris.dmc.fdsn.station.model.Sensitivity;
 import edu.iris.dmc.fdsn.station.model.Station;
-import edu.iris.dmc.seed.BTime;
-import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Volume;
-import edu.iris.dmc.seed.control.station.B050;
-import edu.iris.dmc.seed.control.station.B051;
-import edu.iris.dmc.seed.control.station.B052;
-import edu.iris.dmc.seed.control.station.B057;
-import edu.iris.dmc.seed.control.station.ResponseBlockette;
-import edu.iris.dmc.station.util.SeedUtils;
-import edu.iris.dmc.station.util.XmlUtils;
+
 
 public class UsgsAnmoConverterTest {
 

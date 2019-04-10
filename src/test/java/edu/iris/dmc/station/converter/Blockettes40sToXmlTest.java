@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
@@ -16,7 +17,6 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
-import edu.iris.dmc.station.util.SeedUtils;
 
 public class Blockettes40sToXmlTest {
 
@@ -29,7 +29,7 @@ public class Blockettes40sToXmlTest {
 
 		Volume volume;
 		try {
-			volume = SeedUtils.load(source);
+			volume = IrisUtil.readSeed(source);
 
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
 			Volume other = XmlToSeedDocumentConverter.getInstance().convert(document);

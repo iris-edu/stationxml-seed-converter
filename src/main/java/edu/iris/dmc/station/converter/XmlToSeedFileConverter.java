@@ -11,11 +11,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
-import edu.iris.dmc.FileUtils;
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Comment;
 import edu.iris.dmc.fdsn.station.model.Equipment;
@@ -45,12 +43,9 @@ import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
-import edu.iris.dmc.seed.control.station.OverFlowBlockette;
 import edu.iris.dmc.seed.io.BlocketteOutputStream;
-import edu.iris.dmc.seed.io.SeedRecordOutputStream;
 import edu.iris.dmc.seed.writer.SeedFileWriter;
 import edu.iris.dmc.station.ChannelCommentToBlocketteMapper;
-import edu.iris.dmc.station.UnitToBlocketteMapper;
 import edu.iris.dmc.station.mapper.ChannelBlocketteMapper;
 import edu.iris.dmc.station.mapper.CoefficientsMapper;
 import edu.iris.dmc.station.mapper.DecimationMapper;
@@ -63,6 +58,7 @@ import edu.iris.dmc.station.mapper.SensitivityToBlocketteMapper;
 import edu.iris.dmc.station.mapper.StageGainToBlocketteMapper;
 import edu.iris.dmc.station.mapper.StationBlocketteMapper;
 import edu.iris.dmc.station.mapper.StationCommentToBlocketteMapper;
+import edu.iris.dmc.station.mapper.UnitsMapper;
 import edu.iris.dmc.station.util.StationIterator;
 
 public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File> {
@@ -73,8 +69,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		return INSTANCE;
 	}
 
-	public void convertLarge(File source, File target, Map<String, String> args)
-			throws MetadataConverterException, IOException {
+	public void convertLarge(File source, File target, Map<String, String> args) throws IOException {
 		int recordSize = 4096;
 		Map<String, Integer> map = new HashMap<>();
 		B010 b010 = new B010();
@@ -84,16 +79,9 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		File stationTempFile = File.createTempFile("station", "dataless.temp");
 		stationTempFile.deleteOnExit();
 
-		/*
-		 * try (StationIterator it = FileUtils.stationIterator(source);
-		 * SeedRecordOutputStream out = new SeedRecordOutputStream(new
-		 * FileOutputStream(stationTempFile), recordSize)) {
-		 */
-		try (StationIterator it = FileUtils.stationIterator(source);
+		try (StationIterator it = IrisUtil.newStationIterator(source);
 				BlocketteOutputStream out = new BlocketteOutputStream(new FileOutputStream(stationTempFile),
 						recordSize)) {
-			// Path tempSeed = Files.createTempFile("", ".dataless");
-
 			while (it.hasNext()) {
 				Station station = it.next();
 				logger.log(Level.FINE, "processing: " + station.getCode() + "...");
@@ -189,11 +177,11 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 							B034 b03408 = null;
 							if (channel.getResponse().getInstrumentSensitivity() != null
 									&& channel.getResponse().getInstrumentSensitivity().getInputUnits() != null) {
-								b03408 = UnitToBlocketteMapper
+								b03408 = UnitsMapper
 										.map(channel.getResponse().getInstrumentSensitivity().getInputUnits());
 							} else if (channel.getResponse().getInstrumentPolynomial() != null
 									&& channel.getResponse().getInstrumentPolynomial().getInputUnits() != null) {
-								b03408 = UnitToBlocketteMapper
+								b03408 = UnitsMapper
 										.map(channel.getResponse().getInstrumentPolynomial().getInputUnits());
 							} else {
 								// throw exception
@@ -204,7 +192,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 							}
 
 							if (channel.getCalibrationUnits() != null) {
-								B034 b03409 = UnitToBlocketteMapper.map(channel.getCalibrationUnits());
+								B034 b03409 = UnitsMapper.map(channel.getCalibrationUnits());
 								b03409 = (B034) dictionary.put(b03409);
 								b052.setUnitsOfCalibrationInput(b03409.getLookupKey());
 							}
@@ -215,14 +203,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 									if (stage.getPolesZeros() != null) {
 										B053 b053 = PolesZerosMapper.map(stage.getPolesZeros());
 										if (stage.getPolesZeros().getInputUnits() != null) {
-											B034 b03405 = UnitToBlocketteMapper
-													.map(stage.getPolesZeros().getInputUnits());
+											B034 b03405 = UnitsMapper.map(stage.getPolesZeros().getInputUnits());
 											b03405 = (B034) dictionary.put(b03405);
 											b053.setSignalInputUnit(b03405.getLookupKey());
 										}
 										if (stage.getPolesZeros().getOutputUnits() != null) {
-											B034 b03406 = UnitToBlocketteMapper
-													.map(stage.getPolesZeros().getOutputUnits());
+											B034 b03406 = UnitsMapper.map(stage.getPolesZeros().getOutputUnits());
 											b03406 = (B034) dictionary.put(b03406);
 											b053.setSignalOutputUnit(b03406.getLookupKey());
 										}
@@ -232,14 +218,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 									if (stage.getCoefficients() != null) {
 										B054 b054 = CoefficientsMapper.map(stage.getCoefficients());
 										if (stage.getCoefficients().getInputUnits() != null) {
-											B034 b03405 = UnitToBlocketteMapper
-													.map(stage.getCoefficients().getInputUnits());
+											B034 b03405 = UnitsMapper.map(stage.getCoefficients().getInputUnits());
 											b03405 = (B034) dictionary.put(b03405);
 											b054.setSignalInputUnit(b03405.getLookupKey());
 										}
 										if (stage.getCoefficients().getOutputUnits() != null) {
-											B034 b03406 = UnitToBlocketteMapper
-													.map(stage.getCoefficients().getOutputUnits());
+											B034 b03406 = UnitsMapper.map(stage.getCoefficients().getOutputUnits());
 											b03406 = (B034) dictionary.put(b03406);
 											b054.setSignalOutputUnit(b03406.getLookupKey());
 										}
@@ -265,12 +249,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 									if (stage.getFIR() != null) {
 										B061 b061 = FirToBlocketteMapper.map(stage.getFIR());
 										if (stage.getFIR().getInputUnits() != null) {
-											B034 b03406 = UnitToBlocketteMapper.map(stage.getFIR().getInputUnits());
+											B034 b03406 = UnitsMapper.map(stage.getFIR().getInputUnits());
 											b03406 = (B034) dictionary.put(b03406);
 											b061.setSignalInputUnit(b03406.getLookupKey());
 										}
 										if (stage.getFIR().getOutputUnits() != null) {
-											B034 b03407 = UnitToBlocketteMapper.map(stage.getFIR().getOutputUnits());
+											B034 b03407 = UnitsMapper.map(stage.getFIR().getOutputUnits());
 											b03407 = (B034) dictionary.put(b03407);
 											b061.setSignalOutputUnit(b03407.getLookupKey());
 										}
@@ -281,14 +265,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 									if (stage.getPolynomial() != null) {
 										B062 b062 = PolynomialMapper.map(stage.getPolynomial());
 										if (stage.getPolynomial().getInputUnits() != null) {
-											B034 b03406 = UnitToBlocketteMapper
-													.map(stage.getPolynomial().getInputUnits());
+											B034 b03406 = UnitsMapper.map(stage.getPolynomial().getInputUnits());
 											b03406 = (B034) dictionary.put(b03406);
 											b062.setSignalInputUnit(b03406.getLookupKey());
 										}
 										if (stage.getPolynomial().getOutputUnits() != null) {
-											B034 b03407 = UnitToBlocketteMapper
-													.map(stage.getPolynomial().getOutputUnits());
+											B034 b03407 = UnitsMapper.map(stage.getPolynomial().getOutputUnits());
 											b03407 = (B034) dictionary.put(b03407);
 											b062.setSignalOutputUnit(b03407.getLookupKey());
 										}
@@ -316,12 +298,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 							if (polynomial != null) {
 								B062 b062 = PolynomialMapper.map(polynomial);
 								if (polynomial.getInputUnits() != null) {
-									B034 b03406 = UnitToBlocketteMapper.map(polynomial.getInputUnits());
+									B034 b03406 = UnitsMapper.map(polynomial.getInputUnits());
 									b03406 = (B034) dictionary.put(b03406);
 									b062.setSignalInputUnit(b03406.getLookupKey());
 								}
 								if (polynomial.getOutputUnits() != null) {
-									B034 b03407 = UnitToBlocketteMapper.map(polynomial.getOutputUnits());
+									B034 b03407 = UnitsMapper.map(polynomial.getOutputUnits());
 									b03407 = (B034) dictionary.put(b03407);
 									b062.setSignalOutputUnit(b03407.getLookupKey());
 								}
@@ -334,7 +316,6 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				}
 			}
 		} catch (SeedException e) {
-			e.printStackTrace();
 			throw new MetadataConverterException(e);
 		}
 
@@ -347,7 +328,6 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				dictionarySequence = a.write(b);
 			}
 		}
-		System.out.println("Finished writing temperoray dictionary file.");
 
 		logger.log(Level.INFO, "Writing the dataless file " + target.getAbsolutePath());
 		try (BlocketteOutputStream theFile = new BlocketteOutputStream(new FileOutputStream(target))) {
@@ -361,7 +341,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 			theFile.write(b010);
 			int startSequence = theFile.write(b011);
-			logger.log(Level.INFO, "Finished writing b011 at sequence#" + startSequence);
+
 			// copy dictionary
 			try (InputStream is = new FileInputStream(dictionaryTempFile)) {
 				byte[] bytes = new byte[recordSize];
@@ -372,8 +352,6 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 					theFile.writeRaw(bytes);
 					startSequence++;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 			// copy station
 			try (InputStream is = new FileInputStream(stationTempFile)) {
@@ -385,11 +363,8 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 					startSequence++;
 				}
 			}
-			// delete temp
-			System.out.println("Finished writing dataless file.");
 		} catch (SeedException e) {
-			e.printStackTrace();
-			throw new MetadataConverterException(e);
+			throw new IOException(e);
 		}
 		if (stationTempFile != null) {
 			stationTempFile.delete();
@@ -397,13 +372,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 	}
 
 	@Override
-	public void convert(File source, File target) throws MetadataConverterException, IOException {
+	public void convert(File source, File target) throws IOException {
 		this.convert(source, target, null);
 	}
 
 	@Override
-	public void convert(File source, File target, Map<String, String> args)
-			throws MetadataConverterException, IOException {
+	public void convert(File source, File target, Map<String, String> args) throws IOException {
 		if (args != null) {
 			String large = args.get("large");
 			if (large != null && Boolean.valueOf(large)) {
@@ -411,38 +385,21 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				return;
 			}
 		}
-
 		FDSNStationXML document = null;
-		SeedFileWriter writer = null;
+		Volume volume = null;
 		try {
-			document = load(source);
-			Volume volume = XmlToSeedDocumentConverter.getInstance().convert(document);
+			document = IrisUtil.readXml(source);
+			volume = XmlToSeedDocumentConverter.getInstance().convert(document);
 			volume.build();
-			int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
-			writer = new SeedFileWriter(target, logicalrecordLength);
-			writer.write(volume);
-		} catch (JAXBException e) {
+		} catch (JAXBException | SeedException e) {
 			throw new IOException(e);
-		} catch (SeedException e) {
-			throw new MetadataConverterException(e);
-		} finally {
-			if (writer != null) {
-				writer.close();
-			}
 		}
 
-	}
-
-	public FDSNStationXML load(File file) throws IOException, JAXBException {
-		try (final FileInputStream inputStream = new FileInputStream(file)) {
-			return load(inputStream);
+		int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
+		try (SeedFileWriter writer = new SeedFileWriter(target, logicalrecordLength)) {
+			writer.write(volume);
 		}
-	}
 
-	public FDSNStationXML load(InputStream inputStream) throws IOException, JAXBException {
-		JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		return (FDSNStationXML) jaxbUnmarshaller.unmarshal(inputStream);
 	}
 
 }
