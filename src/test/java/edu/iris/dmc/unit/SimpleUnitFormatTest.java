@@ -2,6 +2,7 @@ package edu.iris.dmc.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
@@ -42,9 +43,17 @@ public class SimpleUnitFormatTest {
 
 		u = instance.parse(null);
 
-		assertNotNull(u);
-		assertEquals("unknown", u.getName());
+		assertNull(u);
 
+	}
+	
+	@Test
+	public void volts() throws Exception {
+		SimpleUnitFormat instance = SimpleUnitFormat.getInstance();
+		Units u = instance.parse("V");
+
+		assertNotNull(u);
+		assertEquals("V", u.getName());
 	}
 	
 	@Test
