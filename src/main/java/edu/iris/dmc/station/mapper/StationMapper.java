@@ -1,12 +1,12 @@
 package edu.iris.dmc.station.mapper;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Distance;
 import edu.iris.dmc.fdsn.station.model.ObjectFactory;
 import edu.iris.dmc.fdsn.station.model.Site;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.control.station.B050;
-import edu.iris.dmc.station.util.TimeUtil;
 
 public class StationMapper {
 	private static ObjectFactory factory = new ObjectFactory();
@@ -21,13 +21,13 @@ public class StationMapper {
 		BTime bTime = blockette.getStartTime();
 
 		if (bTime != null) {
-			station.setCreationDate(TimeUtil.toZonedDateTime(bTime));
-			station.setStartDate(TimeUtil.toZonedDateTime(bTime));
+			station.setCreationDate(IrisUtil.toZonedDateTime(bTime));
+			station.setStartDate(IrisUtil.toZonedDateTime(bTime));
 		}
 
 		bTime = blockette.getEndTime();
 		if (bTime != null) {
-			station.setEndDate(TimeUtil.toZonedDateTime(bTime));
+			station.setEndDate(IrisUtil.toZonedDateTime(bTime));
 		}
 
 		station.setLatitude(LatitudeMapper.build(blockette.getLatitude()));

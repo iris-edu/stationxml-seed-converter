@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.seed.BTime;
 
 public class TimeUtilTest {
@@ -13,7 +14,7 @@ public class TimeUtilTest {
 	public void toTime() throws Exception {
 		BTime bTime = new BTime(2000, 1, 10, 10, 10, 10);
 		System.out.println(bTime.toSeedString());
-		ZonedDateTime zonedDateTime = TimeUtil.toZonedDateTime(bTime);
+		ZonedDateTime zonedDateTime = IrisUtil.toZonedDateTime(bTime);
 		System.out.println(bTime.toSeedString()+"    "+zonedDateTime);
 	}
 	// @Test

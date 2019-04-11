@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.Coefficients;
 import edu.iris.dmc.fdsn.station.model.Comment;
@@ -64,7 +65,6 @@ import edu.iris.dmc.station.mapper.PolynomialMapper;
 import edu.iris.dmc.station.mapper.ResponseListMapper;
 import edu.iris.dmc.station.mapper.StationMapper;
 import edu.iris.dmc.station.mapper.UnitsMapper;
-import edu.iris.dmc.station.util.TimeUtil;
 
 public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConverter<Volume, FDSNStationXML> {
 
@@ -84,7 +84,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 		FDSNStationXML document = new FDSNStationXML();
 		try {
 			document.setSource("IRIS-DMC");
-			document.setCreated(TimeUtil.now());
+			document.setCreated(IrisUtil.now());
 			document.setSchemaVersion(BigDecimal.valueOf(1.0));
 			document.setModule("IRIS converter | version: ");
 			document.setModuleURI("https://seiscode.iris.washington.edu/projects/stationxml-converter/wiki");
