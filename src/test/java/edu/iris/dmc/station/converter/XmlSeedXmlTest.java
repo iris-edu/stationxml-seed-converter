@@ -78,7 +78,7 @@ public class XmlSeedXmlTest {
 		assertNotNull(stage1.getPolesZeros());
 
 		assertNotNull(stage1.getPolesZeros().getInputUnits());
-		assertEquals("M/S", stage1.getPolesZeros().getInputUnits().getName());
+		assertEquals("m/s", stage1.getPolesZeros().getInputUnits().getName());
 		assertNotNull(stage1.getPolesZeros().getOutputUnits());
 		assertEquals("V", stage1.getPolesZeros().getOutputUnits().getName());
 

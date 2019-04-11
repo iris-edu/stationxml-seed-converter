@@ -94,8 +94,8 @@ public class Application {
 				return;
 			}
 			MetadataFileFormatConverter<File> converter = null;
-			String extension = fileExtension(source);
-			if ("xml".equalsIgnoreCase(extension)) {
+			String extension = null;
+			if (source.getName().toLowerCase().endsWith("xml")) {
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 			} else {
@@ -119,16 +119,6 @@ public class Application {
 				exitWithError(e);
 			}
 		}
-	}
-
-	private String fileExtension(File file) throws UnkownFileTypeException {
-		Objects.requireNonNull(file, "File cannot be null");
-		String name = file.getName();
-		int index = name.lastIndexOf(".");
-		if (index < 0) {
-			throw new UnkownFileTypeException("Cannot read file extension");
-		}
-		return name.substring(index);
 	}
 
 	private static void exitWithError(Exception e) {

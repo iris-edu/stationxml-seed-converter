@@ -305,7 +305,6 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 					}
 				}
 			}
-			System.out.println("Building volume...");
 			volume.build();
 		} catch (InvalidUnitException e) {
 			throw new MetadataConverterException(e);
