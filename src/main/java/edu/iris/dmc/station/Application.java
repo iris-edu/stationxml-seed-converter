@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,12 +38,11 @@ public class Application {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				/*Logger rootLogger = LogManager.getLogManager().getLogger("");
-				rootLogger.setLevel(Level.INFO);
-				for (Handler h : rootLogger.getHandlers()) {
-					h.setLevel(Level.INFO);
-				}
-				logger.log(Level.FINEST, "SEED >< XML CONVERTER");*/
+				/*
+				 * Logger rootLogger = LogManager.getLogManager().getLogger("");
+				 * rootLogger.setLevel(Level.INFO); for (Handler h : rootLogger.getHandlers()) {
+				 * h.setLevel(Level.INFO); } logger.log(Level.FINEST, "SEED >< XML CONVERTER");
+				 */
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
@@ -79,7 +79,7 @@ public class Application {
 	}
 
 	private void convert(File source, File target, Map<String, String> map)
-			throws MetadataConverterException, IOException {
+			throws MetadataConverterException, IOException, UnkownFileTypeException {
 		if (source == null || source.isHidden()) {
 			return;
 		}
@@ -94,8 +94,8 @@ public class Application {
 				return;
 			}
 			MetadataFileFormatConverter<File> converter = null;
-			String extension = null;
-			if (source.getName().endsWith("xml")) {
+			String extension = fileExtension(source);
+			if ("xml".equalsIgnoreCase(extension)) {
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 			} else {
@@ -119,6 +119,16 @@ public class Application {
 				exitWithError(e);
 			}
 		}
+	}
+
+	private String fileExtension(File file) throws UnkownFileTypeException {
+		Objects.requireNonNull(file, "File cannot be null");
+		String name = file.getName();
+		int index = name.lastIndexOf(".");
+		if (index < 0) {
+			throw new UnkownFileTypeException("Cannot read file extension");
+		}
+		return name.substring(index);
 	}
 
 	private static void exitWithError(Exception e) {
