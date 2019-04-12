@@ -7,7 +7,7 @@ Releases of the stationxml-seed-converter can be downloaded from the project rel
 
 [https://github.com/iris-edu/stationxml-seed-converter/releases](https://github.com/iris-edu/stationxml-seed-converter/releases)
 
-The compiled .jar may be used immediately.
+The compiled .jar may be used immediately and is compatible with Java 8 and Java 11.
 
 ### Basic Usage:
 
