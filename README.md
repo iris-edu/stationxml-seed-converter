@@ -1,5 +1,5 @@
 # stationxml-seed-converter
-Complete documentation for the dataless-xml-converter is found in the [user guide](https://iris-edu.github.io/stationxml-seed-converter/). 
+Complete documentation for the stationxml-seed-converter can be found in its [user guide](https://iris-edu.github.io/stationxml-seed-converter/). 
 
 ### Downloading releases
 
@@ -11,10 +11,10 @@ The compiled .jar may be used immediately and is compatible with Java 8 and Java
 
 ### Basic Usage:
 
-`java -jar stationxml-seed-converter-2.0.3-SNAPSHOT.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
+`java -jar stationxml-seed-converter-2.1.0-SNAPSHOT.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
 
-`java -jar PATH/TO/stationxml-seed-converter-2.0.3-SNAPSHOT.jar --input /PATH/TO/XML_file.xml --output /PATH/TO/XML_file.dataless`
+`java -jar /PATH/TO/stationxml-seed-converter-2.1.0-SNAPSHOT.jar --input /PATH/TO/XML_file.xml --output /PATH/TO/XML_file.dataless`
 
-`java -jar /PATH/TO/stationxml-seed-converter-2.0.3-SNAPSHOT.jar --input /PATH/TO/XML_directory --output /PATH/TO/XD_Directory/xml.converted.dataless`
+`java -jar /PATH/TO/stationxml-seed-converter-2.1.0-SNAPSHOT.jar --input /PATH/TO/XML_directory --output /PATH/TO/XD_Directory/xml.converted.dataless`
 
-`java -jar /PATH/TO/stationxml-seed-converter-2.0.3-SNAPSHOT.jar --input /PATH/TO/Dataless_directory --output /PATH/TO/DX_Directory/dataless.converted.xml`
+`java -jar /PATH/TO/stationxml-seed-converter-2.1.0-SNAPSHOT.jar --input /PATH/TO/Dataless_directory --output /PATH/TO/DX_Directory/dataless.converted.xml`
