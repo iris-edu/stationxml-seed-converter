@@ -19,17 +19,17 @@
 	<repositories>
 		<repository>
 			<id>ossrhsnap</id>
+			<name>ossrhsnap</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</snapshots>
 			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
 			</releases>
 		</repository>
-
 		<repository>
 			<id>ossrh</id>
 			<name>ossrh</name>
@@ -43,8 +43,6 @@
 				<updatePolicy>always</updatePolicy>
 			</releases>
 		</repository>
-
-
 	</repositories>
 
 	<build>
@@ -140,12 +138,12 @@
 	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
-			<id>ossrh</id>
+			<id>ossrhsnap</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
 		</repository>
 	</distributionManagement>
 </project>
