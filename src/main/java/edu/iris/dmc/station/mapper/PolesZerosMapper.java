@@ -115,6 +115,7 @@ public class PolesZerosMapper extends AbstractMapper {
 			}
 		}
 
+		counter = 0;
 		if (b.getPoles() != null) {
 			for (Pole pole : b.getPoles()) {
 				PoleZero p = factory.createPoleZeroType();
