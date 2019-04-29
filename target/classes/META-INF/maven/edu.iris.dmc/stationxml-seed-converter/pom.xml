@@ -127,11 +127,6 @@
 			<version>2.9.8</version>
 		</dependency>
 
-		<dependency>
-			<groupId>tec.units</groupId>
-			<artifactId>unit-ri</artifactId>
-			<version>1.0.3</version>
-		</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/junit/junit -->

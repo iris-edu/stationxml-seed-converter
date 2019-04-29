@@ -15,7 +15,7 @@ import edu.iris.dmc.fdsn.station.model.Decimation;
 import edu.iris.dmc.fdsn.station.model.Equipment;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.FIR;
-import edu.iris.dmc.fdsn.station.model.Filter;
+import edu.iris.dmc.fdsn.station.model.ResponseType;
 import edu.iris.dmc.fdsn.station.model.Gain;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.PolesZeros;
@@ -307,7 +307,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 															PolynomialMapper.map((B042) referenceBlockette));
 													break;
 												default:
-													Filter filter = FilterBuilder.build(referenceBlockette);
+													ResponseType filter = FilterBuilder.build(referenceBlockette);
 													stage.add(filter);
 													break;
 												}
