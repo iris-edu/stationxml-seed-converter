@@ -91,6 +91,18 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- https://central.sonatype.org/pages/apache-maven.html -->
+			<plugin>
+             <groupId>org.sonatype.plugins</groupId>
+             <artifactId>nexus-staging-maven-plugin</artifactId>
+             <version>1.6.7</version>
+             <extensions>true</extensions>
+             <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+             </configuration>
+            </plugin>	
 		</plugins>
 	</build>
 	<dependencies>
@@ -139,7 +151,6 @@
 	 <distributionManagement>
 		<repository>
 			<id>ossrh</id>
-            <!-- <url>https://oss.sonatype.org/content/repositories/releases</url> -->
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
 		<snapshotRepository>
