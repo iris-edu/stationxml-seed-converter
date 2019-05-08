@@ -52,7 +52,7 @@ public class SimpleUnitFormat {
 		}
 		String key = dictionary.get(text.toLowerCase());
 		if (key == null) {
-			throw new InvalidUnitException("Unkown unit :" + text);
+			key=text;//throw new InvalidUnitException("Unkown unit :" + text);
 		}
 		Units u = new Units();
 		u.setName(key);

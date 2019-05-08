@@ -25,10 +25,9 @@ public class UnitsMapper extends AbstractMapper {
 	
 	public static B034 map(Units units) throws InvalidUnitException {
 		Objects.requireNonNull(units, "Units cannot be null");
-		units.getName();
-		units.getDescription();
+		Objects.requireNonNull(units.getName(), "Unit name cannot be null");
 		B034 b = new B034();
-		b.setName(units.getName());
+		b.setName(units.getName().toUpperCase());
 		b.setDescription(units.getDescription());
 
 		return b;
