@@ -23,6 +23,7 @@ import edu.iris.dmc.fdsn.station.model.Polynomial;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.io.SeedFormatter;
+import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Dictionary;
 import edu.iris.dmc.seed.SeedException;
@@ -73,6 +74,10 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		int recordSize = 4096;
 		Map<String, Integer> map = new HashMap<>();
 		B010 b010 = new B010();
+		b010.setVolumeTime(BTime.now());
+		b010.setOrganization("IRIC DMC");
+		b010.setVersion("V2.4");
+		b010.setLabel("Converted from XML");
 		Dictionary dictionary = new Dictionary();
 		logger.log(Level.FINER, "Writing temperoray station file...");
 
