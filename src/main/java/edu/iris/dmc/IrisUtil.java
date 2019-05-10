@@ -108,7 +108,7 @@ public class IrisUtil {
 	}
 
 	public static ZonedDateTime toZonedDateTime(String source) {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").withZone(ZoneId.of("UTC"));
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[z]").withZone(ZoneId.of("UTC"));
 		return ZonedDateTime.parse(source, format);
 	}
 

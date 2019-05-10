@@ -279,12 +279,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										out.write(b062);
 									}
 								}
-								if (channel.getResponse().getInstrumentSensitivity() != null) {
+								/*if (channel.getResponse().getInstrumentSensitivity() != null) {
 									B058 b058 = InstrumentSensitivityToBlocketteMapper
 											.map(channel.getResponse().getInstrumentSensitivity());
 									b058.setStageSequence(0);
 									out.write(b058);
-								}
+								}*/
 							}
 							// stage zero
 
@@ -292,6 +292,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 								B058 b058 = SensitivityToBlocketteMapper
 										.map(channel.getResponse().getInstrumentSensitivity());
 								b058.setStageSequence(0);
+								out.write(b058);
 							}
 
 							Polynomial polynomial = channel.getResponse().getInstrumentPolynomial();
