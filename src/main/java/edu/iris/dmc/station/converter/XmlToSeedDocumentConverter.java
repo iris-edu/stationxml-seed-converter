@@ -68,7 +68,7 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 			// b010.setEndTime(endTime);
 			b010.setVolumeTime(BTime.now());
 			b010.setOrganization("IRIC DMC");
-			b010.setVersion("V2.4");
+			b010.setVersion("02.4");
 			b010.setLabel("Converted from XML");
 			volume.add(b010);
 

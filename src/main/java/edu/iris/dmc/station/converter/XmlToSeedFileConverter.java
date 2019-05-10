@@ -76,7 +76,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		B010 b010 = new B010();
 		b010.setVolumeTime(BTime.now());
 		b010.setOrganization("IRIC DMC");
-		b010.setVersion("V2.4");
+		b010.setVersion("02.4");
 		b010.setLabel("Converted from XML");
 		Dictionary dictionary = new Dictionary();
 		logger.log(Level.FINER, "Writing temperoray station file...");
