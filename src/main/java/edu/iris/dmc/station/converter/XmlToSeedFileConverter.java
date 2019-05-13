@@ -284,12 +284,12 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										out.write(b062);
 									}
 								}
-								/*if (channel.getResponse().getInstrumentSensitivity() != null) {
-									B058 b058 = InstrumentSensitivityToBlocketteMapper
-											.map(channel.getResponse().getInstrumentSensitivity());
-									b058.setStageSequence(0);
-									out.write(b058);
-								}*/
+								/*
+								 * if (channel.getResponse().getInstrumentSensitivity() != null) { B058 b058 =
+								 * InstrumentSensitivityToBlocketteMapper
+								 * .map(channel.getResponse().getInstrumentSensitivity());
+								 * b058.setStageSequence(0); out.write(b058); }
+								 */
 							}
 							// stage zero
 
@@ -325,32 +325,37 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			throw new MetadataConverterException(e);
 		}
 
-		int dictionarySequence = 0;
+		// We need to build b011 and find out the b050s actual sequences
+		int numberOfDictionaryRecords = 0;
 		File dictionaryTempFile = File.createTempFile("dictionary", "dataless.temp");
 		dictionaryTempFile.deleteOnExit();
 		logger.log(Level.FINE, "Writing temperoray dictionary file [" + dictionaryTempFile.getAbsolutePath() + "]");
 		try (BlocketteOutputStream a = new BlocketteOutputStream(new FileOutputStream(dictionaryTempFile))) {
 			for (Blockette b : dictionary.getAll()) {
-				dictionarySequence = a.write(b);
+				numberOfDictionaryRecords = a.write(b);
 			}
 		}
+		
 
 		logger.log(Level.INFO, "Writing the dataless file " + target.getAbsolutePath());
 		try (BlocketteOutputStream theFile = new BlocketteOutputStream(new FileOutputStream(target))) {
 			// calculate b011
 			int numberOfStations = map.size();
 			int volumeSize = b010.getLength() + 10 + (numberOfStations * 11);
-			final int numberOfRecord = dictionarySequence + (int) Math.ceil(volumeSize / recordSize);
+
+			// How many records the volum header would take and therefore what would the
+			// sequence be
+			int sequence = numberOfDictionaryRecords + (int) Math.ceil((double) volumeSize / recordSize);
 			B011 b011 = new B011();
-			map.forEach((k, v) -> b011.add(k, v + numberOfRecord));
+			map.forEach((k, v) -> b011.add(k, v + sequence));
 			// write volume
 
 			theFile.write(b010);
 			int startSequence = theFile.write(b011);
-
 			// copy dictionary
 			try (InputStream is = new FileInputStream(dictionaryTempFile)) {
 				byte[] bytes = new byte[recordSize];
+
 				startSequence++;
 				while (is.read(bytes) > 0) {
 					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
