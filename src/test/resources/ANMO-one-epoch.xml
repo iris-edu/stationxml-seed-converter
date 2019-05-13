@@ -62,6 +62,12 @@
        <Description>Degrees 0-360 (direction)</Description>
       </OutputUnits>
      </InstrumentSensitivity>
+      <Stage number="1">
+       <StageGain>
+        <Value>1.0</Value>
+        <Frequency>1.0</Frequency>
+       </StageGain>
+      </Stage>
     </Response>
    </Channel>
   </Station>
@@ -101,7 +107,13 @@
        <Name>D</Name>
        <Description>Degrees 0-360 (direction)</Description>
       </OutputUnits>
-     </InstrumentSensitivity>
+    </InstrumentSensitivity>
+     <Stage number="1">
+      <StageGain>
+       <Value>1.0</Value>
+       <Frequency>1.0</Frequency>
+      </StageGain>
+     </Stage>
     </Response>
    </Channel>
   </Station>

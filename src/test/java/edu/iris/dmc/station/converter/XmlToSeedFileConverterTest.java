@@ -19,12 +19,10 @@ public class XmlToSeedFileConverterTest {
 	@Test
 	public void t1() throws Exception {
 
-		//File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
-		File xml = new File("/Users/Suleiman/NV2.ENWF.xml");
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
 
-		
-		File convertedSeedFile = new File("/Users/Suleiman/converted.dataless");
-		((XmlToSeedFileConverter)XmlToSeedFileConverter.getInstance()).convertLarge(xml, convertedSeedFile, null);
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
 
 		Volume volume = IrisUtil.readSeed(convertedSeedFile);
 
@@ -38,7 +36,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	// @Test
+	@Test
 	public void t2() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());

@@ -100,16 +100,19 @@ public class XmlToSeedDocumentConverterTest {
 
 			List<SeedResponseStage> response = b052.getResponseStages();
 			assertNotNull(response);
+			
+			
+			//System.out.println('TEST TESTS TEST');
 
-			SeedResponseStage stage = b052.getResponseStage(0);
+			SeedResponseStage stage = b052.getResponseStage(1);
 			assertNotNull(stage);
+			
 
 			List<ResponseBlockette> blockettes = stage.getBlockettes();
 			B058 b058 = (B058) blockettes.get(0);
 
 			System.out.println(b058.getSignalInputUnit());
 			System.out.println(b058.getSignalOutputUnit());
-
 			System.out.println(b058.toSeedString());
 
 		} catch (Exception e) {
