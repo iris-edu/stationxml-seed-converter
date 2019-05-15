@@ -335,7 +335,6 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				numberOfDictionaryRecords = a.write(b);
 			}
 		}
-		
 
 		logger.log(Level.INFO, "Writing the dataless file " + target.getAbsolutePath());
 		try (BlocketteOutputStream theFile = new BlocketteOutputStream(new FileOutputStream(target))) {

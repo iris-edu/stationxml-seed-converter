@@ -56,23 +56,18 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 	@Override
 	public Volume convert(FDSNStationXML document) throws MetadataConverterException, IOException {
 		if (document == null || document.getNetwork() == null || document.getNetwork().isEmpty()) {
-
+			throw new MetadataConverterException("Document is empty, expected networks but found none!");
 		}
 
 		Volume volume = new Volume();
 		try {
 			B010 b010 = new B010();
-
-			// b010.setStartTime(time);
-			// b010.setEndTime(endTime);
 			b010.setVolumeTime(BTime.now());
 			b010.setOrganization("IRIC DMC");
 			b010.setVersion("02.4");
 			b010.setLabel("Converted from XML");
 			volume.add(b010);
 
-			// B011 b011 = new B011();
-			// volume.add(b011);
 			for (Network network : document.getNetwork()) {
 				int networkIdentifierCode = 0;
 				if (network.getDescription() != null) {

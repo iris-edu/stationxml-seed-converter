@@ -27,7 +27,6 @@ public class XmlToSeedDocumentConverterTest {
 	public void t1() {
 		File source = null, target = null;
 		try {
-
 			source = new File(
 					XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
 
@@ -40,7 +39,9 @@ public class XmlToSeedDocumentConverterTest {
 			Blockette b = blockettes.get(1);
 
 			assertTrue(b instanceof B051);
-
+			System.out.println(b.toSeedString());
+			byte[] bytes = b.toSeedString().getBytes();
+			assertEquals(b.getLength(), bytes.length);
 			/*
 			 * blockettes = volume.find("IU", "ANMO", "BHZ", null); assertEquals(8,
 			 * blockettes.size());
@@ -100,13 +101,11 @@ public class XmlToSeedDocumentConverterTest {
 
 			List<SeedResponseStage> response = b052.getResponseStages();
 			assertNotNull(response);
-			
-			
-			//System.out.println('TEST TESTS TEST');
+
+			// System.out.println('TEST TESTS TEST');
 
 			SeedResponseStage stage = b052.getResponseStage(1);
 			assertNotNull(stage);
-			
 
 			List<ResponseBlockette> blockettes = stage.getBlockettes();
 			B058 b058 = (B058) blockettes.get(0);

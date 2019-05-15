@@ -17,6 +17,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
@@ -113,7 +114,25 @@ public class StationIterator implements Iterator<Station>, Closeable {
 							// Do nothing for now
 						}
 					}
-					xmlEventReader.nextEvent();
+					xmlEventReader.next();
+					while (xmlEventReader.hasNext()) {
+						XMLEvent event = xmlEventReader.peek();
+						if (XMLStreamConstants.START_ELEMENT == event.getEventType()) {
+							StartElement e = (StartElement) event;
+
+							if ("Description".equals(e.getName().getLocalPart())) {
+								xmlEventReader.nextEvent();
+								event = xmlEventReader.nextEvent();
+								if (event.isCharacters()) {
+									network.setDescription(((Characters) event).getData());
+								}
+								break;
+							}
+
+						} else {
+							xmlEventReader.nextEvent();
+						}
+					}
 				} else if ("Station".equals(startElement.getName().getLocalPart())) {
 					JAXBElement<Station> stationElement = unmarshaller.unmarshal(xmlEventReader, Station.class);
 					Station station = stationElement.getValue();
