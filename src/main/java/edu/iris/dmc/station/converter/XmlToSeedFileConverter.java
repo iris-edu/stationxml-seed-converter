@@ -107,6 +107,9 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				}
 				if (station.getComment() != null) {
 					for (Comment comment : station.getComment()) {
+						if (comment.getBeginEffectiveTime() == null) {
+							comment.setBeginEffectiveTime(station.getStartDate());
+						}
 						B051 b051 = StationCommentToBlocketteMapper.map(comment);
 						B031 b031 = new B031();
 						b031.setClassCode('S');
@@ -166,6 +169,9 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 						out.write(b052);
 						for (Comment comment : channel.getComment()) {
+							if (comment.getBeginEffectiveTime() == null) {
+								comment.setBeginEffectiveTime(channel.getStartDate());
+							}
 							B059 b059 = ChannelCommentToBlocketteMapper.map(comment);
 							B031 b031 = new B031();
 							b031.setClassCode('S');

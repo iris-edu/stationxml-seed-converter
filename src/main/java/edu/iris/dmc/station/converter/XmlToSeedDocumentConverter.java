@@ -85,6 +85,9 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 					if (station.getComment() != null) {
 						b050.setNumberOfComments(station.getComment().size());
 						for (Comment comment : station.getComment()) {
+							if (comment.getBeginEffectiveTime() == null) {
+								comment.setBeginEffectiveTime(station.getStartDate());
+							}
 							B051 b051 = StationCommentToBlocketteMapper.map(comment);
 							B031 b031 = new B031();
 							b031.setClassCode('S');
@@ -106,11 +109,14 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 
 							B030 b03016 = new B030();
 							b03016.setName("Undefined data format");
-							b03016.setDataFamilyType(100);
+							b03016.setDataFamilyType(90);
 							b03016 = (B030) volume.add(b03016);
 							b052.setDataFormatIdentifier(b03016.getLookupKey());
 
 							for (Comment comment : channel.getComment()) {
+								if (comment.getBeginEffectiveTime() == null) {
+									comment.setBeginEffectiveTime(channel.getStartDate());
+								}
 								B059 b059 = ChannelCommentToBlocketteMapper.map(comment);
 								B031 b031 = new B031();
 								b031.setClassCode('S');
