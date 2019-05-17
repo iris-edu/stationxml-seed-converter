@@ -1,6 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.AngleType;
+import edu.iris.dmc.fdsn.station.model.FloatNoUnitType;
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.fdsn.station.model.ObjectFactory;
 import edu.iris.dmc.fdsn.station.model.ResponseList;
@@ -24,7 +25,7 @@ public class ResponseListMapper extends AbstractMapper {
 			}
 
 			if (response.getAmplitude() != null) {
-				Frequency ft = factory.createFrequencyType();
+				FloatNoUnitType ft = factory.createFloatNoUnitType();
 				ft.setValue(response.getAmplitude());
 				ft.setMinusError(response.getAmplitudeError());
 				ft.setPlusError(response.getAmplitudeError());
@@ -58,7 +59,7 @@ public class ResponseListMapper extends AbstractMapper {
 			}
 
 			if (response.getAmplitude() != null) {
-				Frequency ft = factory.createFrequencyType();
+				FloatNoUnitType ft = factory.createFloatNoUnitType();
 				ft.setValue(response.getAmplitude());
 				ft.setMinusError(response.getAmplitudeError());
 				ft.setPlusError(response.getAmplitudeError());

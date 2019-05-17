@@ -1,7 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.FIR;
-import edu.iris.dmc.fdsn.station.model.NumeratorCoefficient;
+import edu.iris.dmc.fdsn.station.model.FIR.NumeratorCoefficient;
 import edu.iris.dmc.seed.control.dictionary.B041;
 import edu.iris.dmc.seed.control.station.B061;
 

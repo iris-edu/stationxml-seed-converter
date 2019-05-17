@@ -1,7 +1,9 @@
 package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.Coefficients;
-import edu.iris.dmc.fdsn.station.model.Float;
+import edu.iris.dmc.fdsn.station.model.Coefficients.Denominator;
+import edu.iris.dmc.fdsn.station.model.Coefficients.Numerator;
+import edu.iris.dmc.fdsn.station.model.FloatType;
 import edu.iris.dmc.fdsn.station.model.ObjectFactory;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B044;
@@ -9,8 +11,11 @@ import edu.iris.dmc.seed.control.station.B054;
 
 public class CoefficientsMapper extends AbstractMapper {
 
+	private static ObjectFactory objectFactory = new ObjectFactory();
+
 	public static Coefficients map(B044 b) {
-		Coefficients coefficients = new ObjectFactory().createCoefficientsType();
+
+		Coefficients coefficients = objectFactory.createCoefficientsType();
 
 		char responseType = b.getResponseType();
 		String transferFunction = "";
@@ -24,14 +29,14 @@ public class CoefficientsMapper extends AbstractMapper {
 
 		coefficients.setCfTransferFunctionType(transferFunction);
 		for (edu.iris.dmc.seed.control.station.Number n : b.getNumerators()) {
-			Float ft = new ObjectFactory().createFloatType();
+			Numerator ft = objectFactory.createCoefficientsTypeNumerator();
 			ft.setValue(n.getValue());
 			ft.setMinusError(n.getError());
 			ft.setPlusError(n.getError());
 			coefficients.getNumerator().add(ft);
 		}
 		for (edu.iris.dmc.seed.control.station.Number n : b.getDenominators()) {
-			Float ft = new ObjectFactory().createFloatType();
+			Denominator ft = objectFactory.createCoefficientsTypeDenominator();
 			ft.setValue(n.getValue());
 			ft.setMinusError(n.getError());
 			ft.setPlusError(n.getError());
@@ -43,7 +48,7 @@ public class CoefficientsMapper extends AbstractMapper {
 
 	public static Coefficients map(B054 b) {
 
-		Coefficients coefficients = new ObjectFactory().createCoefficientsType();
+		Coefficients coefficients = objectFactory.createCoefficientsType();
 
 		char responseType = b.getResponseType();
 		String transferFunction = "";
@@ -57,14 +62,14 @@ public class CoefficientsMapper extends AbstractMapper {
 
 		coefficients.setCfTransferFunctionType(transferFunction);
 		for (edu.iris.dmc.seed.control.station.Number n : b.getNumerators()) {
-			Float ft = new ObjectFactory().createFloatType();
+			Numerator ft = objectFactory.createCoefficientsTypeNumerator();
 			ft.setValue(n.getValue());
 			ft.setMinusError(n.getError());
 			ft.setPlusError(n.getError());
 			coefficients.getNumerator().add(ft);
 		}
 		for (edu.iris.dmc.seed.control.station.Number n : b.getDenominators()) {
-			Float ft = new ObjectFactory().createFloatType();
+			Denominator ft = objectFactory.createCoefficientsTypeDenominator();
 			ft.setValue(n.getValue());
 			ft.setMinusError(n.getError());
 			ft.setPlusError(n.getError());
@@ -96,14 +101,14 @@ public class CoefficientsMapper extends AbstractMapper {
 		b.setResponseType(transferFunction);
 
 		if (c.getNumerator() != null) {
-			for (Float f : c.getNumerator()) {
+			for (Numerator f : c.getNumerator()) {
 				edu.iris.dmc.seed.control.station.Number n = new edu.iris.dmc.seed.control.station.Number(f.getValue(),
 						f.getPlusError());
 				b.addNumerator(n);
 			}
 		}
 		if (c.getDenominator() != null) {
-			for (Float f : c.getDenominator()) {
+			for (Denominator f : c.getDenominator()) {
 				edu.iris.dmc.seed.control.station.Number d = new edu.iris.dmc.seed.control.station.Number(f.getValue(),
 						f.getPlusError());
 				b.addDenominator(d);

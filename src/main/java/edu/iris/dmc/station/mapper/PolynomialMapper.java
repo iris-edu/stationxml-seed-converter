@@ -1,11 +1,8 @@
 package edu.iris.dmc.station.mapper;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import edu.iris.dmc.fdsn.station.model.Coefficient;
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
+import edu.iris.dmc.fdsn.station.model.Polynomial.Coefficient;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B042;
 import edu.iris.dmc.seed.control.dictionary.B049;
@@ -22,11 +19,11 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getLowerBoundOfApproximation() != null) {
-			pType.setApproximationLowerBound(BigDecimal.valueOf(b.getLowerBoundOfApproximation()));
+			pType.setApproximationLowerBound(b.getLowerBoundOfApproximation());
 		}
 
 		if (b.getUpperBoundOfApproximation() != null) {
-			pType.setApproximationUpperBound(BigDecimal.valueOf(b.getUpperBoundOfApproximation()));
+			pType.setApproximationUpperBound(b.getUpperBoundOfApproximation());
 		}
 
 		if (b.getLowerValidFrequencyBound() != null) {
@@ -42,14 +39,14 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getMaximumAbsoluteError() != null) {
-			pType.setMaximumError(BigDecimal.valueOf(b.getMaximumAbsoluteError()));
+			pType.setMaximumError(b.getMaximumAbsoluteError());
 		}
 
 		if (b.getCoefficients() != null) {
 			int index = 0;
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(BigInteger.valueOf(index++));
+				co.setNumber(index++);
 
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
@@ -68,11 +65,11 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getLowerBoundOfApproximation() != null) {
-			pType.setApproximationLowerBound(BigDecimal.valueOf(b.getLowerBoundOfApproximation()));
+			pType.setApproximationLowerBound(b.getLowerBoundOfApproximation());
 		}
 
 		if (b.getUpperBoundOfApproximation() != null) {
-			pType.setApproximationUpperBound(BigDecimal.valueOf(b.getUpperBoundOfApproximation()));
+			pType.setApproximationUpperBound(b.getUpperBoundOfApproximation());
 		}
 
 		if (b.getLowerValidFrequencyBound() != null) {
@@ -88,14 +85,14 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getMaximumAbsoluteError() != null) {
-			pType.setMaximumError(BigDecimal.valueOf(b.getMaximumAbsoluteError()));
+			pType.setMaximumError(b.getMaximumAbsoluteError());
 		}
 
 		if (b.getCoefficients() != null) {
 			int index = 0;
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(BigInteger.valueOf(index++));
+				co.setNumber(index++);
 
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
@@ -116,9 +113,9 @@ public class PolynomialMapper extends AbstractMapper {
 			pType.setApproximationType("MACLAURIN");
 		}
 
-		pType.setApproximationLowerBound(BigDecimal.valueOf(b.getLowerBoundOfApproximation()));
+		pType.setApproximationLowerBound(b.getLowerBoundOfApproximation());
 
-		pType.setApproximationUpperBound(BigDecimal.valueOf(b.getUpperBoundOfApproximation()));
+		pType.setApproximationUpperBound(b.getUpperBoundOfApproximation());
 
 		Frequency ft = factory.createFrequencyType();
 		ft.setValue(b.getLowerValidFrequencyBound());
@@ -128,14 +125,14 @@ public class PolynomialMapper extends AbstractMapper {
 		ft.setValue(b.getUpperValidFrequencyBound());
 		pType.setFrequencyUpperBound(ft);
 
-		pType.setMaximumError(BigDecimal.valueOf(b.getMaximumAbsoluteError()));
+		pType.setMaximumError(b.getMaximumAbsoluteError());
 
 		int index = 1;
 		for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 			n.getValue();
 			n.getError();
 			Coefficient co = factory.createPolynomialTypeCoefficient();
-			co.setNumber(BigInteger.valueOf(index));
+			co.setNumber(index);
 
 			co.setMinusError(n.getError());
 			co.setPlusError(n.getError());
@@ -155,12 +152,9 @@ public class PolynomialMapper extends AbstractMapper {
 
 		b.setFrequencyUnit('B');
 
-		if (p.getApproximationLowerBound() != null) {
-			b.setLowerBoundOfApproximation(p.getApproximationLowerBound().doubleValue());
-		}
-		if (p.getApproximationUpperBound() != null) {
-			b.setUpperBoundOfApproximation(p.getApproximationUpperBound().doubleValue());
-		}
+		b.setLowerBoundOfApproximation(p.getApproximationLowerBound());
+
+		b.setUpperBoundOfApproximation(p.getApproximationUpperBound());
 
 		if (p.getFrequencyLowerBound() != null) {
 			b.setLowerValidFrequencyBound(p.getFrequencyLowerBound().getValue());
@@ -169,9 +163,7 @@ public class PolynomialMapper extends AbstractMapper {
 			b.setUpperValidFrequencyBound(p.getFrequencyUpperBound().getValue());
 		}
 
-		if (p.getMaximumError() != null) {
-			b.setMaximumAbsoluteError(p.getMaximumError().doubleValue());
-		}
+		b.setMaximumAbsoluteError(p.getMaximumError());
 
 		if (p.getCoefficient() != null) {
 			for (Coefficient c : p.getCoefficient()) {

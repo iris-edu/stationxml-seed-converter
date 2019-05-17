@@ -3,7 +3,7 @@ package edu.iris.dmc.station.mapper;
 import java.math.BigInteger;
 
 import edu.iris.dmc.fdsn.station.model.Decimation;
-import edu.iris.dmc.fdsn.station.model.Float;
+import edu.iris.dmc.fdsn.station.model.FloatType;
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B047;
@@ -14,7 +14,7 @@ public class DecimationMapper extends AbstractMapper {
 	public static Decimation map(B047 b) {
 		Decimation decimation = factory.createDecimationType();
 
-		Float ft = factory.createFloatType();
+		FloatType ft = factory.createFloatType();
 		ft.setValue(b.getCorrection());
 		decimation.setCorrection(ft);
 
@@ -35,7 +35,7 @@ public class DecimationMapper extends AbstractMapper {
 	public static Decimation map(B057 b) {
 		Decimation decimation = factory.createDecimationType();
 
-		Float ft = factory.createFloatType();
+		FloatType ft = factory.createFloatType();
 		ft.setValue(b.getCorrection());
 		decimation.setCorrection(ft);
 

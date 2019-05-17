@@ -1,6 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
 import edu.iris.dmc.fdsn.station.model.FIR;
+import edu.iris.dmc.fdsn.station.model.FIR.NumeratorCoefficient;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.B061;
 
@@ -23,7 +24,7 @@ public class FirToBlocketteMapper {
 		}
 
 		if (f.getNumeratorCoefficient() != null) {
-			for (edu.iris.dmc.fdsn.station.model.NumeratorCoefficient n : f.getNumeratorCoefficient()) {
+			for (NumeratorCoefficient n : f.getNumeratorCoefficient()) {
 				b.addCoefficient(n.getValue());
 			}
 		}
