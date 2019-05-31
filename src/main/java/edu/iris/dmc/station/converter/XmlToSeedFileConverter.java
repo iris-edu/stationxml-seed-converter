@@ -25,7 +25,7 @@ import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.io.SeedFormatter;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
-import edu.iris.dmc.seed.Dictionary;
+import edu.iris.dmc.seed.DictionaryIndex;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.control.dictionary.B030;
@@ -78,7 +78,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		b010.setOrganization("IRIC DMC");
 		b010.setVersion("02.4");
 		b010.setLabel("Converted from XML");
-		Dictionary dictionary = new Dictionary();
+		DictionaryIndex dictionary = new DictionaryIndex();
 		logger.log(Level.FINER, "Writing temperoray station file...");
 
 		File stationTempFile = File.createTempFile("station", "dataless.temp");

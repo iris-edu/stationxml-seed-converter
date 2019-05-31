@@ -22,7 +22,6 @@ import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
-import edu.iris.dmc.seed.builder.BlocketteBuilder;
 import edu.iris.dmc.seed.director.BlocketteDirector;
 import edu.iris.dmc.station.util.StationIterator;
 
@@ -57,7 +56,7 @@ public class IrisUtil {
 	}
 
 	public static Volume readSeed(InputStream inputStream) throws SeedException, IOException {
-		BlocketteDirector director = new BlocketteDirector(new BlocketteBuilder());
+		BlocketteDirector director = new BlocketteDirector();
 		BlocketteItrator iterator = director.process(inputStream);
 		Volume volume = new Volume();
 		while (iterator.hasNext()) {
