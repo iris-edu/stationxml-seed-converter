@@ -39,9 +39,13 @@ public class XmlToSeedDocumentConverterTest {
 			Blockette b = blockettes.get(1);
 
 			assertTrue(b instanceof B051);
-			System.out.println(b.toSeedString());
 			byte[] bytes = b.toSeedString().getBytes();
-			assertEquals(b.getLength(), bytes.length);
+	     	assertEquals(b.getSize(), bytes.length);
+	     	
+	     	//Blockette are now all built to 9999 in length
+	     	/// This could be a problem
+	     	
+	     	
 			/*
 			 * blockettes = volume.find("IU", "ANMO", "BHZ", null); assertEquals(8,
 			 * blockettes.size());

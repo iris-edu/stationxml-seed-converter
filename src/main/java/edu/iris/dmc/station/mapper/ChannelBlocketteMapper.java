@@ -63,7 +63,7 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 			if (dip != null && (dip.getValue() == 90 || dip.getValue() == -90)) {
 				if (BigDecimal.ZERO.compareTo(BigDecimal.valueOf(azimuthValue)) != 0) {
 					if (azimuthValue.intValue() >= 360) {
-						azimuth.setValue(0);
+						azimuth.setValue(0.0);
 					} else {
 						azimuth.setValue(azimuthValue);
 					}

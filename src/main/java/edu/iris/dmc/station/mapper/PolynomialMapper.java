@@ -1,5 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
+import java.math.BigInteger;
+
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
 import edu.iris.dmc.fdsn.station.model.Polynomial.Coefficient;
@@ -43,11 +45,10 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getCoefficients() != null) {
-			int index = 0;
+			BigInteger index = BigInteger.valueOf(0);
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(index++);
-
+				co.setNumber(index.add(BigInteger.ONE));
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
 				co.setValue(n.getValue());
@@ -89,10 +90,10 @@ public class PolynomialMapper extends AbstractMapper {
 		}
 
 		if (b.getCoefficients() != null) {
-			int index = 0;
+			BigInteger index = BigInteger.valueOf(0);
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(index++);
+				co.setNumber(index.add(BigInteger.ONE));
 
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
@@ -127,7 +128,7 @@ public class PolynomialMapper extends AbstractMapper {
 
 		pType.setMaximumError(b.getMaximumAbsoluteError());
 
-		int index = 1;
+		BigInteger index = BigInteger.valueOf(0);
 		for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 			n.getValue();
 			n.getError();
@@ -138,7 +139,7 @@ public class PolynomialMapper extends AbstractMapper {
 			co.setPlusError(n.getError());
 			co.setValue(n.getValue());
 			pType.getCoefficient().add(co);
-			index++;
+			co.setNumber(index.add(BigInteger.ONE));
 		}
 		return pType;
 	}
