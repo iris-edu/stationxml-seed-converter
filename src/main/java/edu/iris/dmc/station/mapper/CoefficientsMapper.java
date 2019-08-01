@@ -3,7 +3,6 @@ package edu.iris.dmc.station.mapper;
 import edu.iris.dmc.fdsn.station.model.Coefficients;
 import edu.iris.dmc.fdsn.station.model.Coefficients.Denominator;
 import edu.iris.dmc.fdsn.station.model.Coefficients.Numerator;
-import edu.iris.dmc.fdsn.station.model.FloatType;
 import edu.iris.dmc.fdsn.station.model.ObjectFactory;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.dictionary.B044;

@@ -1,5 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
+import java.math.BigInteger;
+
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
 import edu.iris.dmc.fdsn.station.model.Polynomial.Coefficient;
@@ -46,7 +48,7 @@ public class PolynomialMapper extends AbstractMapper {
 			int index = 0;
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(index++);
+				co.setNumber(BigInteger.valueOf(index++));
 
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
@@ -92,7 +94,7 @@ public class PolynomialMapper extends AbstractMapper {
 			int index = 0;
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
-				co.setNumber(index++);
+				co.setNumber(BigInteger.valueOf(index++));
 
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
@@ -132,7 +134,7 @@ public class PolynomialMapper extends AbstractMapper {
 			n.getValue();
 			n.getError();
 			Coefficient co = factory.createPolynomialTypeCoefficient();
-			co.setNumber(index);
+			co.setNumber(BigInteger.valueOf(index));
 
 			co.setMinusError(n.getError());
 			co.setPlusError(n.getError());
