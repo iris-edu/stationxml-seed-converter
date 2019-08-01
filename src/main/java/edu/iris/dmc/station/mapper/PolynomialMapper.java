@@ -95,7 +95,6 @@ public class PolynomialMapper extends AbstractMapper {
 			for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 				Coefficient co = factory.createPolynomialTypeCoefficient();
 				co.setNumber(BigInteger.valueOf(index++));
-
 				co.setMinusError(n.getError());
 				co.setPlusError(n.getError());
 				co.setValue(n.getValue());
@@ -129,7 +128,7 @@ public class PolynomialMapper extends AbstractMapper {
 
 		pType.setMaximumError(b.getMaximumAbsoluteError());
 
-		int index = 1;
+		int index = 0;
 		for (edu.iris.dmc.seed.control.station.Number n : b.getCoefficients()) {
 			n.getValue();
 			n.getError();
@@ -140,7 +139,7 @@ public class PolynomialMapper extends AbstractMapper {
 			co.setPlusError(n.getError());
 			co.setValue(n.getValue());
 			pType.getCoefficient().add(co);
-			index++;
+			co.setNumber(BigInteger.valueOf(index++));
 		}
 		return pType;
 	}

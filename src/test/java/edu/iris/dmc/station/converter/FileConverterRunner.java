@@ -30,19 +30,21 @@ import edu.iris.dmc.seed.writer.SeedFileWriter;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class FileConverterRunner {
-
+	
+	@Test
 	public static void main(String[] args) {
 		File source = null, target = null;
 
 		
 		// source = new
 		// File("/Users/Suleiman/seed/AK_CCB.dataless");//dataless-archive/IU.dataless");
-		source = new File("/Users/Suleiman/TRSVB.xml");
+		source = new File("/Users/tronan/Desktop/Yazan_Dataless/ROIPH5.xml");
 
 		
 		Volume volume;
 		try {
-			((XmlToSeedFileConverter)XmlToSeedFileConverter.getInstance()).convert(source, new File("/Users/Suleiman/TRSVB.xml.dataless"),null);
+			((XmlToSeedFileConverter)XmlToSeedFileConverter.getInstance()).convert(source, new File("ROIPH5.xml"),null);
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
