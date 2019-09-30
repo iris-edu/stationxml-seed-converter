@@ -2,6 +2,7 @@ package edu.iris.dmc.station.mapper;
 
 import java.math.BigInteger;
 
+import edu.iris.dmc.fdsn.station.model.FloatNoUnitType;
 import edu.iris.dmc.fdsn.station.model.Frequency;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
 import edu.iris.dmc.fdsn.station.model.Polynomial.Coefficient;
@@ -168,12 +169,36 @@ public class PolynomialMapper extends AbstractMapper {
 
 		if (p.getCoefficient() != null) {
 			for (Coefficient c : p.getCoefficient()) {
-				edu.iris.dmc.seed.control.station.Number n = new edu.iris.dmc.seed.control.station.Number(c.getValue(),
-						c.getPlusError());
+				edu.iris.dmc.seed.control.station.Number n = createNumber(c);
 				b.add(n);
 			}
 		}
 		return b;
 
+	}
+	
+	private static edu.iris.dmc.seed.control.station.Number createNumber(FloatNoUnitType fnt) {
+		if (fnt == null) {
+			return null;
+		}
+
+		Double minus = fnt.getMinusError();
+		Double plus = fnt.getPlusError();
+		double error = 0d;
+		if (minus == null) {
+			if (plus != null) {
+				error = plus;
+			}
+		} else {
+			if (plus == null) {
+				error = minus;
+			} else {
+				minus = Math.abs(fnt.getMinusError());
+				plus = Math.abs(fnt.getPlusError());
+				error = (plus > minus) ? plus : minus;
+			}
+		}
+
+		return new edu.iris.dmc.seed.control.station.Number(fnt.getValue(), error);
 	}
 }

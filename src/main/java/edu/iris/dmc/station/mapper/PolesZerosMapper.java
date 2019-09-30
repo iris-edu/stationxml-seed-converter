@@ -161,8 +161,11 @@ public class PolesZerosMapper extends AbstractMapper {
 
 		if (pzs.getZero() != null) {
 			for (PoleZero zero : pzs.getZero()) {
-				Zero z = new Zero(zero.getReal().getValue(), zero.getReal().getPlusError(),
-						zero.getImaginary().getValue(), zero.getImaginary().getPlusError());
+
+				edu.iris.dmc.seed.control.station.Number real = createNumber(zero.getReal());
+
+				edu.iris.dmc.seed.control.station.Number imaginary = createNumber(zero.getImaginary());
+				Zero z = new Zero(real, imaginary);
 				b.add(z);
 			}
 		}
@@ -184,10 +187,22 @@ public class PolesZerosMapper extends AbstractMapper {
 			return null;
 		}
 
-		double minus = Math.abs(fnt.getMinusError());
-		double plus = Math.abs(fnt.getPlusError());
-
-		double error = (plus > minus) ? plus : minus;
+		Double minus = fnt.getMinusError();
+		Double plus = fnt.getPlusError();
+		double error = 0d;
+		if (minus == null) {
+			if (plus != null) {
+				error = plus;
+			}
+		} else {
+			if (plus == null) {
+				error = minus;
+			} else {
+				minus = Math.abs(fnt.getMinusError());
+				plus = Math.abs(fnt.getPlusError());
+				error = (plus > minus) ? plus : minus;
+			}
+		}
 
 		return new edu.iris.dmc.seed.control.station.Number(fnt.getValue(), error);
 	}
