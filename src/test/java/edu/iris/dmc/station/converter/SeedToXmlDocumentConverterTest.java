@@ -3,8 +3,11 @@ package edu.iris.dmc.station.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -19,6 +22,8 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.Volume;
+import edu.iris.dmc.seed.control.station.B050;
+import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class SeedToXmlDocumentConverterTest {
@@ -71,6 +76,32 @@ public class SeedToXmlDocumentConverterTest {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@Test
+	public void startend_time() {
+		File source = null, target = null;
+
+		source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("AfricaArray_20190912_incl_sansn.dataless.dlsv").getFile());
+
+		Volume volume;
+		try {
+			volume = IrisUtil.readSeed(source);
+
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			List<Network> netlist = document.getNetwork();
+			Network net = netlist.get(0);
+			
+			// Determine that network start time and end time are being converted to dataless
+			assertEquals(net.getStartDate().toString(), "2004-09-01T00:00Z");
+			assertNull(net.getEndDate());
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Test
