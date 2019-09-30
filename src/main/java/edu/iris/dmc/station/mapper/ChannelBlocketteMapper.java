@@ -129,7 +129,9 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 
 		b.setLatitude(channel.getLatitude().getValue());
 		b.setLongitude(channel.getLongitude().getValue());
-		b.setElevation(channel.getElevation().getValue());
+		if (channel.getElevation() != null) {
+			b.setElevation(channel.getElevation().getValue());
+		}
 
 		if (channel.getDepth() != null) {
 			b.setLocalDepth(channel.getDepth().getValue());
