@@ -12,7 +12,7 @@ public class ApplicationTest {
 		// TODO Auto-generated method stub
 
 		try {
-			XmlToSeedFileConverter.getInstance().convert(new File("/Users/Suleiman/test.xml"), new File("/Users/Suleiman/test.xml.seed"));
+			XmlToSeedFileConverter.getInstance().convert(new File("/Users/Suleiman/IMstations.xml"), new File("/Users/Suleiman/test.xml.seed"));
 		} catch (MetadataConverterException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

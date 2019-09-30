@@ -107,6 +107,21 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 					}
 					document.getNetwork().add(network);
 				}
+				if (network.getStartDate() == null) {
+					network.setStartDate(station.getStartDate());
+				} else {
+					if (network.getStartDate().isAfter(station.getStartDate())) {
+						network.setStartDate(station.getStartDate());
+					}
+				}
+
+				if (network.getEndDate() == null) {
+					network.setEndDate(station.getEndDate());
+				} else {
+					if (network.getEndDate().isBefore(station.getEndDate())) {
+						network.setEndDate(station.getEndDate());
+					}
+				}
 				network.addStation(station);
 
 				if (b050.getB051s() != null && !b050.getB051s().isEmpty()) {
