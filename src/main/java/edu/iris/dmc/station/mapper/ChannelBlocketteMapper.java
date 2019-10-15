@@ -136,11 +136,16 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		if (channel.getDepth() != null) {
 			b.setLocalDepth(channel.getDepth().getValue());
 		}
-		if (channel.getAzimuth() != null) {
-			b.setAzimuth(channel.getAzimuth().getValue());
-		}
-		if (channel.getDip() != null) {
-			b.setDip(channel.getDip().getValue());
+		try {
+		    if (channel.getAzimuth() != null) {
+			    b.setAzimuth(channel.getAzimuth().getValue());
+		   }
+
+		    if (channel.getDip() != null) {
+			    b.setDip(channel.getDip().getValue());
+		    }
+		}catch(NullPointerException e) {
+			
 		}
 		b.setLocalDepth(channel.getDepth().getValue());
 		try {

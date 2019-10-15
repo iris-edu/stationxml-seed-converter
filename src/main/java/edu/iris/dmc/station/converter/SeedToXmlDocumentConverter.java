@@ -129,7 +129,6 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 								network.setEndDate(station.getEndDate());
 							}
 						}
-
 					}
 				}
 
