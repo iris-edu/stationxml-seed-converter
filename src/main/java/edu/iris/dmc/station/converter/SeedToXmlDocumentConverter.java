@@ -399,14 +399,26 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 		}
 
 		List<ResponseStage> list = response.getStage();
-		if (list != null && !list.isEmpty()) {
+		
+		for(ResponseStage s:list) {
+			Units units = extractInputUnits(s);
+			if(sensitivity.getInputUnits()==null) {
+				sensitivity.setInputUnits(units);
+			}
+			Units outputUnits = extractOutputUnits(s);
+			if(outputUnits!=null) {
+				sensitivity.setOutputUnits(outputUnits);
+			}
+		}
+		
+		/*if (list != null && !list.isEmpty()) {
 			ResponseStage first = list.get(0);
 			Units inputUnits = extractInputUnits(first);
 			sensitivity.setInputUnits(inputUnits);
 			ResponseStage last = list.get(list.size() - 1);
 			Units outputUnits = extractOutputUnits(last);
 			sensitivity.setOutputUnits(outputUnits);
-		}
+		}*/
 
 	}
 
