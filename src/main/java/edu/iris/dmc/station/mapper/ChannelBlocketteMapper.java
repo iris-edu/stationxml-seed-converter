@@ -67,11 +67,13 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 					} else {
 						azimuth.setValue(azimuthValue);
 					}
+					channel.setAzimuth(azimuth);
 				}
 			} else {
 				azimuth.setValue(azimuthValue);
+				channel.setAzimuth(azimuth);
 			}
-			channel.setAzimuth(azimuth);
+
 		}
 
 		SampleRate sampleRate = factory.createSampleRateType();
@@ -137,22 +139,22 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 			b.setLocalDepth(channel.getDepth().getValue());
 		}
 		try {
-		    if (channel.getAzimuth() != null) {
-			    b.setAzimuth(channel.getAzimuth().getValue());
-		   }
+			if (channel.getAzimuth() != null) {
+				b.setAzimuth(channel.getAzimuth().getValue());
+			}
 
-		    if (channel.getDip() != null) {
-			    b.setDip(channel.getDip().getValue());
-		    }
-		}catch(NullPointerException e) {
-			
+			if (channel.getDip() != null) {
+				b.setDip(channel.getDip().getValue());
+			}
+		} catch (NullPointerException e) {
+
 		}
 		b.setLocalDepth(channel.getDepth().getValue());
 		try {
-		    b.setAzimuth(channel.getAzimuth().getValue());
-		    b.setDip(channel.getDip().getValue());
-		}catch(NullPointerException e) {
-			}
+			b.setAzimuth(channel.getAzimuth().getValue());
+			b.setDip(channel.getDip().getValue());
+		} catch (NullPointerException e) {
+		}
 
 		b.setDataRecordLength(12);
 		if (channel.getSampleRate() != null) {
