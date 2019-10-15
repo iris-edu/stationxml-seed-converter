@@ -93,8 +93,9 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 			// volume.getB011();
 
 			Network network = null;
-			boolean endSwitch=false;
+			boolean endSwitch = false;
 
+			boolean overWrite = true;
 			for (B050 b050 : volume.getB050s()) {
 				Station station = StationMapper.map(b050);
 				String networkCode = b050.getNetworkCode();
@@ -107,26 +108,8 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						network.setDescription(b03310.getDescription());
 					}
 					document.getNetwork().add(network);
-				   }
-                if (network.getStartDate() == null) {
-                        network.setStartDate(station.getStartDate());
-                } else {
-                        if (network.getStartDate().isAfter(station.getStartDate())) {
-                                network.setStartDate(station.getStartDate());
-                        }
-                }
-
-                if (network.getEndDate() == null) {
-                        network.setEndDate(station.getEndDate());
-                } else {
-                    if (station.getEndDate()==null) {
-                    	endSwitch = true;
-                    }else {
-                        if (network.getEndDate().isBefore(station.getEndDate())) {
-                        	network.setEndDate(station.getEndDate());
-                            }     
-                        }
 				}
+
 				if (network.getStartDate() == null) {
 					network.setStartDate(station.getStartDate());
 				} else {
@@ -134,18 +117,21 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 						network.setStartDate(station.getStartDate());
 					}
 				}
+				if (overWrite) {
+					if (station.getEndDate() == null) {
+						network.setEndDate(null);
+						overWrite = false;
+					} else {
+						if (network.getEndDate() == null) {
+							network.setEndDate(station.getEndDate());
+						} else {
+							if (network.getEndDate().isBefore(station.getEndDate())) {
+								network.setEndDate(station.getEndDate());
+							}
+						}
 
-				if (network.getEndDate() == null) {
-					network.setEndDate(station.getEndDate());
-				} else {
-					if (network.getEndDate().isBefore(station.getEndDate())) {
-						network.setEndDate(station.getEndDate());
 					}
 				}
-
-                if (endSwitch == true) {
-                	network.setEndDate(null);
-                }
 
 				network.addStation(station);
 
