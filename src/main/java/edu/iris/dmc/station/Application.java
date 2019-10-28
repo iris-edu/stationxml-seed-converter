@@ -71,7 +71,9 @@ public class Application {
 				target = new File(args[i]);
 			} else if ("--large".equals(arg)) {
 				map.put("large", "true");
-			} else {
+			} else if ("--align-epochs".equals(arg)) {
+				map.put("align", "true");
+			}else {
 				logger.log(Level.SEVERE, "Unkown argument: [" + args[i] + "]");
 				System.err.println("Unkown argument: [" + args[i] + "]");
 				help();
