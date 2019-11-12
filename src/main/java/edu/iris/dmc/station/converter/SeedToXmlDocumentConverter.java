@@ -16,7 +16,7 @@ import edu.iris.dmc.fdsn.station.model.Equipment;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.FIR;
 import edu.iris.dmc.fdsn.station.model.ResponseType;
-import edu.iris.dmc.fdsn.station.model.Gain;
+import edu.iris.dmc.fdsn.station.model.StageGain;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.PolesZeros;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
@@ -278,7 +278,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										break;
 									case 58:
 										B058 b058 = (B058) b;
-										Gain gain = GainMapper.build(b058);
+										StageGain gain = GainMapper.build(b058);
 										stage.setStageGain(gain);
 										break;
 									case 60:
