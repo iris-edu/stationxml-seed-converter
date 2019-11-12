@@ -106,7 +106,6 @@ public class XmlToSeedDocumentConverterTest {
 			List<SeedResponseStage> response = b052.getResponseStages();
 			assertNotNull(response);
 
-			// System.out.println('TEST TESTS TEST');
 
 			SeedResponseStage stage = b052.getResponseStage(1);
 			assertNotNull(stage);
