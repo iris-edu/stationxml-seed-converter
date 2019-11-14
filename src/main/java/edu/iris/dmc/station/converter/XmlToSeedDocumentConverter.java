@@ -91,7 +91,11 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 							B051 b051 = StationCommentToBlocketteMapper.map(comment);
 							B031 b031 = new B031();
 							b031.setClassCode('S');
-							b031.setDescription(comment.getValue());
+							if (comment.getValue().length()>70) {
+							    b031.setDescription(comment.getValue().substring(0, 70));
+							}else {
+								b031.setDescription(comment.getValue());
+							}
 							b031.setUnitsOfCommentLevel(0);// set to zero for now
 
 							b031 = (B031) volume.add(b031);
@@ -120,7 +124,11 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 								B059 b059 = ChannelCommentToBlocketteMapper.map(comment);
 								B031 b031 = new B031();
 								b031.setClassCode('S');
-								b031.setDescription(comment.getValue());
+								if (comment.getValue().length()>70) {
+								    b031.setDescription(comment.getValue().substring(0, 70));
+								}else {
+									b031.setDescription(comment.getValue());
+								}								
 								b031.setUnitsOfCommentLevel(0);// set to zero for now
 
 								b031 = (B031) volume.add(b031);
