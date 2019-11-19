@@ -34,7 +34,7 @@ public class CommentMapper {
 
 	public static Comment buildForStation(Blockette blockette) throws Exception {
 		Comment comment = factory.createCommentType();
-		if (comment.getValue().length()>70) {
+		if (comment.getValue()!= null && comment.getValue().length()>70) {
 		    comment.setValue(comment.getValue().substring(0, 69));
 		}
 		if (blockette instanceof B051) {

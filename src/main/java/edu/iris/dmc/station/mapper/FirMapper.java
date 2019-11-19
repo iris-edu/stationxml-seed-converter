@@ -48,7 +48,9 @@ public class FirMapper extends AbstractMapper {
 			fType.setSymmetry("NONE");
 		}
 
-		fType.setName(b.getName());
+		if (b.getName()!= null && b.getName().length()>25) {
+			fType.setName(b.getName().substring(0, 24));
+		}
 
 		for (Double d : b.getCoefficients()) {
 			NumeratorCoefficient nc = new NumeratorCoefficient();

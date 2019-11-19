@@ -9,7 +9,9 @@ public class FirToBlocketteMapper {
 
 	public static B061 map(FIR f) throws SeedException {
 		B061 b = new B061();
-		b.setName(f.getName());
+		if (f.getName()!= null && f.getName().length()>25) {
+			b.setName(f.getName().substring(0, 24));
+		}
 
 		String symmetryCode = f.getSymmetry();
 
