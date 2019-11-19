@@ -406,8 +406,8 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		try {
 			document = IrisUtil.readXml(source);
 			volume = XmlToSeedDocumentConverter.getInstance().convert(document);
-			volume.build();
-		} catch (JAXBException | SeedException e) {
+			//volume.build();
+		} catch (JAXBException e) {
 			throw new IOException(e);
 		}
 

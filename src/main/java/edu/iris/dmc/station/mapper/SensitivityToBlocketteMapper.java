@@ -11,9 +11,12 @@ public class SensitivityToBlocketteMapper {
 			return null;
 		}
 		B058 b = new B058();
-		b.setFrequency(s.getFrequency());
-		b.setSensitivity(s.getValue());
-		// b.add(calibration);
+		if (s.getFrequency() != null) {
+			b.setFrequency(s.getFrequency());
+		}
+		if (s.getValue() != null) {
+			b.setSensitivity(s.getValue());
+		}
 		return b;
 	}
 }

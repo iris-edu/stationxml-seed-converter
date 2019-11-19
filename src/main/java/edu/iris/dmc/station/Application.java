@@ -98,8 +98,8 @@ public class Application {
 
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
-		if (source == null || source.isHidden()) {
-			return;
+		if (source == null || !source.isFile()||source.isHidden()) {
+			throw new IOException("Couldn't process file "+source);
 		}
 
 		if (source.isDirectory()) {
@@ -109,7 +109,7 @@ public class Application {
 			}
 		} else {
 			if (source.length() == 0) {
-				return;
+				throw new IOException("Couldn't process empty file "+source);
 			}
 			MetadataFileFormatConverter<File> converter = null;
 			String extension = null;
@@ -143,7 +143,7 @@ public class Application {
 		exitWithError(e.getMessage());
 	}
 
-	private static void exitWithError(String errorMsg) {
+	private static void exitWithError(String errorMsg) {System.out.println(errorMsg);
 		logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
 		System.err.println("\nError: " + errorMsg + "\n\n");
 		help();
