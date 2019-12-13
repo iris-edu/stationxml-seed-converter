@@ -1,8 +1,10 @@
 package edu.iris.dmc.station.converter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import javax.xml.bind.Marshaller;
 
 import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.station.FileConverterException;
 import edu.iris.dmc.station.mapper.MetadataConverterException;
@@ -34,13 +37,26 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 
 	}
 
+	public void convert(InputStream source, OutputStream outputStream, Map<String, String> args) throws FileConverterException, IOException {
+		try {
+			Volume volume = IrisUtil.readSeed(source);
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			marshal(document, outputStream);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SeedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void convert(File source, File target, Map<String, String> args)
 			throws MetadataConverterException, IOException {
-		try (OutputStream stream = new FileOutputStream(target)) {
-			Volume volume = IrisUtil.readSeed(source);
-			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
-			marshal(document, stream);
+		try (FileInputStream fileInputStream = new FileInputStream(source);
+				OutputStream fileOutputStream = new FileOutputStream(target)) {
+			convert(fileInputStream, fileOutputStream,args);
 		} catch (Exception e) {
 			throw new FileConverterException(e, source.getPath());
 		}

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.DictionaryIndex;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
+import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.control.dictionary.B030;
 import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B033;
@@ -44,7 +46,10 @@ import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
+import edu.iris.dmc.seed.director.BlocketteDirector;
 import edu.iris.dmc.seed.io.BlocketteOutputStream;
+import edu.iris.dmc.seed.io.RecordInputStream;
+import edu.iris.dmc.seed.io.SeedBufferedOutputStream;
 import edu.iris.dmc.seed.writer.SeedFileWriter;
 import edu.iris.dmc.station.ChannelCommentToBlocketteMapper;
 import edu.iris.dmc.station.mapper.ChannelBlocketteMapper;
@@ -406,7 +411,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		try {
 			document = IrisUtil.readXml(source);
 			volume = XmlToSeedDocumentConverter.getInstance().convert(document);
-			//volume.build();
+			// volume.build();
 		} catch (JAXBException e) {
 			throw new IOException(e);
 		}
@@ -418,4 +423,34 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 	}
 
+	public void convert(InputStream inputStream, OutputStream outputStream, Map<String, String> args)
+			throws IOException {
+		Volume volume = null;
+		try (BlocketteItrator it = new BlocketteItrator(new RecordInputStream(inputStream));) {
+			volume = new Volume();
+			while (it.hasNext()) {
+				Blockette b = it.next();
+				volume.add(b);
+			}
+		} catch (SeedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
+
+		try (SeedBufferedOutputStream stream = new SeedBufferedOutputStream(outputStream, logicalrecordLength);) {
+			stream.write(volume);
+		}
+	}
+
+	public Volume readSeed(InputStream inputStream) throws SeedException, IOException {
+		BlocketteDirector director = new BlocketteDirector();
+		BlocketteItrator iterator = director.process(inputStream);
+		Volume volume = new Volume();
+		while (iterator.hasNext()) {
+			Blockette blockette = iterator.next();
+			volume.add(blockette);
+		}
+		return volume;
+	}
 }
