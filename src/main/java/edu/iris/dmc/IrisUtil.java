@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.util.Iterator;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -19,10 +20,14 @@ import javax.xml.bind.Unmarshaller;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.BlocketteFactory;
+import edu.iris.dmc.seed.IncompleteBlockette;
+import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
+import edu.iris.dmc.seed.blockette.util.BItrator;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
-import edu.iris.dmc.seed.director.BlocketteDirector;
+import edu.iris.dmc.seed.io.RecordInputStream;
 import edu.iris.dmc.station.util.StationIterator;
 
 public class IrisUtil {
@@ -56,14 +61,42 @@ public class IrisUtil {
 	}
 
 	public static Volume readSeed(InputStream inputStream) throws SeedException, IOException {
-		BlocketteDirector director = new BlocketteDirector();
-		BlocketteItrator iterator = director.process(inputStream);
-		Volume volume = new Volume();
-		while (iterator.hasNext()) {
-			Blockette blockette = iterator.next();
-			volume.add(blockette);
+		try (RecordInputStream seedRecordInputStream = new RecordInputStream(inputStream)) {
+			Volume volume = null;
+			Record r = null;
+			while ((r = seedRecordInputStream.next()) != null) {
+				if (r.isContinuation()) {
+					throw new SeedException("Did not expect continuation record!");
+				}
+
+				Iterator<Blockette> it = new BItrator(r);
+				while (it.hasNext()) {
+					if (volume == null) {
+						volume = new Volume();
+					}
+					Blockette blockette = it.next();
+					volume.add(blockette);
+					if (blockette instanceof IncompleteBlockette) {
+						IncompleteBlockette incompleteBlockette = (IncompleteBlockette) blockette;
+
+						while (incompleteBlockette.numberOfRequiredBytesToComplete() > 0) {
+							r = seedRecordInputStream.next();
+							if (r == null) {
+								throw new SeedException("Expected a new record but was null.");
+							} else if (!r.isContinuation()) {
+								throw new SeedException("Expected a continuation record but received a new record.");
+							} else {
+								byte[] bytes = r.get(incompleteBlockette.numberOfRequiredBytesToComplete());
+								incompleteBlockette.append(bytes);
+							}
+						}
+						blockette = BlocketteFactory.create(incompleteBlockette.getBytes());
+						it = new BItrator(r);
+					}
+				}
+			}
+			return volume;
 		}
-		return volume;
 	}
 
 	/**

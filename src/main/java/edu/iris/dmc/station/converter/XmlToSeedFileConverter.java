@@ -23,12 +23,14 @@ import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Polynomial;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
-import edu.iris.dmc.io.SeedFormatter;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.BlocketteFormatter;
 import edu.iris.dmc.seed.DictionaryIndex;
+import edu.iris.dmc.seed.Record;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
+import edu.iris.dmc.seed.blockette.util.BItrator;
 import edu.iris.dmc.seed.blockette.util.BlocketteItrator;
 import edu.iris.dmc.seed.control.dictionary.B030;
 import edu.iris.dmc.seed.control.dictionary.B031;
@@ -46,7 +48,6 @@ import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
-import edu.iris.dmc.seed.director.BlocketteDirector;
 import edu.iris.dmc.seed.io.BlocketteOutputStream;
 import edu.iris.dmc.seed.io.RecordInputStream;
 import edu.iris.dmc.seed.io.SeedBufferedOutputStream;
@@ -368,7 +369,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 				startSequence++;
 				while (is.read(bytes) > 0) {
-					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
+					byte[] sequenceBytes = BlocketteFormatter.format(startSequence, 6).getBytes();
 					System.arraycopy(sequenceBytes, 0, bytes, 0, 6);
 					theFile.writeRaw(bytes);
 					startSequence++;
@@ -378,7 +379,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			try (InputStream is = new FileInputStream(stationTempFile)) {
 				byte[] bytes = new byte[recordSize];
 				while (is.read(bytes) > 0) {
-					byte[] sequenceBytes = SeedFormatter.format(startSequence, 6).getBytes();
+					byte[] sequenceBytes = BlocketteFormatter.format(startSequence, 6).getBytes();
 					System.arraycopy(sequenceBytes, 0, bytes, 0, 6);
 					theFile.writeRaw(bytes);
 					startSequence++;
@@ -444,13 +445,17 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 	}
 
 	public Volume readSeed(InputStream inputStream) throws SeedException, IOException {
-		BlocketteDirector director = new BlocketteDirector();
-		BlocketteItrator iterator = director.process(inputStream);
-		Volume volume = new Volume();
-		while (iterator.hasNext()) {
-			Blockette blockette = iterator.next();
-			volume.add(blockette);
+		try (RecordInputStream stream = new RecordInputStream(inputStream);) {
+			Record record = null;
+			Volume volume = new Volume();
+			while ((record = stream.next()) != null) {
+				BItrator iterator = new BItrator(record);
+				while (iterator.hasNext()) {
+					Blockette blockette = iterator.next();
+					volume.add(blockette);
+				}
+			}
+			return volume;
 		}
-		return volume;
 	}
 }
