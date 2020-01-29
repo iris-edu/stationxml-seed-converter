@@ -60,21 +60,10 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 
 		if (azimuthValue != null) {
 			Azimuth azimuth = factory.createAzimuthType();
-			if (dip != null && (dip.getValue() == 90 || dip.getValue() == -90)) {
-				if (BigDecimal.ZERO.compareTo(BigDecimal.valueOf(azimuthValue)) != 0) {
-					if (azimuthValue.intValue() >= 360) {
-						azimuth.setValue(Double.valueOf(0));
-					} else {
-						azimuth.setValue(azimuthValue);
-					}
-					channel.setAzimuth(azimuth);
-				}
-			} else {
 				azimuth.setValue(azimuthValue);
 				channel.setAzimuth(azimuth);
 			}
 
-		}
 
 		SampleRate sampleRate = factory.createSampleRateType();
 		sampleRate.setValue(blockette.getSampleRate());
