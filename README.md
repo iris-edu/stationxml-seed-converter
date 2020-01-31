@@ -9,6 +9,8 @@ Releases of the stationxml-seed-converter can be downloaded from the project rel
 
 The compiled .jar may be used immediately and is compatible with Java 8 and Java 11.
 
+The stationxml-seed-converted is built in an English language enviroment and assumes users have similar settings. If a user's enviroment is not C locale please instantiate a C locale enviroment using `export LC_ALL="C"` for bash, or setenv `LC_ALL C` for tcsh/csh.
+
 ### Basic Usage:
 
 `java -jar stationxml-seed-converter-2.0.4-SNAPSHOT.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
