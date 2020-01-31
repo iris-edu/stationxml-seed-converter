@@ -28,7 +28,7 @@ import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class SeedToXmlDocumentConverterTest {
 
-	// @Test
+	 @Test
 	public void t1() {
 		File source = null, target = null;
 
@@ -69,7 +69,8 @@ public class SeedToXmlDocumentConverterTest {
 			assertNotNull(station.getChannels());
 			assertEquals(37, station.getChannels().size());
 			Channel channel = station.getChannels().get(0);
-
+			
+			assertEquals("counts", channel.getCalibrationUnits().getName());
 			assertEquals("ACE", channel.getCode());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -137,10 +138,13 @@ public class SeedToXmlDocumentConverterTest {
 				System.out.println(b.toSeedString());
 			}
 
+			
+
 			assertEquals(volume.getControlBlockettes().size(), other.getControlBlockettes().size());
 		//	assertEquals(volume.getIndexBlockettes().size(), other.getIndexBlockettes().size());
 			assertEquals(volume.getDictionaryBlockettes().size(), other.getDictionaryBlockettes().size());
 			assertEquals(volume.size(), other.size());
+			
 
 			compare(volume, other);
 		} catch (Exception e) {
