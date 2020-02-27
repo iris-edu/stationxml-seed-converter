@@ -38,6 +38,25 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
+	
+	@Test
+	public void b11() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("b011_test.xml").getFile());
+
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+
+		List<B050> list = volume.getB050s();
+		assertEquals(11, list.size());
+		assertEquals(volume.getB011().toSeedString(), "0110043003NWAO 000003SJG  000154SPA  000985");
+		
+
+
+	}
+	
 	@Test
 	public void t2() throws Exception {
 
@@ -61,7 +80,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	@Test
+	//@Test
 	public void t3() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
