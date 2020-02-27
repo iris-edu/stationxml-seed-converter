@@ -110,7 +110,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>java-4-seed</artifactId>
-			<version>1.0.4-SNAPSHOT</version>
+			<version>1.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
