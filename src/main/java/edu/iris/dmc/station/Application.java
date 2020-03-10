@@ -66,6 +66,13 @@ public class Application {
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
+			} else if ("--label".equals(arg)) {
+				i = i + 1;
+				map.put("label", args[i]); 
+			} else if ("--organization".equals(arg))   
+			{
+				i = i + 1;
+				map.put("organization", args[i]);  
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
@@ -143,9 +150,9 @@ public class Application {
 		exitWithError(e.getMessage());
 	}
 
-	private static void exitWithError(String errorMsg) {System.out.println(errorMsg);
-		logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
-		System.err.println("\nError: " + errorMsg + "\n\n");
+	private static void exitWithError(String errorMsg) {
+		//logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
+		System.err.println("Error: " + errorMsg + "\n");
 		help();
 
 		System.exit(1);
@@ -164,6 +171,10 @@ public class Application {
 		// output is xml.\"");
 		System.out.println("	--input, usage = \"Input as a file or URL\"");
 		System.out.println("	--output, usage = \"Output file path and name\"");
+		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
+		System.out.println("	--organization, usage = \"Change B10 default Organzation to input\"");
+
+
 		System.exit(1);
 	}
 
