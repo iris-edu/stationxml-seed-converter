@@ -82,7 +82,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		if (args.get("organization") != null) {
 			b010.setOrganization((String) args.get("organization"));
 		} else {
-			b010.setOrganization("IRIC DMC");
+			b010.setOrganization("IRIS DMC");
 		}
 		if (args.get("label") != null) {
 			b010.setLabel((String) args.get("label"));

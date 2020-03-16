@@ -18,7 +18,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -62,15 +66,13 @@ public class Application {
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
-			} else if ("--prettyprint".equals(arg) || "-p".equals(arg)) {
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
 			} else if ("--label".equals(arg)) {
 				i = i + 1;
 				map.put("label", args[i]); 
-			} else if ("--organization".equals(arg))   
-			{
+			} else if ("--organization".equals(arg)){
 				i = i + 1;
 				map.put("organization", args[i]);  
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
@@ -81,10 +83,7 @@ public class Application {
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
 			}else {
-				logger.log(Level.SEVERE, "Unkown argument: [" + args[i] + "]");
-				System.err.println("Unkown argument: [" + args[i] + "]");
-				help();
-				System.exit(1);
+				    source = new File(args[i]);
 			}
 		}
 
@@ -106,7 +105,7 @@ public class Application {
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
 		if (source == null || !source.isFile()||source.isHidden()) {
-			throw new IOException("Couldn't process file "+source);
+			throw new IOException("File "+source+ " does not exist.");
 		}
 
 		if (source.isDirectory()) {
@@ -119,8 +118,21 @@ public class Application {
 				throw new IOException("Couldn't process empty file "+source);
 			}
 			MetadataFileFormatConverter<File> converter = null;
-			String extension = null;
-			if (source.getName().toLowerCase().endsWith("xml")) {
+			String extension = null;	
+			String xmlstring = "<FDSNStationXML";
+
+			try (InputStream ts = new FileInputStream(source)) {
+				 Reader r = new InputStreamReader(ts, "US-ASCII");
+				  int i = 0;
+				  String extentionString = "";
+	              int data = r.read();
+	              while(i < 100){
+	              char inputChar = (char) data;
+	              extentionString +=inputChar;
+	              data = r.read();
+	              i = i+1;
+	           } 			
+			if (extentionString.toLowerCase().contains(xmlstring.toLowerCase())) {
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 			} else {
@@ -143,8 +155,9 @@ public class Application {
 			} catch (FileConverterException e) {
 				exitWithError(e);
 			}
+		  }
 		}
-	}
+	 }
 
 	private static void exitWithError(Exception e) {
 		exitWithError(e.getMessage());
