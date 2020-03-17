@@ -21,12 +21,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
@@ -58,11 +66,14 @@ public class Application {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				/*
-				 * Logger rootLogger = LogManager.getLogManager().getLogger("");
-				 * rootLogger.setLevel(Level.INFO); for (Handler h : rootLogger.getHandlers()) {
-				 * h.setLevel(Level.INFO); } logger.log(Level.FINEST, "SEED >< XML CONVERTER");
-				 */
+
+				Logger rootLogger = LogManager.getLogManager().getLogger("");
+				rootLogger.setLevel(Level.INFO);
+				for (Handler h : rootLogger.getHandlers()) {
+					h.setLevel(Level.INFO);
+				}
+				logger.log(Level.FINEST, "SEED >< XML CONVERTER");
+
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
@@ -71,10 +82,10 @@ public class Application {
 				source = new File(args[i]);
 			} else if ("--label".equals(arg)) {
 				i = i + 1;
-				map.put("label", args[i]); 
-			} else if ("--organization".equals(arg)){
+				map.put("label", args[i]);
+			} else if ("--organization".equals(arg)) {
 				i = i + 1;
-				map.put("organization", args[i]);  
+				map.put("organization", args[i]);
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
@@ -82,8 +93,8 @@ public class Application {
 				map.put("large", "true");
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
-			}else {
-				    source = new File(args[i]);
+			} else {
+				source = new File(args[i]);
 			}
 		}
 
@@ -104,8 +115,8 @@ public class Application {
 
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
-		if (source == null || !source.isFile()||source.isHidden()) {
-			throw new IOException("File "+source+ " does not exist.");
+		if (source == null || !source.isFile() || source.isHidden()) {
+			throw new IOException("File " + source + " does not exist.");
 		}
 
 		if (source.isDirectory()) {
@@ -115,27 +126,17 @@ public class Application {
 			}
 		} else {
 			if (source.length() == 0) {
-				throw new IOException("Couldn't process empty file "+source);
+				throw new IOException("Couldn't process empty file " + source);
 			}
 			MetadataFileFormatConverter<File> converter = null;
-			String extension = null;	
-			String xmlstring = "<FDSNStationXML";
+			String extension = null;
 
-			try (InputStream ts = new FileInputStream(source)) {
-				 Reader r = new InputStreamReader(ts, "US-ASCII");
-				  int i = 0;
-				  String extentionString = "";
-	              int data = r.read();
-	              while(i < 255){
-	              char inputChar = (char) data;
-	              extentionString +=inputChar;
-	              data = r.read();
-	              i = i+1;
-	           } 			
-			if (extentionString.contains(xmlstring)) {
+			if (isStationXml(source)) {
+				logger.info("File type is StationXml");
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 			} else {
+				logger.info("Assume file type is SEED");
 				converter = SeedToXmlFileConverter.getInstance();
 				extension = "xml";
 			}
@@ -150,21 +151,19 @@ public class Application {
 				if (debug) {
 					logger.log(Level.FINEST, source + "   ->   " + target);
 				}
-
 				converter.convert(source, target, map);
 			} catch (FileConverterException e) {
 				exitWithError(e);
 			}
-		  }
 		}
-	 }
+	}
 
 	private static void exitWithError(Exception e) {
 		exitWithError(e.getMessage());
 	}
 
 	private static void exitWithError(String errorMsg) {
-		//logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
+		// logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
 		System.err.println("Error: " + errorMsg + "\n");
 		help();
 
@@ -187,7 +186,6 @@ public class Application {
 		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
 		System.out.println("	--organization, usage = \"Change B10 default Organzation to input\"");
 
-
 		System.exit(1);
 	}
 
@@ -196,6 +194,48 @@ public class Application {
 
 		boolean isDebug() {
 			return debug;
+		}
+	}
+
+	private boolean isStationXml(File source) throws IOException {
+		if (source == null) {
+			throw new IOException("File not found");
+		}
+		ExtractorHandler handler = new ExtractorHandler();
+		try (InputStream inputStream = new FileInputStream(source)) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(inputStream, handler);
+		} catch (
+
+		Exception e) {
+			// do nothing
+		}
+		QName qname = handler.rootElement;
+		if (qname == null) {
+			return false;
+		}
+
+		if ((new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
+			return true;
+		}
+		return false;
+	}
+
+	protected static class ExtractorHandler extends DefaultHandler {
+
+		private QName rootElement = null;
+
+		@Override
+		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
+			this.rootElement = new QName(uri, local);
+			throw new SAXException("Aborting: root element received");
+		}
+
+		QName getRootElement() {
+			return rootElement;
 		}
 	}
 }

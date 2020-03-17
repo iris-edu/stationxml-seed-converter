@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -27,30 +28,22 @@ import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.record.StationRecord;
 import edu.iris.dmc.seed.writer.SeedFileWriter;
+import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class FileConverterRunner {
-	
+
 	@Test
-	public static void main(String[] args) {
-		File source = null, target = null;
-
+	public static void main(String[] args) throws Exception{
+		URL url = FileConverterRunner.class.getClassLoader().getResource("CU_ANWB_BH2.xml");
+		args = new String[] {"-v","--input", url.getPath()};
+		Application.main(args);
 		
-		// source = new
-		// File("/Users/Suleiman/seed/AK_CCB.dataless");//dataless-archive/IU.dataless");
-		source = new File("/Users/tronan/Desktop/Yazan_Dataless/ROIPH5.xml");
-
 		
-		Volume volume;
-		try {
-			((XmlToSeedFileConverter)XmlToSeedFileConverter.getInstance()).convert(source, new File("ROIPH5.xml"),null);
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		url = FileConverterRunner.class.getClassLoader().getResource("dataless.CI.DJJB.061013");
+		args = new String[] {"-v","--input", url.getPath()};
+		Application.main(args);
+		
 	}
 
 }
