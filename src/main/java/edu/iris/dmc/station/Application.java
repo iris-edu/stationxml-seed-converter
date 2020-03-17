@@ -126,13 +126,13 @@ public class Application {
 				  int i = 0;
 				  String extentionString = "";
 	              int data = r.read();
-	              while(i < 100){
+	              while(i < 255){
 	              char inputChar = (char) data;
 	              extentionString +=inputChar;
 	              data = r.read();
 	              i = i+1;
 	           } 			
-			if (extentionString.toLowerCase().contains(xmlstring.toLowerCase())) {
+			if (extentionString.contains(xmlstring)) {
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 			} else {
