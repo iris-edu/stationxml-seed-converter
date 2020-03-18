@@ -21,12 +21,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.SAXParser;
@@ -43,37 +47,36 @@ import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class Application {
 
-	private static final Logger logger = Logger.getLogger(Application.class.getName());
-
+	private static Logger logger = null;
+	  static {
+	      System.setProperty("java.util.logging.SimpleFormatter.format",
+	    		  "[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s:"
+	    		  + " %5$s%6$s %n");
+	      logger = Logger.getLogger(Application.class.getName());
+	  }
+	
+	
 	private boolean debug;
+	private boolean lab=false;
+	private boolean org=false;
 
 	public static void main(String[] args) throws Exception {
 		Application application = new Application();
 		application.run(args);
 	}
-
 	public void run(String... args) {
-
 		if (args == null || args.length == 0) {
 			exitWithError("Invalid number of arguments");
 		}
-
 		File source = null;
 		File target = null;
-
 		Map<String, String> map = new HashMap<>();
+		logger.setLevel(Level.WARNING);
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-
-				Logger rootLogger = LogManager.getLogManager().getLogger("");
-				rootLogger.setLevel(Level.INFO);
-				for (Handler h : rootLogger.getHandlers()) {
-					h.setLevel(Level.INFO);
-				}
-				logger.log(Level.FINEST, "SEED >< XML CONVERTER");
-
+				logger.setLevel(Level.INFO);
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
 				help();
 				System.exit(0);
@@ -83,9 +86,11 @@ public class Application {
 			} else if ("--label".equals(arg)) {
 				i = i + 1;
 				map.put("label", args[i]);
+				lab = true;
 			} else if ("--organization".equals(arg)) {
 				i = i + 1;
 				map.put("organization", args[i]);
+				org=true;
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
@@ -102,9 +107,6 @@ public class Application {
 			if (source == null) {
 				exitWithError("no source file is provided.");
 			} else {
-				if (debug) {
-					System.out.println("Preparing to convert " + source);
-				}
 				convert(source, target, map);
 			}
 
@@ -132,11 +134,16 @@ public class Application {
 			String extension = null;
 
 			if (isStationXml(source)) {
-				logger.info("File type is StationXml");
+				logger.info("Input file is formatted as StationXml");
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
+				if(lab==true){
+					logger.info("Label [B10:F9] is set as " + map.get("label"));
+				if(org==true) {
+					logger.info("Originating Organization [B10:F8] is set as " + map.get("organization"));
+				}
 			} else {
-				logger.info("Assume file type is SEED");
+				logger.info("Input file is assumed to be formatted as Dataless SEED");
 				converter = SeedToXmlFileConverter.getInstance();
 				extension = "xml";
 			}
@@ -148,13 +155,12 @@ public class Application {
 				}
 			}
 			try {
-				if (debug) {
-					logger.log(Level.FINEST, source + "   ->   " + target);
-				}
+				logger.log(Level.INFO,"Input File " + source + " Output File " + target);
 				converter.convert(source, target, map);
 			} catch (FileConverterException e) {
 				exitWithError(e);
 			}
+		  }
 		}
 	}
 
@@ -163,8 +169,7 @@ public class Application {
 	}
 
 	private static void exitWithError(String errorMsg) {
-		// logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
-		System.err.println("Error: " + errorMsg + "\n");
+		logger.severe(errorMsg);
 		help();
 
 		System.exit(1);
@@ -174,13 +179,14 @@ public class Application {
 		System.out.println("Usage:");
 		System.out.println("java -jar stationxml-converter.jar [arguments]");
 
-		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
+		System.out.println("	--help or -h, usage = \"print this message\"");
 		// System.out.println(" -V, aliases = \"--version\", usage = \"Print
 		// version
 		// number and exit.\"");
 		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only
 		// when
 		// output is xml.\"");
+		System.out.println("        --verbose, usage = \"Increase verbosity level\"");
 		System.out.println("	--input, usage = \"Input as a file or URL\"");
 		System.out.println("	--output, usage = \"Output file path and name\"");
 		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
