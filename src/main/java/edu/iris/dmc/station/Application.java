@@ -139,9 +139,10 @@ public class Application {
 				extension = "dataless";
 				if(lab==true){
 					logger.info("Label [B10:F9] is set as " + map.get("label"));
+				}
 				if(org==true) {
 					logger.info("Originating Organization [B10:F8] is set as " + map.get("organization"));
-				}
+				}	
 			} else {
 				logger.info("Input file is assumed to be formatted as Dataless SEED");
 				converter = SeedToXmlFileConverter.getInstance();
@@ -162,7 +163,7 @@ public class Application {
 			}
 		  }
 		}
-	}
+	
 
 	private static void exitWithError(Exception e) {
 		exitWithError(e.getMessage());
