@@ -94,8 +94,12 @@ public class Application {
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
+			} else if ("--continue-on-error".equals(arg)) {
+				map.put("continue", "true");
+			
 			} else if ("--large".equals(arg)) {
 				map.put("large", "true");
+			
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
 			} else {
@@ -105,21 +109,21 @@ public class Application {
 
 		try {
 			if (source == null) {
-				exitWithError("no source file is provided.");
+				exitWithError("No source file is provided.");
 			} else {
 				convert(source, target, map);
+
 			}
 
 		} catch (Exception e) {
-			exitWithError(e);
+			StringBuilder message = createExceptionMessage(e);
+
+			logger.severe(message.toString());
 		}
 	}
 
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
-		if (source == null || !source.isFile() || source.isHidden()) {
-			throw new IOException("File " + source + " does not exist.");
-		}
 
 		if (source.isDirectory()) {
 			File[] listOfFiles = source.listFiles();
@@ -127,13 +131,14 @@ public class Application {
 				convert(f, target, map);
 			}
 		} else {
-			if (source.length() == 0) {
-				throw new IOException("Couldn't process empty file " + source);
+			if (source == null || !source.isFile() || source.isHidden()) {
+				throw new IOException("File " + source + " does not exist.");
 			}
 			MetadataFileFormatConverter<File> converter = null;
 			String extension = null;
 
 			if (isStationXml(source)) {
+				logger.info("Input file: " + source.getPath());
 				logger.info("Input file is formatted as StationXml");
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
@@ -142,8 +147,9 @@ public class Application {
 				}
 				if(org==true) {
 					logger.info("Originating Organization [B10:F8] is set as " + map.get("organization"));
-				}	
+				}
 			} else {
+				logger.info("Input file: " + source.getPath());
 				logger.info("Input file is assumed to be formatted as Dataless SEED");
 				converter = SeedToXmlFileConverter.getInstance();
 				extension = "xml";
@@ -156,24 +162,53 @@ public class Application {
 				}
 			}
 			try {
-				logger.log(Level.INFO,"Input File " + source + " Output File " + target);
+				//logger.log(Level.INFO,"Input File " + source + " Output File " + target);								
 				converter.convert(source, target, map);
+				logger.info("Output file: " + target + "\n");
+
 			} catch (FileConverterException e) {
-				exitWithError(e);
+				exitWithError(e, map);
 			}
 		  }
 		}
 	
 
-	private static void exitWithError(Exception e) {
-		exitWithError(e.getMessage());
+	private static void exitWithError(Exception e, Map<String, String> map) {
+
+		StringBuilder message = createExceptionMessage(e);
+		String con = map.get("continue");	
+		if (con.contains("true")==true){
+			logger.severe(message.toString());
+	        //null 
+		}else {
+		    System.exit(1);
+	    }
+	}
+	
+	private static StringBuilder createExceptionMessage(Exception e) {
+		StringBuilder message = new StringBuilder(
+				"");
+		if(e.getLocalizedMessage() != null) {
+		    message.append(e.getLocalizedMessage());
+		}
+		for (StackTraceElement element : e.getStackTrace()){
+			message.append(element.toString()).append("\n");
+		}
+		if (e.getCause() != null) {
+			message.append(e.getCause().getLocalizedMessage());
+			for (StackTraceElement element : e.getCause().getStackTrace()) {
+				message.append(element.toString()).append("\n");
+			}
+		}
+		return message;
 	}
 
 	private static void exitWithError(String errorMsg) {
+		
+		
 		logger.severe(errorMsg);
-		help();
-
-		System.exit(1);
+		//help();
+		//System.exit(1);
 	}
 
 	private static void help() {
@@ -192,7 +227,7 @@ public class Application {
 		System.out.println("	--output, usage = \"Output file path and name\"");
 		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
 		System.out.println("	--organization, usage = \"Change B10 default Organzation to input\"");
-
+		System.out.println("	--continue-on-error, usage = \"Change B10 default Organzation to input\"");
 		System.exit(1);
 	}
 
