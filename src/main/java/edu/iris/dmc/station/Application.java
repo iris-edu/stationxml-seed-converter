@@ -67,6 +67,8 @@ public class Application {
 	public void run(String... args) {
 		if (args == null || args.length == 0) {
 			exitWithError("Invalid number of arguments");
+			help();
+			
 		}
 		File source = null;
 		File target = null;
