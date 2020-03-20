@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -40,6 +41,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
 import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
@@ -67,8 +69,7 @@ public class Application {
 	public void run(String... args) {
 		if (args == null || args.length == 0) {
 			exitWithError("Invalid number of arguments");
-			help();
-			
+			help();	
 		}
 		File source = null;
 		File target = null;
@@ -80,8 +81,8 @@ public class Application {
 				debug = true;
 				logger.setLevel(Level.INFO);
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
-				help();
-				System.exit(0);
+					help();
+					System.exit(0);
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
@@ -183,6 +184,7 @@ public class Application {
 			logger.severe(message.toString());
 	        //null 
 		}else {
+			logger.severe(message.toString());
 		    System.exit(1);
 	    }
 	}
@@ -213,10 +215,17 @@ public class Application {
 		//System.exit(1);
 	}
 
-	private static void help() {
+	private void help() {
+		String version = "Version " + getClass().getPackage().getImplementationVersion();
+		version = center(version, 62, " ");
+		
+		System.out.println("===============================================================");
+		System.out.println("|"+ center("FDSN StationXml SEED Converter", 62, " ") + "|");
+		System.out.println("|" + version + "|");
+		System.out.println("================================================================");
 		System.out.println("Usage:");
-		System.out.println("java -jar stationxml-converter.jar [arguments]");
-
+		System.out.println("java -jar stationxml-seed-converter <FILE> [OPTIONS]");
+		System.out.println("OPTIONS:");
 		System.out.println("	--help or -h, usage = \"print this message\"");
 		// System.out.println(" -V, aliases = \"--version\", usage = \"Print
 		// version
@@ -225,12 +234,13 @@ public class Application {
 		// when
 		// output is xml.\"");
 		System.out.println("        --verbose, usage = \"Increase verbosity level\"");
-		System.out.println("	--input, usage = \"Input as a file or URL\"");
+		System.out.println("	--input, usage = \"Input as a file or Directory\"");
 		System.out.println("	--output, usage = \"Output file path and name\"");
 		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
 		System.out.println("	--organization, usage = \"Change B10 default Organzation to input\"");
-		System.out.println("	--continue-on-error, usage = \"Change B10 default Organzation to input\"");
-		System.exit(1);
+		System.out.println("	--continue-on-error, usage = \"Prints exceptions to stdout and processes next file\"");
+		System.out.println("===============================================================");
+		System.exit(0);
 	}
 
 	class Args {
@@ -267,7 +277,21 @@ public class Application {
 		}
 		return false;
 	}
-
+	
+	private static String center(String text, int length, String pad) {
+		int width = length - text.length();
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < width / 2; i++) {
+			builder.append(pad);
+		}
+		builder.append(text);
+		int remainder = length - builder.length();
+		for (int i = 0; i < remainder; i++) {
+			builder.append(pad);
+		}
+		return builder.toString();
+	}
+	
 	protected static class ExtractorHandler extends DefaultHandler {
 
 		private QName rootElement = null;
