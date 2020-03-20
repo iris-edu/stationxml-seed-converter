@@ -226,19 +226,19 @@ public class Application {
 		System.out.println("Usage:");
 		System.out.println("java -jar stationxml-seed-converter <FILE> [OPTIONS]");
 		System.out.println("OPTIONS:");
-		System.out.println("	--help or -h, usage = \"print this message\"");
+		System.out.println("   --help or -h         : print this message");
 		// System.out.println(" -V, aliases = \"--version\", usage = \"Print
 		// version
 		// number and exit.\"");
 		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only
 		// when
 		// output is xml.\"");
-		System.out.println("        --verbose, usage = \"Increase verbosity level\"");
-		System.out.println("	--input, usage = \"Input as a file or Directory\"");
-		System.out.println("	--output, usage = \"Output file path and name\"");
-		System.out.println("	--label, usage = \"Change B10 default Label to input\"");
-		System.out.println("	--organization, usage = \"Change B10 default Organzation to input\"");
-		System.out.println("	--continue-on-error, usage = \"Prints exceptions to stdout and processes next file\"");
+		System.out.println("   --verbose            : increase verbosity level");
+		System.out.println("   --input              : input as a file or directory");
+		System.out.println("   --output             : output file path and name");
+		System.out.println("   --label              : specify label for use in B10");
+		System.out.println("   --organization       : specify organization for use in B10");
+		System.out.println("   --continue-on-error  : prints exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 		System.exit(0);
 	}
