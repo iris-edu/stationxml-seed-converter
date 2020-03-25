@@ -79,6 +79,17 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 		int recordSize = 4096;
 		Map<String, Integer> map = new HashMap<>();
 		B010 b010 = new B010();
+		if (args.get("organization") != null) {
+			b010.setOrganization((String) args.get("organization"));
+		} else {
+			b010.setOrganization("IRIS DMC");
+		}
+		if (args.get("label") != null) {
+			b010.setLabel((String) args.get("label"));
+		} else {
+			b010.setLabel("Converted from XML");
+		}
+
 		b010.setVolumeTime(BTime.now());
 		b010.setOrganization("IRIC DMC");
 		b010.setVersion("02.4");
@@ -399,6 +410,8 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 
 	@Override
 	public void convert(File source, File target, Map<String, String> args) throws IOException {
+		// Volume.build must be in this convert method so b10 can be updated by user
+		// input
 		if (args != null) {
 			String large = args.get("large");
 			if (large != null && Boolean.valueOf(large)) {
@@ -406,24 +419,40 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 				return;
 			}
 		}
-		FDSNStationXML document = null;
-		Volume volume = null;
+
 		try {
-			document = IrisUtil.readXml(source);
-			volume = XmlToSeedDocumentConverter.getInstance().convert(document);
-			// volume.build();
-		} catch (JAXBException e) {
+			FDSNStationXML document = IrisUtil.readXml(source);
+			Volume volume = XmlToSeedDocumentConverter.getInstance().convert(document);
+			if (volume == null) {
+				throw new IOException("An error occured,vVolume is null");
+			}
+			if (args != null && !args.isEmpty()) {
+				B010 b010 = volume.getB010();
+				if (b010 != null) {
+					String value = args.get("organization");
+					if (value != null) {
+						b010.setOrganization(value);
+					}
+					value = args.get("label");
+					if (value != null) {
+						b010.setLabel(value);
+					}
+				}
+			}
+			volume.build();
+			int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
+			try (SeedFileWriter writer = new SeedFileWriter(target, logicalrecordLength)) {
+				writer.write(volume);
+			}
+		} catch (JAXBException | SeedException e) {
 			throw new IOException(e);
 		}
-
-		int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
-		try (SeedFileWriter writer = new SeedFileWriter(target, logicalrecordLength)) {
-			writer.write(volume);
-		}
-
 	}
 
 	public void convert(InputStream inputStream, OutputStream outputStream, Map<String, String> args)
+			// This instance of convert likely never runs and maybe should be removed from
+			// the code.
+			// Needs external review other than Tim Ronan
 			throws IOException {
 		Volume volume = null;
 		try (BlocketteItrator it = new BlocketteItrator(new RecordInputStream(inputStream));) {
@@ -437,6 +466,16 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			e.printStackTrace();
 		}
 		int logicalrecordLength = (int) Math.pow(2, volume.getB010().getNthPower());
+		try {
+			if (args.containsKey("organization") == true) {
+				volume.getB010().setOrganization(args.get("organization"));
+			}
+			if (args.containsKey("label") == true) {
+				volume.getB010().setLabel(args.get("label"));
+			}
+		} catch (NullPointerException e) {
+			// NullPointer Exception raised
+		}
 
 		try (SeedBufferedOutputStream stream = new SeedBufferedOutputStream(outputStream, logicalrecordLength);) {
 			stream.write(volume);

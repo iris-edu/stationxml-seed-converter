@@ -63,7 +63,7 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 		try {
 			B010 b010 = new B010();
 			b010.setVolumeTime(BTime.now());
-			b010.setOrganization("IRIC DMC");
+			b010.setOrganization("IRIS DMC");
 			b010.setVersion("02.4");
 			b010.setLabel("Converted from XML");
 			volume.add(b010);
@@ -313,7 +313,7 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 					}
 				}
 			}
-			volume.build();
+			//volume.build();
 		} catch (InvalidUnitException e) {
 			throw new MetadataConverterException(e);
 		} catch (SeedException e) {

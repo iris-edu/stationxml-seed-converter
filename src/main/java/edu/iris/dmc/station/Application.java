@@ -18,12 +18,30 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
+import javax.xml.namespace.QName;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
 import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
@@ -31,76 +49,84 @@ import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class Application {
 
-	private static final Logger logger = Logger.getLogger(Application.class.getName());
-
+	private static Logger logger = null;
+	  static {
+	      System.setProperty("java.util.logging.SimpleFormatter.format",
+	    		  "[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s:"
+	    		  + " %5$s%6$s %n");
+	      logger = Logger.getLogger(Application.class.getName());
+	  }
+	
+	
 	private boolean debug;
+	private boolean lab=false;
+	private boolean org=false;
 
 	public static void main(String[] args) throws Exception {
 		Application application = new Application();
 		application.run(args);
 	}
-
 	public void run(String... args) {
-
 		if (args == null || args.length == 0) {
 			exitWithError("Invalid number of arguments");
+			help();	
 		}
-
 		File source = null;
 		File target = null;
-
 		Map<String, String> map = new HashMap<>();
+		logger.setLevel(Level.WARNING);
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			if ("--verbose".equals(arg) || "-v".equals(arg)) {
 				debug = true;
-				/*
-				 * Logger rootLogger = LogManager.getLogManager().getLogger("");
-				 * rootLogger.setLevel(Level.INFO); for (Handler h : rootLogger.getHandlers()) {
-				 * h.setLevel(Level.INFO); } logger.log(Level.FINEST, "SEED >< XML CONVERTER");
-				 */
+				logger.setLevel(Level.INFO);
 			} else if ("--help".equals(arg) || "-h".equals(arg)) {
-				help();
-				System.exit(0);
-			} else if ("--prettyprint".equals(arg) || "-p".equals(arg)) {
+					help();
+					System.exit(0);
 			} else if ("--input".equals(arg) || "-i".equals(arg)) {
 				i = i + 1;
 				source = new File(args[i]);
+			} else if ("--label".equals(arg)) {
+				i = i + 1;
+				map.put("label", args[i]);
+				lab = true;
+			} else if ("--organization".equals(arg)) {
+				i = i + 1;
+				map.put("organization", args[i]);
+				org=true;
 			} else if ("--output".equals(arg) || "-o".equals(arg)) {
 				i = i + 1;
 				target = new File(args[i]);
+			} else if ("--continue-on-error".equals(arg)) {
+				map.put("continue", "true");
+			
 			} else if ("--large".equals(arg)) {
 				map.put("large", "true");
+			
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
-			}else {
-				logger.log(Level.SEVERE, "Unkown argument: [" + args[i] + "]");
-				System.err.println("Unkown argument: [" + args[i] + "]");
-				help();
-				System.exit(1);
+			} else {
+				source = new File(args[i]);
 			}
 		}
 
 		try {
 			if (source == null) {
-				exitWithError("no source file is provided.");
+				exitWithError("No source file is provided.");
 			} else {
-				if (debug) {
-					System.out.println("Preparing to convert " + source);
-				}
 				convert(source, target, map);
+
 			}
 
 		} catch (Exception e) {
-			exitWithError(e);
+			StringBuilder message = createExceptionMessage(e);
+
+			logger.severe(message.toString());
 		}
 	}
 
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
-		if (source == null || !source.isFile()||source.isHidden()) {
-			throw new IOException("Couldn't process file "+source);
-		}
 
 		if (source.isDirectory()) {
 			File[] listOfFiles = source.listFiles();
@@ -108,15 +134,26 @@ public class Application {
 				convert(f, target, map);
 			}
 		} else {
-			if (source.length() == 0) {
-				throw new IOException("Couldn't process empty file "+source);
+			if (source == null || !source.isFile() || source.isHidden()) {
+				throw new IOException("File " + source + " does not exist.");
 			}
 			MetadataFileFormatConverter<File> converter = null;
 			String extension = null;
-			if (source.getName().toLowerCase().endsWith("xml")) {
+
+			if (isStationXml(source)) {
+				logger.info("Input file: " + source.getPath());
+				logger.info("Input file is formatted as StationXml");
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
+				if(lab==true){
+					logger.info("Label [B10:F9] is set as " + map.get("label"));
+				}
+				if(org==true) {
+					logger.info("Originating Organization [B10:F8] is set as " + map.get("organization"));
+				}
 			} else {
+				logger.info("Input file: " + source.getPath());
+				logger.info("Input file is assumed to be formatted as Dataless SEED");
 				converter = SeedToXmlFileConverter.getInstance();
 				extension = "xml";
 			}
@@ -128,43 +165,81 @@ public class Application {
 				}
 			}
 			try {
-				if (debug) {
-					logger.log(Level.FINEST, source + "   ->   " + target);
-				}
-
+				//logger.log(Level.INFO,"Input File " + source + " Output File " + target);								
 				converter.convert(source, target, map);
+				logger.info("Output file: " + target + "\n");
+
 			} catch (FileConverterException e) {
-				exitWithError(e);
+				exitWithError(e, map);
+			}
+		  }
+		}
+	
+
+	private static void exitWithError(Exception e, Map<String, String> map) {
+
+		StringBuilder message = createExceptionMessage(e);
+		String con = map.get("continue");	
+		if (con.contains("true")==true){
+			logger.severe(message.toString());
+	        //null 
+		}else {
+			logger.severe(message.toString());
+		    System.exit(1);
+	    }
+	}
+	
+	private static StringBuilder createExceptionMessage(Exception e) {
+		StringBuilder message = new StringBuilder(
+				"");
+		if(e.getLocalizedMessage() != null) {
+		    message.append(e.getLocalizedMessage());
+		}
+		for (StackTraceElement element : e.getStackTrace()){
+			message.append(element.toString()).append("\n");
+		}
+		if (e.getCause() != null) {
+			message.append(e.getCause().getLocalizedMessage());
+			for (StackTraceElement element : e.getCause().getStackTrace()) {
+				message.append(element.toString()).append("\n");
 			}
 		}
+		return message;
 	}
 
-	private static void exitWithError(Exception e) {
-		exitWithError(e.getMessage());
+	private static void exitWithError(String errorMsg) {
+		
+		
+		logger.severe(errorMsg);
+		//help();
+		//System.exit(1);
 	}
 
-	private static void exitWithError(String errorMsg) {System.out.println(errorMsg);
-		logger.log(Level.SEVERE, "\nError: " + errorMsg + "\n\n");
-		System.err.println("\nError: " + errorMsg + "\n\n");
-		help();
-
-		System.exit(1);
-	}
-
-	private static void help() {
+	private void help() {
+		String version = "Version " + getClass().getPackage().getImplementationVersion();
+		version = center(version, 62, " ");
+		
+		System.out.println("===============================================================");
+		System.out.println("|"+ center("FDSN StationXml SEED Converter", 62, " ") + "|");
+		System.out.println("|" + version + "|");
+		System.out.println("================================================================");
 		System.out.println("Usage:");
-		System.out.println("java -jar stationxml-converter.jar [arguments]");
-
-		System.out.println("	-h, aliases = \"--help\", usage = \"print this message\"");
+		System.out.println("java -jar stationxml-seed-converter <FILE> [OPTIONS]");
+		System.out.println("OPTIONS:");
+		System.out.println("   --help or -h         : print this message");
 		// System.out.println(" -V, aliases = \"--version\", usage = \"Print
 		// version
 		// number and exit.\"");
 		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only
 		// when
 		// output is xml.\"");
-		System.out.println("	--input, usage = \"Input as a file or URL\"");
-		System.out.println("	--output, usage = \"Output file path and name\"");
-		System.exit(1);
+		System.out.println("   --verbose            : increase verbosity level");
+		System.out.println("   --input              : input as a file or directory");
+		System.out.println("   --output             : output file path and name");
+		System.out.println("   --label              : specify label for use in B10");
+		System.out.println("   --organization       : specify organization for use in B10");
+		System.out.println("   --continue-on-error  : prints exceptions to stdout and processes next file");
+		System.out.println("===============================================================");
 	}
 
 	class Args {
@@ -172,6 +247,62 @@ public class Application {
 
 		boolean isDebug() {
 			return debug;
+		}
+	}
+
+	private boolean isStationXml(File source) throws IOException {
+		if (source == null) {
+			throw new IOException("File not found");
+		}
+		ExtractorHandler handler = new ExtractorHandler();
+		try (InputStream inputStream = new FileInputStream(source)) {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(inputStream, handler);
+		} catch (
+
+		Exception e) {
+			// do nothing
+		}
+		QName qname = handler.rootElement;
+		if (qname == null) {
+			return false;
+		}
+
+		if ((new QName("http://www.fdsn.org/xml/station/1", "FDSNStationXML")).equals(qname)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static String center(String text, int length, String pad) {
+		int width = length - text.length();
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < width / 2; i++) {
+			builder.append(pad);
+		}
+		builder.append(text);
+		int remainder = length - builder.length();
+		for (int i = 0; i < remainder; i++) {
+			builder.append(pad);
+		}
+		return builder.toString();
+	}
+	
+	protected static class ExtractorHandler extends DefaultHandler {
+
+		private QName rootElement = null;
+
+		@Override
+		public void startElement(String uri, String local, String name, Attributes attributes) throws SAXException {
+			this.rootElement = new QName(uri, local);
+			throw new SAXException("Aborting: root element received");
+		}
+
+		QName getRootElement() {
+			return rootElement;
 		}
 	}
 }
