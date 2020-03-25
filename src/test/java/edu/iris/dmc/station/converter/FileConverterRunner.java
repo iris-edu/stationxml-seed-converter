@@ -70,9 +70,9 @@ public class FileConverterRunner {
          errps.close();
          ps.close();
          
-	     boolean content1  = syserr.toString().contains("[INFO  ] edu.iris.dmc.station.Application convert: Input file: /Users/tronan/Desktop/Projects/stationxml-seed-converter/target/test-classes/CU_ANWB_BH2.xml");
+	     boolean content1  = syserr.toString().contains("[INFO  ] edu.iris.dmc.station.Application convert: Input file:");
 	     boolean content2  = syserr.toString().contains("[INFO  ] edu.iris.dmc.station.Application convert: Input file is formatted as StationXml");
-	     boolean content3  = syserr.toString().contains("[INFO  ] edu.iris.dmc.station.Application convert: Output file: /Users/tronan/Desktop/Projects/stationxml-seed-converter/target/test-classes/CU_ANWB_BH2.xml.converted.dataless");
+	     boolean content3  = syserr.toString().contains("[INFO  ] edu.iris.dmc.station.Application convert: Output file:");
 	     boolean content4  = syserr.toString().contains("\n");
 
 	     assertTrue(content1==true);
@@ -82,13 +82,6 @@ public class FileConverterRunner {
 	     
 	     
 	}
-
-
-	
-
-	
-
-	
 	
 	@Test
 	public void help() throws Exception{
@@ -116,7 +109,5 @@ public class FileConverterRunner {
  		Application.main(args);	
 			
 	}
-	
-	
 
 }
