@@ -240,6 +240,7 @@ public class Application {
 		System.out.println("   --organization       : specify organization for use in B10");
 		System.out.println("   --continue-on-error  : prints exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
+		System.exit(0);
 	}
 
 	class Args {
