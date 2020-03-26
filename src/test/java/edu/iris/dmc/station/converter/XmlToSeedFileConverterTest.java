@@ -23,7 +23,7 @@ import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
 
 public class XmlToSeedFileConverterTest {
 
-	//@Test
+	@Test
 	public void t1() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -44,7 +44,7 @@ public class XmlToSeedFileConverterTest {
 	}
 
 	
-	//@Test
+	@Test
 	public void b10() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("b010_test.xml").getFile());
@@ -64,7 +64,7 @@ public class XmlToSeedFileConverterTest {
 	}
 	
 	
-	//@Test
+	@Test
 	public void b11() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("b011_test.xml").getFile());
@@ -82,7 +82,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 	
-	//@Test
+	@Test
 	public void t2() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -105,7 +105,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	//@Test
+	@Test
 	public void t3() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -124,7 +124,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
-	//@Test
+	@Test
 	public void t4() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("IU_ANMO_BHZ.xml").getFile());
@@ -143,7 +143,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 	
-	//@Test
+	@Test
 	public void B31() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("comment.xml").getFile());
