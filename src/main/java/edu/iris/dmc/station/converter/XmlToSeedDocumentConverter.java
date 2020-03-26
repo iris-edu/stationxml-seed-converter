@@ -67,15 +67,15 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 			b010.setVersion("02.4");
 			b010.setLabel("Converted from XML");
 			volume.add(b010);
-
 			for (Network network : document.getNetwork()) {
-				int networkIdentifierCode = 0;
-				if (network.getDescription() != null) {
-					B033 b033 = new B033();
-					b033.setDescription(network.getDescription());
-					b033 = (B033) volume.add(b033);
-					networkIdentifierCode = b033.getLookupKey();
+				int networkIdentifierCode = 999;
+				if (network.getDescription() == null) {
+					network.setDescription(network.getCode());
 				}
+				B033 b033 = new B033();
+				b033.setDescription(network.getDescription());
+				b033 = (B033) volume.add(b033);
+				networkIdentifierCode = b033.getLookupKey();
 				for (Station station : network.getStations()) {
 					B050 b050 = StationBlocketteMapper.map(station);
 					b050.setNetworkIdentifierCode(networkIdentifierCode);
