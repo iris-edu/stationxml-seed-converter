@@ -65,10 +65,10 @@ public class MainTest_ContinueOnError {
          String syserr = errContentContinue.toString().replaceAll( "\r", "" );
          errContentContinue.close();
          errps2.close();
-         
          boolean content1  = syserr.toString().contains("[SEVERE] edu.iris.dmc.station.Application exitWithError");
          boolean content2  = syserr.toString().contains("[SEVERE] edu.iris.dmc.station.Application run: javax.xml.bind.UnmarshalException");
-
+         boolean content3  = syserr.toString().contains("edu.iris.dmc.seed.SeedException: Value +35478.0 too big");
+         assertTrue(content1);
 	     
 	     
 	}

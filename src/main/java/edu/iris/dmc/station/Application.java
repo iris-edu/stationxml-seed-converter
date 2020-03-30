@@ -41,6 +41,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.converter.MetadataFileFormatConverter;
 import edu.iris.dmc.station.converter.SeedToXmlFileConverter;
@@ -106,7 +107,12 @@ public class Application {
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
 			} else {
-				source = new File(args[i]);
+				if (arg.contains("--")){
+				    logger.severe("Argument name is mistyped.");
+				    help();
+				}else {
+				    source = new File(args[i]);
+			    }
 			}
 		}
 
@@ -124,6 +130,7 @@ public class Application {
 			logger.severe(message.toString());
 		}
 	}
+		
 
 	private void convert(File source, File target, Map<String, String> map)
 			throws MetadataConverterException, IOException, UnkownFileTypeException {
@@ -135,7 +142,7 @@ public class Application {
 			}
 		} else {
 			if (source == null || !source.isFile() || source.isHidden()) {
-				throw new IOException("File " + source + " does not exist.");
+				exitWithError(new IOException("File " + source + " does not exist."), map);
 			}
 			MetadataFileFormatConverter<File> converter = null;
 			String extension = null;
@@ -169,7 +176,8 @@ public class Application {
 				converter.convert(source, target, map);
 				logger.info("Output file: " + target + "\n");
 
-			} catch (FileConverterException e) {
+
+			} catch (Exception e) {
 				exitWithError(e, map);
 			}
 		  }
