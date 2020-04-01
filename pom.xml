@@ -1,16 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>stationxml-seed-converter</artifactId>
-	<version>2.0.11-SNAPSHOT</version>
+	<version>2.1.0-RC-1</version>
 	<packaging>jar</packaging>
 
 	<name>stationxml-seed-converter</name>
 	<url>http://maven.apache.org</url>
-
+    <description>Converts seismological metadata between dataless seed and FDSN StationXML file formats.</description>
+     <developers>
+         <developer>
+             <name>Yazan</name>
+             <organization>IRIS</organization>
+             <organizationUrl>https://www.iris.edu</organizationUrl>
+         </developer>
+         <developer>
+             <name>Tim Ronan</name>
+             <organization>IRIS</organization>
+             <organizationUrl>https://www.iris.edu</organizationUrl>
+         </developer>
+     </developers>
+     <scm>
+         <developerConnection>scm:git:https://github.com/iris-edu/stationxml-seed-converter.git</developerConnection>
+         <connection>scm:git:https://github.com/iris-edu/stationxml-seed-converter.git</connection>
+         <url>https://github.com/iris-edu/stationxml-seed-converter.git</url>
+         <tag>stationxml-seed-converter-2.1.0-RC-1</tag>
+     </scm>
+    <licenses>
+         <license>
+             <name>GNU General Public License (GPL)</name>
+             <url>http://www.gnu.org/licenses/gpl.txt</url>
+         </license>
+     </licenses>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -29,8 +51,8 @@
 				<enabled>false</enabled>
 				<updatePolicy>never</updatePolicy>
 			</releases>
-		</repository>
-		<repository>
+        </repository>
+        <repository>
 			<id>ossrh</id>
 			<name>ossrh</name>
 			<url>https://oss.sonatype.org/content/repositories/releases</url>
@@ -42,7 +64,7 @@
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
 			</releases>
-		</repository>
+        </repository> 
 	</repositories>
 
 	<build>
@@ -64,10 +86,32 @@
                     <useSystemClassLoader>false</useSystemClassLoader>
 				</configuration>
 			</plugin>
-			<plugin>
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-release-plugin</artifactId>
+                 <version>3.0.0-M1</version>
+                 <configuration>
+                     <checkModificationExcludes>
+                         <checkModificationExclude>pom.xml</checkModificationExclude>
+                     </checkModificationExcludes>
+                 </configuration>
+            </plugin>
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-source-plugin</artifactId>
+                 <version>3.2.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-sources</id>
+                         <goals>
+                             <goal>jar</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin> 
+            <plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.3</version>
-
 				<configuration>
 					<archive>
 						<manifest>
@@ -76,7 +120,6 @@
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 					</archive>
-
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
@@ -102,19 +145,46 @@
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
-			</plugin>
+            </plugin>
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-gpg-plugin</artifactId>
+                 <version>1.5</version>
+                 <executions>
+                     <execution>
+                         <id>sign-artifacts</id>
+                         <phase>verify</phase>
+                         <goals>
+                             <goal>sign</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-javadoc-plugin</artifactId>
+                 <version>3.0.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-javadocs</id>
+                         <goals>
+                             <goal>jar</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
+    	<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>java-4-seed</artifactId>
-			<version>1.0.5-SNAPSHOT</version>
-		</dependency>
+			<version>1.1.0-RC-1</version>
+        </dependency>
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>fdsn-stationxml-model</artifactId>
-			<version>1.5.1-SNAPSHOT</version>
+			<version>1.6.0-RC1</version>
         </dependency>
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
