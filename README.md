@@ -3,7 +3,7 @@ Please refer to the stationxml-seed-converter's [user guide](https://iris-edu.gi
 
 ### Downloading releases
 
-Releases of the stationxml-seed-converter can be downloaded from the project release page:
+Releases of the stationxml-seed-converter can be downloaded from the project's release page:
 
 [https://github.com/iris-edu/stationxml-seed-converter/releases](https://github.com/iris-edu/stationxml-seed-converter/releases)
 
@@ -22,5 +22,5 @@ The compiled .jar may be used immediately and is compatible with Java 8 and Java
 
 ### System Language Requirments 
 
-The stationxml-seed-converted is built in an English language enviroment and assumes users have similar settings. If a user's enviroment is not C locale please instantiate a C locale enviroment using `export LC_ALL="C"` for bash, or setenv `LC_ALL C` for tcsh/csh.
+The stationxml-seed-converted is built in an English language environment and assumes users have similar settings. If a user's     environment is not C locale please instantiate a C locale environment using `export LC_ALL="C"` for bash, or setenv `LC_ALL C` for tcsh/csh.
 
