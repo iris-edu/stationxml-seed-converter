@@ -1,3 +1,5 @@
+# Unit Conversion
+
 The stationxml-seed-converter automatically changes unit name casing during the conversion process from dataless seed to StationXML files. Blocklette 34 field 4 of the SEED data structure prescribes that unit names are "formatted as FORTRAN-like equations with all alphabetic characters in upper case" (SEED Manual). As the geophysical community moves from dataless SEED to StationXML file formats, IRIS suggests that FDSN-StationXML unit naming conventions should follow SI standards. To help with this transition, a unit mapper has been embedded into the stationxml-seed-converter. Unit names and symbols used in response metadata are accepted case insensitively (Right Column) and are mapped to SI unit naming conventions (Left Column), which are outlined in the table below.
 
  | SI Units | Dataless Unit (Case Insensitive)|
