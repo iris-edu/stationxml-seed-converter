@@ -149,7 +149,7 @@ public class Application {
 
 			if (isStationXml(source)) {
 				logger.info("Input file: " + source.getPath());
-				logger.info("Input file is formatted as StationXml");
+				logger.info("Input file is formatted as StationXML");
 				converter = XmlToSeedFileConverter.getInstance();
 				extension = "dataless";
 				if(lab==true){
@@ -228,7 +228,7 @@ public class Application {
 		version = center(version, 62, " ");
 		
 		System.out.println("===============================================================");
-		System.out.println("|"+ center("FDSN StationXml SEED Converter", 62, " ") + "|");
+		System.out.println("|"+ center("FDSN StationXML SEED Converter", 62, " ") + "|");
 		System.out.println("|" + version + "|");
 		System.out.println("================================================================");
 		System.out.println("Usage:");
