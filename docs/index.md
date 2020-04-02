@@ -31,6 +31,7 @@ Exmaples:
 
 The converter presents exception errors if the byte length of stationXML values exceeds the acceptable length of corresponding  dataless SEED values. These errors only occur when converting from stationXML to dataless SEED. Errors can also occur if metadata files are mis-formatted or corrupt. Refer to the [SEED manual](https://www.fdsn.org/seed_manual/SEEDManual_V2.4.pdf) for further help and documetation. 
 
+### Language 
 
-
+The stationxml-seed-converted is built in an English language enviroment and assumes users have similar settings. If a user's enviroment is not C locale please instantiate a C locale enviroment using `export LC_ALL="C"` for bash, or setenv `LC_ALL C` for tcsh/csh.
 
