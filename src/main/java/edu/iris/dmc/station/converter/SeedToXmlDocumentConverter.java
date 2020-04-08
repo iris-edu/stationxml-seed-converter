@@ -369,7 +369,11 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										}
 										stage.add(polynomial);
 										if(stage.getStageGain() != null) {
-										   logger.warning("Blockette 58 in Channel " + channel.getCode() + " stage "+ stage.getNumber()+ " has been removed.");
+										   if(stage.getStageGain().getValue() != 1) {
+											   throw new MetadataConverterException("Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() + " Channel " + channel.getCode() + " stage "+ stage.getNumber()+
+										   		" is non-unity. This stage must be fixed before the file can be converted.");
+										   }
+										   logger.warning("Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() + " Channel " + channel.getCode() + " stage "+ stage.getNumber()+ " has been removed.");
 									       stage.setStageGain(null);
 										}
 										break;

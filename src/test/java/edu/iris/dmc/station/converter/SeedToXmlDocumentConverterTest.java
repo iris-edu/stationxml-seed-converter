@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,10 +23,13 @@ import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Blockette;
+import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B052;
+import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.BTime;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 import edu.iris.dmc.station.mapper.SeedStringBuilder;
 
 public class SeedToXmlDocumentConverterTest {
@@ -150,6 +154,53 @@ public class SeedToXmlDocumentConverterTest {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Test(expected = MetadataConverterException.class)
+	public void B62B58NonUnity() throws SeedException, IOException, MetadataConverterException {
+		File source = null;
+
+		source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("B62B52NonUnity.dataless").getFile());
+
+		Volume volume;
+		Boolean b58b62switch=false;
+		Boolean b58b62switchXML=false;
+		Boolean stage2B58Switch=false;
+		Boolean stage2B58Switchxmlseed=false;
+			volume = IrisUtil.readSeed(source);
+			B050 b50 = volume.getB050s().get(0);
+			int size  = b50.getB052s().size();
+
+			for(int i=0; i< size; i++) {
+				B052 b52 = b50.getB052s().get(i);
+
+				if(b52.getResponseStages().get(0).getBlockettes().get(1).getType() ==62 &&
+					b52.getResponseStages().get(0).getBlockettes().get(0).getType() ==58) {
+					B058 b58 = (B058) b52.getResponseStages().get(0).getBlockettes().get(0);
+					b58b62switch=true;
+				}
+			}
+
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			List<Network> netlist = document.getNetwork();
+			Network net = netlist.get(0);
+			Station sta = net.getStations().get(0);
+			int sizexml = sta.getChannels().size();
+			for(int i2=0; i2< sizexml; i2++) {
+				Channel chan = sta.getChannels().get(i2);
+				if(chan.getResponse().getStage().get(0).getPolynomial() != null &&
+						chan.getResponse().getStage().get(0).getStageGain() == null) {
+					b58b62switchXML=true;
+				    if(chan.getResponse().getStage().get(1).getStageGain()!= null) {
+				    	stage2B58Switch =true;
+				    	
+				    }
+				}
+			}
+			assertTrue(b58b62switchXML);
+			assertTrue(stage2B58Switch);
+
 	}
 
 	@Test
