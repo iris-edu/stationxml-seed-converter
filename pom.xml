@@ -179,12 +179,12 @@
     	<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>java-4-seed</artifactId>
-			<version>1.1.0-RC-1</version>
+			<version>1.1.0-RC-2</version>
         </dependency>
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>fdsn-stationxml-model</artifactId>
-			<version>1.6.0-RC1</version>
+			<version>1.6.0-RC-2</version>
         </dependency>
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
