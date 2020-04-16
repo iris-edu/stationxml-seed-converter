@@ -239,9 +239,20 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 											volume.add(b057);
 										}
 										if (stage.getStageGain() != null) {
-											B058 b058 = StageGainToBlocketteMapper.map(stage.getStageGain());
-											b058.setStageSequence(stage.getNumber().intValue());
-											volume.add(b058);
+											if(stage.getPolynomial() != null) {
+												if(stage.getStageGain().getValue()!=1) {
+													throw new MetadataConverterException(
+													"Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() 
+													+ " Channel " + channel.getCode() + " stage "+ stage.getNumber()+" is non-unity. "
+													+ "This stage must be manually fixed before the file can be converted.");
+												}else {		
+												//Do Nothing
+												}
+											}else {
+											    B058 b058 = StageGainToBlocketteMapper.map(stage.getStageGain());
+											    b058.setStageSequence(stage.getNumber().intValue());
+											    volume.add(b058);
+											}
 										}
 										if (stage.getFIR() != null) {
 											B061 b061 = FirToBlocketteMapper.map(stage.getFIR());
@@ -271,7 +282,6 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 												b03407 = (B034) volume.add(b03407);
 												b062.setSignalOutputUnit(b03407.getLookupKey());
 											}
-
 											b062.setStageSequence(stage.getNumber().intValue());
 											volume.add(b062);
 										}
