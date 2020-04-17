@@ -242,7 +242,7 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 											if(stage.getPolynomial() != null) {
 												if(stage.getStageGain().getValue()!=1) {
 													throw new MetadataConverterException(
-													"Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() 
+													"Blockette 58 in Network " +network.getCode() +" Station " + station.getCode() 
 													+ " Channel " + channel.getCode() + " stage "+ stage.getNumber()+" is non-unity. "
 													+ "This stage must be manually fixed before the file can be converted.");
 												}else {		
