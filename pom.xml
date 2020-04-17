@@ -3,7 +3,7 @@
 
 	<groupId>edu.iris.dmc</groupId>
 	<artifactId>stationxml-seed-converter</artifactId>
-	<version>2.1.0-RC-2-SNAPSHOT</version>
+	<version>2.1.0-RC-2</version>
 	<packaging>jar</packaging>
 
 	<name>stationxml-seed-converter</name>
@@ -25,7 +25,7 @@
          <developerConnection>scm:git:https://github.com/iris-edu/stationxml-seed-converter.git</developerConnection>
          <connection>scm:git:https://github.com/iris-edu/stationxml-seed-converter.git</connection>
          <url>https://github.com/iris-edu/stationxml-seed-converter.git</url>
-         <tag>stationxml-seed-converter-2.1.0-RC-1</tag>
+         <tag>stationxml-seed-converter-2.1.0-RC-2</tag>
      </scm>
     <licenses>
          <license>
