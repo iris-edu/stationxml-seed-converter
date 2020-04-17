@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
@@ -52,6 +53,7 @@ import edu.iris.dmc.seed.control.station.B061;
 import edu.iris.dmc.seed.control.station.B062;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.seed.control.station.SeedResponseStage;
+import edu.iris.dmc.station.Application;
 import edu.iris.dmc.station.mapper.ChannelBlocketteMapper;
 import edu.iris.dmc.station.mapper.CoefficientsMapper;
 import edu.iris.dmc.station.mapper.CommentMapper;
@@ -73,6 +75,8 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 	public static MetadataDocumentFormatConverter<Volume, FDSNStationXML> getInstance() {
 		return INSTANCE;
 	}
+	
+    Logger logger = Logger.getLogger(Application.class.getName());
 
 	@Override
 	public FDSNStationXML convert(Volume volume) throws MetadataConverterException, IOException {
@@ -85,7 +89,7 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 		try {
 			document.setSource("IRIS-DMC");
 			document.setCreated(IrisUtil.now());
-			document.setSchemaVersion(BigDecimal.valueOf(1.0));
+			document.setSchemaVersion(BigDecimal.valueOf(1.1));
 			document.setModule("IRIS converter | version: ");
 			document.setModuleURI("https://seiscode.iris.washington.edu/projects/stationxml-converter/wiki");
 
@@ -364,6 +368,14 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 											polynomial.setOutputUnits(UnitsMapper.map(b03406));
 										}
 										stage.add(polynomial);
+										if(stage.getStageGain() != null) {
+										   if(stage.getStageGain().getValue() != 1) {
+											   throw new MetadataConverterException("Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() + " Channel " + channel.getCode() + " stage "+ stage.getNumber()+
+										   		" is non-unity. This stage must be fixed before the file can be converted.");
+										   }
+										   logger.warning("Blockette 58 in Network " +network.getCode() +" Statation " + station.getCode() + " Channel " + channel.getCode() + " stage "+ stage.getNumber()+ " has been removed.");
+									       stage.setStageGain(null);
+										}
 										break;
 									default:
 										throw new MetadataConverterException(

@@ -19,7 +19,9 @@ import edu.iris.dmc.seed.control.dictionary.B033;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B051;
 import edu.iris.dmc.seed.control.station.B059;
+import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
+import edu.iris.dmc.station.mapper.MetadataConverterException;
 
 public class XmlToSeedFileConverterTest {
 
@@ -59,6 +61,50 @@ public class XmlToSeedFileConverterTest {
 		assertEquals(volume.getB010().getOrganization(), "IRIS DMC");
 		assertEquals(volume.getB010().getLabel(), "Converted from XML");
 		
+
+
+	}
+	
+	@Test
+	public void b62b58() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("ResponeB60Order.xml").getFile());
+      
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+
+		List<B050> list = volume.getB050s();
+		assertEquals(1, list.size());
+		List<ResponseBlockette> blist = list.get(0).getB052s().get(0).getResponseStages().get(0).getBlockettes();
+		for(ResponseBlockette b : blist) {
+			System.out.println(b.getType());
+			
+		}
+
+
+
+	}
+	
+	@Test(expected = MetadataConverterException.class)
+	public void b62b58NonUnity() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("B62B58NonUnity.xml").getFile());
+      
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+
+		List<B050> list = volume.getB050s();
+		assertEquals(1, list.size());
+		List<ResponseBlockette> blist = list.get(0).getB052s().get(0).getResponseStages().get(0).getBlockettes();
+		for(ResponseBlockette b : blist) {
+			System.out.println(b.getType());
+			
+		}
+
 
 
 	}
