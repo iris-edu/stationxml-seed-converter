@@ -15,7 +15,7 @@ The compiled .jar may be used immediately and is compatible with Java 8 and Java
 
   `java -jar PATH/TO/stationxml-seed-converter-2.1.0.jar --input /PATH/TO/StnXML_file.xml --output /PATH/TO/StnXML_file.dataless`
 
-  `java -jar /PATH/TO/stationxml-seed-converter-2.1.0.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file. 2xml`
+  `java -jar /PATH/TO/stationxml-seed-converter-2.1.0.jar --input /PATH/TO/Dataless_file.dataless --output /PATH/TO/Dataless_file.xml`
 
   `java -jar /PATH/TO/stationxml-seed-converter-2.1.0.jar --input /PATH/TO/METADATA/DIR --output /PATH/TO/METADATA/NEWDIR`
 
