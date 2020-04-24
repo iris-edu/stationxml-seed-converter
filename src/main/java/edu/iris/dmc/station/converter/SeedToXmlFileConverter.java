@@ -11,6 +11,12 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
@@ -68,12 +74,22 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		marshaller.marshal(document, file);
 	}
+	
+    public void marshal(FDSNStationXML document, OutputStream stream) throws IOException, JAXBException {  
+	    try {
+    	JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
+	    Marshaller marshaller = jaxbContext.createMarshaller();
+	    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    DOMResult domResult = new DOMResult();
+	    marshaller.marshal(document, domResult);
 
-	public void marshal(FDSNStationXML document, OutputStream stream) throws IOException, JAXBException {
-		JAXBContext jaxbContext = JAXBContext.newInstance(edu.iris.dmc.fdsn.station.model.ObjectFactory.class);
-		Marshaller marshaller = jaxbContext.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.marshal(document, stream);
-	}
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+        transformer.transform(new DOMSource(domResult.getNode()), new StreamResult(stream));
+	     }catch(Exception e) {
+	    	e.printStackTrace();
+	     }
+     }
 
 }

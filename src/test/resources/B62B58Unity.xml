@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<FDSNStationXML schemaVersion="1.0" xmlns="http://www.fdsn.org/xml/station/1" xmlns:iris="http://www.fdsn.org/xml/station/1/iris" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.1.xsd">
+  <Source>ASL</Source>
+  <Sender>ASL</Sender>
+  <Module>ASL WEB SERVICE: fdsnws-station | version: 0.0.0</Module>
+  <ModuleURI>file</ModuleURI>
+  <Created>2020-03-19T22:06:46.874085</Created>
+  <Network code="US" startDate="1991-03-28T00:00:00.000000">
+    <TotalNumberStations>74</TotalNumberStations>
+    <SelectedNumberStations>1</SelectedNumberStations>
+    <Station code="CBKS" startDate="1994-09-12T00:00:00.000000">
+      <Description>ANSS-NEIC</Description>
+      <Latitude>38.814</Latitude>
+      <Longitude>-99.7374</Longitude>
+      <Elevation>677.0</Elevation>
+      <Site>
+        <Name>Cedar Bluff, Kansas, USA</Name>
+      </Site>
+      <CreationDate>1994-09-12T00:00:00.000000</CreationDate>
+      <TotalNumberChannels>72</TotalNumberChannels>
+      <SelectedNumberChannels>72</SelectedNumberChannels>
+      <Channel code="VMU" locationCode="00" startDate="2016-05-02T20:45:00.000000">
+        <Latitude>38.814</Latitude>
+        <Longitude>-99.7374</Longitude>
+        <Elevation>677.0</Elevation>
+        <Depth>0.0</Depth>
+        <Azimuth>0.0</Azimuth>
+        <Dip>0.0</Dip>
+        <Type>CONTINUOUS</Type>
+        <Type>HEALTH</Type>
+        <SampleRate>0.1</SampleRate>
+        <ClockDrift>0.0</ClockDrift>
+        <CalibrationUnits>
+          <Name>V</Name>
+          <Description>Volts</Description>
+        </CalibrationUnits>
+        <Sensor>
+          <Description>STS2-I=10443=Gen=Q330SR=1266</Description>
+        </Sensor>
+        <Response>
+          <Stage number="1">
+            <Polynomial>
+              <InputUnits>
+                <Name>V</Name>
+                <Description>Volts</Description>
+              </InputUnits>
+              <OutputUnits>
+                <Name>count</Name>
+                <Description>Digital Counts</Description>
+              </OutputUnits>
+              <ApproximationType>MACLAURIN</ApproximationType>
+              <FrequencyLowerBound>0.0</FrequencyLowerBound>
+              <FrequencyUpperBound>0.05</FrequencyUpperBound>
+              <ApproximationLowerBound>-10.0</ApproximationLowerBound>
+              <ApproximationUpperBound>10.0</ApproximationUpperBound>
+              <MaximumError>0.0</MaximumError>
+              <Coefficient number="0">0.0</Coefficient>
+              <Coefficient number="1">0.1</Coefficient>
+          </Polynomial>
+          <Decimation>
+               <InputSampleRate>40.0</InputSampleRate>
+               <Factor>1</Factor>
+               <Offset>0</Offset>
+               <Delay>0.5</Delay>
+               <Correction>0.5</Correction>
+             </Decimation>
+             <StageGain>
+               <Value>1.0</Value>
+               <Frequency>0.0</Frequency>
+             </StageGain>
+          </Stage>
+        </Response>
+      </Channel>
+    </Station>
+  </Network>
+</FDSNStationXML>
