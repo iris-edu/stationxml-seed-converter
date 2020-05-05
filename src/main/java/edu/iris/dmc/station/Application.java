@@ -63,7 +63,7 @@ public class Application {
 	private boolean debug;
 	private boolean lab=false;
 	private boolean org=false;
-	private boolean schematransform=false;
+	private boolean schemaUpdate=false;
 
 	public static void main(String[] args) throws Exception {
 		Application application = new Application();
@@ -105,9 +105,9 @@ public class Application {
 			
 			} else if ("--large".equals(arg)) {
 				map.put("large", "true");
-			} else if ("--schema-transform".equals(arg)) {
-				map.put("schematransform", args[i]);
-				schematransform=true;
+			} else if ("--schema-update".equals(arg)) {
+				map.put("schemaupdate", args[i]);
+				schemaUpdate=true;
 			} else if ("--align-epochs".equals(arg)) {
 				map.put("align", "true");
 			} else {
@@ -162,7 +162,7 @@ public class Application {
 				if(org==true) {
 					logger.info("Originating Organization [B10:F8] is set as " + map.get("organization"));
 				}
-				if(schematransform==true) {
+				if(schemaUpdate==true) {
 					logger.info("Input file: " + source.getPath());
 					logger.info("Input file is formatted as StationXML");
 					logger.info("Output file is formatted as StationXML 1.1");
@@ -258,7 +258,7 @@ public class Application {
 		System.out.println("   --output             : output file path and name");
 		System.out.println("   --label              : specify label for use in B10");
 		System.out.println("   --organization       : specify organization for use in B10");
-		System.out.println("   --schema-transform   : transforms input stationxml from version 1.0 to version 1.1");
+		System.out.println("   --schema-update      : updates input stationxml from version 1.0 to version 1.1");
 		System.out.println("   --continue-on-error  : prints exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 		System.exit(0);
