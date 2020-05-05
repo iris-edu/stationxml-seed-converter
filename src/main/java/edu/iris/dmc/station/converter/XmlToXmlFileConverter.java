@@ -111,9 +111,7 @@ public class XmlToXmlFileConverter implements MetadataFileFormatConverter<File> 
 				for (Station station : network.getStations()) {
 					if (station.getChannels() != null) {
 						for (Channel channel : station.getChannels()) {
-						    if(channel.getStorageformat()!=null) {
-							    channel.setStorageFormat(null);
-						    }
+							channel.getAny().clear();
 							 if (channel.getResponse() != null) {
 									List<ResponseStage> stages = channel.getResponse().getStage();
 									if (stages != null) {

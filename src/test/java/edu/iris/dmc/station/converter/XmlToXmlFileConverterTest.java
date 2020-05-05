@@ -34,7 +34,7 @@ public class XmlToXmlFileConverterTest {
 
 	
 	@Test
-	public void EreaseStorageFormat() throws Exception {
+	public void ereaseStorageFormat() throws Exception {
 
 		File xml = new File(XmlToXmlFileConverterTest.class.getClassLoader().getResource("StorageFormatTest.xml").getFile());
 		FDSNStationXML documentOG = IrisUtil.readXml(xml);
@@ -42,9 +42,13 @@ public class XmlToXmlFileConverterTest {
 		for (Network network : documentOG.getNetwork()) {
 			for (Station station : network.getStations()) {
 				if (station.getChannels() != null) {
-					for (Channel channel : station.getChannels()) {
-						 if(channel.getStorageformat()!=null) {
-							assertTrue(channel.getStorageformat().contains("DOES WORK"));
+					for (Channel channel : station.getChannels()) {				 
+						if(channel.getAny()!=null) {
+							 System.out.println(channel.getAny().size());
+							 assertTrue(channel.getAny().size()==1);
+							 for(Object element : channel.getAny()) {
+								assertTrue(element.toString().contains("StorageFormat"));
+							 }
 						 }
 					}
 				}
@@ -58,15 +62,14 @@ public class XmlToXmlFileConverterTest {
 			for (Station station : network.getStations()) {
 				if (station.getChannels() != null) {
 					for (Channel channel : station.getChannels()) {
-						assertTrue((channel.getStorageformat()==null)); 
-					}
+						if(channel.getAny()!=null) {
+							 assertTrue(channel.getAny().size()==0);
+						 }
 				}
 			}
+		 }
+
 		}
-
-		
-
-
 	}
 	
 	@Test
