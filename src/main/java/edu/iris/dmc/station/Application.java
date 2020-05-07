@@ -146,6 +146,7 @@ public class Application {
 			}
 		} else {
 			if (source == null || !source.isFile() || source.isHidden()) {
+				logger.severe("File " + source + " does not exist.");
 				exitWithError(new IOException("File " + source + " does not exist."), map);
 			}
 			MetadataFileFormatConverter<File> converter = null;
