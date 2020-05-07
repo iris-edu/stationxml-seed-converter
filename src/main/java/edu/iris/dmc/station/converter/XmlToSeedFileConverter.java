@@ -343,7 +343,8 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 					}
 				}
 			}
-		} catch (SeedException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new MetadataConverterException(e);
 		}
 
@@ -444,7 +445,8 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			try (SeedFileWriter writer = new SeedFileWriter(target, logicalrecordLength)) {
 				writer.write(volume);
 			}
-		} catch (JAXBException | SeedException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new IOException(e);
 		}
 	}

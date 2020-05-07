@@ -229,10 +229,7 @@ public class Application {
 
 	private static void exitWithError(String errorMsg) {
 		
-		
 		logger.severe(errorMsg);
-		//help();
-		//System.exit(1);
 	}
 
 	private void help() {
@@ -253,12 +250,12 @@ public class Application {
 		// System.out.println(" -p, aliases = \"--prettyprint\", usage = \"Only
 		// when
 		// output is xml.\"");
-		System.out.println("   --verbose            : increase verbosity level");
+		System.out.println("   --verbose            : change the verobsity level to info; info is printed to stderr");
 		System.out.println("   --input              : input as a file or directory");
 		System.out.println("   --output             : output file path and name");
 		System.out.println("   --label              : specify label for use in B10");
 		System.out.println("   --organization       : specify organization for use in B10");
-		System.out.println("   --schema-update      : updates input stationxml from version 1.0 to version 1.1");
+		System.out.println("   --schema-update      : updates input stationxml from version 1.0 to version 1.1; extensions are removed");
 		System.out.println("   --continue-on-error  : prints exceptions to stdout and processes next file");
 		System.out.println("===============================================================");
 		System.exit(0);

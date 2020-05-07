@@ -324,12 +324,10 @@ public class XmlToSeedDocumentConverter implements MetadataDocumentFormatConvert
 				}
 			}
 			//volume.build();
-		} catch (InvalidUnitException e) {
-			throw new MetadataConverterException(e);
-		} catch (SeedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MetadataConverterException(e);
-		}
+		} 
 		return volume;
 	}
 }

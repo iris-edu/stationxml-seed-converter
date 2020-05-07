@@ -48,11 +48,7 @@ public class SeedToXmlFileConverter implements MetadataFileFormatConverter<File>
 			Volume volume = IrisUtil.readSeed(source);
 			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
 			marshal(document, outputStream);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SeedException e) {
-			// TODO Auto-generated catch block
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

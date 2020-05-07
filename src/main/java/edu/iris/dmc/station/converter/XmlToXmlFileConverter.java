@@ -144,6 +144,8 @@ public class XmlToXmlFileConverter implements MetadataFileFormatConverter<File> 
 		} catch (JAXBException | MetadataConverterException  e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

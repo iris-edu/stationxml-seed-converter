@@ -87,7 +87,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 	
-	@Test(expected = MetadataConverterException.class)
+	@Test(expected = java.io.IOException.class)
 	public void b62b58NonUnity() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("B62B58NonUnity.xml").getFile());
@@ -163,6 +163,25 @@ public class XmlToSeedFileConverterTest {
 
 		List<B050> list = volume.getB050s();
 		assertEquals(2, list.size());
+
+		B050 anmo = list.get(0);
+
+		assertEquals("ANMO", anmo.getStationCode());
+
+	}
+	
+	@Test
+	public void partialconvertion() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("stationlevel.xml").getFile());
+
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+
+		List<B050> list = volume.getB050s();
+		assertEquals(1, list.size());
 
 		B050 anmo = list.get(0);
 
