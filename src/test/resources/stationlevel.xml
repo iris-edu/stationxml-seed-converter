@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iris="http://www.fdsn.org/xml/station/1/iris" xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.1.xsd" schemaVersion="1.1">
+  <Source>IRIS-DMC</Source>
+  <Sender>IRIS-DMC</Sender>
+  <Module>IRIS WEB SERVICE: fdsnws-station | version: 1.1.45</Module>
+  <ModuleURI>http://service.iris.edu/fdsnws/station/1/query?net=IU&amp;sta=ANMO&amp;cha=EHE&amp;starttime=1993-05-01T00:00:00&amp;endtime=1994-05-04T00:00:00&amp;level=response&amp;format=xml&amp;includecomments=true&amp;nodata=404</ModuleURI>
+  <Created>2020-05-06T19:54:30</Created>
+  <Network code="IU" startDate="1988-01-01T00:00:00" restrictedStatus="open">
+   <Description>Global Seismograph Network - IRIS/USGS (GSN)</Description>
+   <TotalNumberStations>270</TotalNumberStations>
+   <SelectedNumberStations>1</SelectedNumberStations>
+   <Station code="ANMO" startDate="1989-08-29T00:00:00" endDate="1995-07-14T00:00:00" restrictedStatus="open" iris:alternateNetworkCodes=".CEUSN-CONTRIB,_FDSN,_FDSN-ALL,_GSN,_GSN-BROADBAND,_REALTIME,.UNRESTRICTED">
+    <Latitude>34.9459</Latitude>
+    <Longitude>-106.4572</Longitude>
+    <Elevation>1850.0</Elevation>
+    <Site>
+     <Name>Albuquerque, New Mexico, USA</Name>
+    </Site>
+    <CreationDate>1989-08-29T00:00:00</CreationDate>
+    <TotalNumberChannels>121</TotalNumberChannels>
+    <SelectedNumberChannels>1</SelectedNumberChannels>
+   </Station>
+  </Network>
+ </FDSNStationXML>
