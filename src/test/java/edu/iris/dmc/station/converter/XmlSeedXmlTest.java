@@ -115,4 +115,31 @@ public class XmlSeedXmlTest {
 		assertEquals(0.0, pz.getImaginary().getMinusError(), 0.000001);
 
 	}
+	
+	@Test
+	public void caseTwo() throws Exception {
+		File source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("ZI_11075.xml").getFile());
+
+		final FDSNStationXML original = IrisUtil.readXml(source);
+
+		JAXBContext jContext = JAXBContext.newInstance(FDSNStationXML.class);
+		// creating the marshaller object
+		Marshaller marshallObj = jContext.createMarshaller();
+		// setting the property to show xml format output
+		marshallObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+		marshallObj.marshal(original, System.out);
+		Volume volume = XmlToSeedDocumentConverter.getInstance().convert(original);
+		volume.build();
+
+		final FDSNStationXML target = SeedToXmlDocumentConverter.getInstance().convert(volume);
+
+		// setting the values in POJO class
+
+		// calling the marshall method
+		//marshallObj.marshal(target, System.out);
+
+
+	}
 }

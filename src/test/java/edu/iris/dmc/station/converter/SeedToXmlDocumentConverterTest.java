@@ -228,6 +228,32 @@ public class SeedToXmlDocumentConverterTest {
 		}
 		
 	}
+	
+	@Test
+	public void B59B52() {
+		File source = null, target = null;
+
+		source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("ZI_11075.xml.converted.dataless").getFile());
+
+		Volume volume;
+		try {
+			volume = IrisUtil.readSeed(source);
+
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			List<Network> netlist = document.getNetwork();
+			Network net = netlist.get(0);
+			
+			// Determine that network start time and end time are being converted to dataless
+			assertEquals(net.getStartDate().toString(), "2010-07-19T00:00Z");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Test
 	public void t2() {
 		File source = null, target = null;

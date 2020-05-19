@@ -11,12 +11,28 @@ public class StationBlocketteMapper {
 	}
 
 	public static B050 map(Station station) throws SeedException {
+		
 		B050 b = new B050();
-		b.setStationCode(station.getCode());
-		b.setLatitude(station.getLatitude().getValue());
-		b.setLongitude(station.getLongitude().getValue());
-		b.setElevation(station.getElevation().getValue());
-		b.setSiteName(station.getSite().getName());
+		try {
+		    b.setStationCode(station.getCode());
+		}catch(NullPointerException e){	
+		}
+		try {
+		    b.setLatitude(station.getLatitude().getValue());
+		}catch(NullPointerException e){	
+		}
+		try {
+		    b.setLongitude(station.getLongitude().getValue());
+		}catch(NullPointerException e){	
+		}
+		try {
+		    b.setElevation(station.getElevation().getValue());
+		}catch(NullPointerException e){	
+		}
+		try {
+		    b.setSiteName(station.getSite().getName());
+		}catch(NullPointerException e){	
+		}
 		b.setBit32BitOrder(3210);
 		b.setBit16BitOrder(10);
 
@@ -24,6 +40,7 @@ public class StationBlocketteMapper {
 		b.setEndTime(IrisUtil.toBTime(station.getEndDate()));
 		b.setUpdateFlag('N');
 		return b;
+
 
 	}
 }
