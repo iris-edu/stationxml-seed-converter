@@ -1,6 +1,7 @@
 package edu.iris.dmc.station.mapper;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Azimuth;
@@ -14,8 +15,10 @@ import edu.iris.dmc.fdsn.station.model.SampleRate;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.control.station.B052;
+import edu.iris.dmc.station.Application;
 
 public class ChannelBlocketteMapper extends AbstractMapper {
+    static Logger logger = Logger.getLogger(Application.class.getName());
 
 	public static Channel map(B052 blockette) throws Exception {
 		String location = blockette.getLocationCode();
@@ -117,15 +120,22 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		b.setLocationCode(channel.getLocationCode());
 		b.setChannelCode(channel.getCode());
 		b.setOptionalComment(null);
-
 		b.setLatitude(channel.getLatitude().getValue());
 		b.setLongitude(channel.getLongitude().getValue());
+
 		if (channel.getElevation() != null) {
 			b.setElevation(channel.getElevation().getValue());
 		}
 
 		if (channel.getDepth() != null) {
-			b.setLocalDepth(channel.getDepth().getValue());
+			if(channel.getDepth().getValue() < 0) {
+				b.setLocalDepth(0);
+				b.setElevation(channel.getElevation().getValue()+channel.getDepth().getValue());
+				logger.warning("StationXML depth is less than 0, output dataless depth value is"
+						+ " set to 0 and elevation is set to elevation+depth.");
+			}else {
+			    b.setLocalDepth(channel.getDepth().getValue());	    
+		    }
 		}
 		try {
 			if (channel.getAzimuth() != null) {
@@ -138,7 +148,6 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		} catch (NullPointerException e) {
 
 		}
-		b.setLocalDepth(channel.getDepth().getValue());
 		try {
 			b.setAzimuth(channel.getAzimuth().getValue());
 			b.setDip(channel.getDip().getValue());

@@ -18,6 +18,7 @@ import edu.iris.dmc.seed.control.dictionary.B031;
 import edu.iris.dmc.seed.control.dictionary.B033;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B051;
+import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.B059;
 import edu.iris.dmc.seed.control.station.ResponseBlockette;
 import edu.iris.dmc.station.converter.XmlToSeedFileConverter;
@@ -186,6 +187,27 @@ public class XmlToSeedFileConverterTest {
 		B050 anmo = list.get(0);
 
 		assertEquals("ANMO", anmo.getStationCode());
+
+	}
+	
+	@Test
+	public void lessthanzerodepth() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("depthcheck.xml").getFile());
+
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+
+		List<B050> list = volume.getB050s();
+		assertEquals(1, list.size());
+
+		B050 sta = list.get(0);
+		assertEquals(225.9, sta.getElevation(),0);
+		B052 chan = sta.getB052s().get(0);
+		assertEquals(225.0, chan.getElevation(), 0);
+		assertEquals(0.0, chan.getLocalDepth(), 0);
 
 	}
 
