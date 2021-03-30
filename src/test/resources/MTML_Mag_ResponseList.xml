@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FDSNStationXML xmlns="http://www.fdsn.org/xml/station/1"
+                 xmlns:iris="http://www.fdsn.org/xml/station/1/iris"
+                 xmlns:mt="http://emiw.org/xmlns/mt/1.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 schemaVersion="1.1"
+                 xsi:schemaLocation="http://www.fdsn.org/xml/station/1 http://www.fdsn.org/xml/station/fdsn-station-1.1.xsd">
+    <Source>IRIS-DMC</Source>
+    <Module>mth5_to_mtml.m by A. Kelbert</Module>
+    <Created>2020-10-29T14:40:49</Created>
+    <Network code="EM" restrictedStatus="open" startDate="1996-01-01T00:00:00">
+       <Description>Florida 2015 Long Period and Wideband</Description>
+       <Identifier>http://doi.org/10.17611/DP/EMTF/USGS/GEOMAG/FL15</Identifier>
+       <Operator>
+          <Agency>U.S. Geological Survey</Agency>
+          <Contact>
+             <Name>Bedrosian, P. A.</Name>
+             <Email>pbedrosian@usgs.gov</Email>
+          </Contact>
+       </Operator>
+       <SelectedNumberStations>1</SelectedNumberStations>
+       <Station alternateCode="FL001" code="FL001" endDate="2015-01-29T16:18:14"
+                iris:alternateNetworkCodes="_INT-NON_FDSN,.UNRESTRICTED,_US-ALL,_US-MT,_US-MT-TA"
+                restrictedStatus="open"
+                startDate="2015-01-08T19:49:15">
+          <Latitude>29.7203555</Latitude>
+          <Longitude>-83.4854715</Longitude>
+          <Elevation>0</Elevation>
+          <Site>
+             <Name>Beachy Keen, FL, USA</Name>
+             <Country>USA</Country>
+          </Site>
+          <Equipment resourceId="mt_run_id_a">
+             <Type>BB, LP</Type>
+             <Description>timing_system.type: GPS, timing_system.drift: , timing_system.uncertainty: , timing_system.comments: , firmware.     author: Barry Narod, firmware.version: , power_source.type: battery, power_source.comments: voltage measurements not recorded</Description>
+             <Manufacturer>Barry Narod</Manufacturer>
+             <Model>NIMS</Model>
+             <SerialNumber>1305-1</SerialNumber>
+             <InstallationDate>2015-01-08T19:49:15</InstallationDate>
+             <RemovalDate>2015-01-19T14:54:54</RemovalDate>
+          </Equipment>
+          <Equipment resourceId="mt_run_id_b">
+             <Type>BB, LP</Type>
+             <Description>timing_system.type: GPS, timing_system.drift: , timing_system.uncertainty: , timing_system.comments: , firmware.     author: Barry Narod, firmware.version: , power_source.type: battery, power_source.comments: voltage measurements not recorded</Description>
+             <Manufacturer>Barry Narod</Manufacturer>
+             <Model>NIMS</Model>
+             <SerialNumber>1305-1</SerialNumber>
+             <InstallationDate>2015-01-19T16:16:31</InstallationDate>
+             <RemovalDate>2015-01-29T16:18:14</RemovalDate>
+          </Equipment>
+          <CreationDate>2015-01-29T16:18:14</CreationDate>
+          <TotalNumberChannels>5</TotalNumberChannels>
+          <SelectedNumberChannels>5</SelectedNumberChannels>
+          <Channel alternateCode="Hx" code="MFN" endDate="2015-01-29T16:18:14" locationCode=""
+                   mt:runList="a, b"
+                   restrictedStatus="open"
+                   startDate="2015-01-08T19:49:15">
+             <Latitude>29.7203555</Latitude>
+             <Longitude>-83.4854715</Longitude>
+             <Elevation>0</Elevation>
+             <Depth>0</Depth>
+             <Azimuth>355.9</Azimuth>
+             <Dip>0</Dip>
+             <Type>GEOPHYSICAL</Type>
+             <SampleRate>8</SampleRate> 
+             <ClockDrift>0</ClockDrift> 
+             <CalibrationUnits> 
+                <Name>nT</Name> 
+                <Description>nanotesla</Description> 
+             </CalibrationUnits> 
+             <Sensor> 
+                <Description>NIMS 1305-1</Description> 
+             </Sensor> 
+   <Response>
+     <InstrumentSensitivity>
+       <Value>2.17E7</Value>
+       <Frequency>1.0</Frequency>
+       <InputUnits>
+         <Name>m</Name>
+         <Description>EARTH DISPLACEMENT IN METERS</Description>
+       </InputUnits>
+       <OutputUnits>
+         <Name>counts</Name>
+         <Description>DIGITAL COUNTS</Description>
+       </OutputUnits>
+     </InstrumentSensitivity>
+      <Stage number="1">
+      <ResponseList>
+        <InputUnits>
+          <Name>m</Name>
+          <Description>EARTH DISPLACEMENT IN METERS</Description>
+        </InputUnits>
+        <OutputUnits>
+          <Name>count</Name>
+          <Description>DIGITAL COUNTS</Description>
+        </OutputUnits>
+        <ResponseListElement>
+          <Frequency>0.0001</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00016</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">90</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.00015</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00024</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">90</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0002</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00032</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0003</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00048</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0004</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00065</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0006</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00097</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.8</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0008</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00129</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.8</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.001</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00162</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.7</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.0015</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00242</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.5</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.002</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00323</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.4</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.003</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00485</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">89.1</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.004</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00646</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">88.8</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.006</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.00969</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">88.2</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.008</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0129</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">87.5</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.01</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0161</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">86.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.015</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0241</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">85.4</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.02</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0321</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">83.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.03</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0478</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">80.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.04</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0632</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">77.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.06</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.0923</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">72.2</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.08</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.118</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">66.8</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.1</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.142</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">61.8</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.15</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.1879</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">51.2</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.2</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.2199</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">43</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.3</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.256</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">31.9</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.4</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.273</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">25</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.6</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.2879</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">17.3</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>0.8</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.293</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">13.1</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>1</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.296</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">10.6</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>1.5</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.2989</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">7.1</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>2</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.3</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">5.3</Phase>
+        </ResponseListElement>
+        <ResponseListElement>
+          <Frequency>3</Frequency>
+          <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+          <Phase minusError="0.0" plusError="0.0">3.6</Phase>
+      </ResponseListElement>  
+      <ResponseListElement>
+        <Frequency>4</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">2.7</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>8</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-0.1</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>10</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-0.8</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>20</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-3.2</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>30</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-5.3</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>40</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-7.3</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>80</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3009</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-15.4</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>100</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.3019</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-18.7</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>200</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.298</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-38.9</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>400</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.272</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-79.8</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>500</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.2469</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-100.7</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>800</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.15</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-156.6</Phase>
+      </ResponseListElement>
+      <ResponseListElement>
+        <Frequency>1000</Frequency>
+        <Amplitude minusError="0.0" plusError="0.0">0.101</Amplitude>
+        <Phase minusError="0.0" plusError="0.0">-185.4</Phase>
+      </ResponseListElement>
+      </ResponseList>
+      <Decimation>
+        <InputSampleRate>8.0</InputSampleRate>
+        <Factor>1</Factor>
+        <Offset>0</Offset>
+        <Delay>0.0</Delay>
+        <Correction>0.0</Correction>
+      </Decimation>
+      <StageGain>
+        <Value>2.17E7</Value>
+        <Frequency>1.0</Frequency>
+      </StageGain>
+      </Stage>
+      <Stage number="2">
+        <Coefficients name="V to counts (electric)">
+        <Description>analog to digital conversion</Description>
+        <InputUnits>
+        <Name>count</Name>
+         <Description>count</Description>
+        </InputUnits>
+        <OutputUnits>
+         <Name>count</Name>
+         <Description>digital counts</Description>
+         </OutputUnits>
+         <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
+         <Numerator minusError="0.00000" plusError="0.00000">1.00000</Numerator>
+        </Coefficients>
+        <Decimation>
+         <InputSampleRate>8</InputSampleRate>
+         <Factor>1</Factor>
+         <Offset>0</Offset>
+         <Delay>0</Delay>
+         <Correction>0</Correction>
+        </Decimation>
+        <StageGain>
+         <Value>1.0</Value>
+         <Frequency>1.0</Frequency>
+        </StageGain>
+        </Stage> 
+     </Response>
+    </Channel>
+   </Station>
+  </Network>
+ </FDSNStationXML>

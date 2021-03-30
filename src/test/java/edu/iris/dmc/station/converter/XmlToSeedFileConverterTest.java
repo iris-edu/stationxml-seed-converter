@@ -319,5 +319,26 @@ public class XmlToSeedFileConverterTest {
 
 	}
 
+	@Test
+	public void B55Format() throws Exception {
+
+		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("MTML_Mag_ResponseList.xml").getFile());
+
+		File convertedSeedFile = new File("converted.dataless");
+		XmlToSeedFileConverter.getInstance().convert(xml, convertedSeedFile);
+
+		Volume volume = IrisUtil.readSeed(convertedSeedFile);
+        B050 sta = volume.getB050s().get(0);
+        assertTrue(sta.getNetworkIdentifierCode()>0);
+        int networkidkey =  sta.getNetworkIdentifierCode();
+        assertTrue(sta.getNetworkCode().contains("EM"));
+        B050 sta1 = volume.getB050s().get(0);
+        assertTrue(sta1.getNetworkCode().contains("EM"));
+        assertTrue(sta1.getNetworkIdentifierCode()>0);
+        List<ResponseBlockette> stage1 = volume.getB050s().get(0).getB052s().get(0).getResponseStages().get(0).getBlockettes();
+        assertTrue((stage1.get(0)!=null));
+        assertTrue((stage1.get(1)!=null));
+	}
+
 
 }

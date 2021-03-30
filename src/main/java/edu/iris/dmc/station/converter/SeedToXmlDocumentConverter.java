@@ -262,7 +262,6 @@ public class SeedToXmlDocumentConverter implements MetadataDocumentFormatConvert
 										break;
 									case 55:
 										B055 b055 = (B055) b;
-
 										ResponseList responseList = ResponseListMapper.map(b055);
 										b03405 = (B034) volume.getDictionaryBlockette(34, b055.getSignalInputUnit());
 										if (b03405 != null) {

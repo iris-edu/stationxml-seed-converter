@@ -21,12 +21,15 @@ import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
+import edu.iris.dmc.fdsn.station.model.ResponseList;
+import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Blockette;
 import edu.iris.dmc.seed.SeedException;
 import edu.iris.dmc.seed.Volume;
 import edu.iris.dmc.seed.control.station.B050;
 import edu.iris.dmc.seed.control.station.B052;
+import edu.iris.dmc.seed.control.station.B055;
 import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.BTime;
 import edu.iris.dmc.station.mapper.MetadataConverterException;
@@ -306,6 +309,47 @@ public class SeedToXmlDocumentConverterTest {
 	private void compare(Volume original, Volume other) throws Exception {
 
 		assertEquals(original.size(), other.size());
+
+	}
+
+	@Test
+	public void B55() {
+		File source = null;
+
+		source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("MTML_Mag_ResponseList.xml.converted.dataless").getFile());
+
+		Volume volume;
+
+		try {
+			volume = IrisUtil.readSeed(source);
+			B050 b50 = volume.getB050s().get(0);
+			int size  = b50.getB052s().size();
+
+			for(int i=0; i< size; i++) {
+				B052 b52 = b50.getB052s().get(i);
+
+				assertTrue(b52.getResponseStages().get(0).getBlockettes().get(1).getType() ==57 &&
+					b52.getResponseStages().get(0).getBlockettes().get(0).getType() ==55);
+				B055 b55 = (B055) b52.getResponseStages().get(0).getBlockettes().get(0);
+				assertTrue(b55.getResponses().get(0).getFrequency()!=null);
+				assertTrue(b55.getResponses().get(0).getAmplitude()!=null);
+				assertTrue(b55.getResponses().get(0).getPhaaeAngle()!=null);		
+			}
+
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			List<Network> netlist = document.getNetwork();
+			Network net = netlist.get(0);
+			Station sta = net.getStations().get(0);
+			ResponseList B55xml = sta.getChannels().get(0).getResponse().getStage().get(0).getResponseList();
+			assertTrue(B55xml.getResponseListElement().get(0).getFrequency()!=null);
+			assertTrue(B55xml.getResponseListElement().get(0).getAmplitude()!=null);
+			assertTrue(B55xml.getResponseListElement().get(0).getPhase()!=null);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
