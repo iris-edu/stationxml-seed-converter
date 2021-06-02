@@ -128,13 +128,39 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		}
 
 		if (channel.getDepth() != null) {
+			//Checks for negative depth values
 			if(channel.getDepth().getValue() < 0) {
-				b.setLocalDepth(0);
-				b.setElevation(channel.getElevation().getValue()+channel.getDepth().getValue());
-				logger.warning("StationXML depth is less than 0, output dataless depth value is"
-						+ " set to 0 and elevation is set to elevation+depth.");
+				if (channel.getDepth().getValue() >= -99) {
+					b.setLocalDepth(channel.getDepth().getValue());
+				}
+			    else if(channel.getDepth().getValue() < -99 &&
+						channel.getDepth().getValue() >= -999){
+					int depth = channel.getDepth().getValue().intValue();
+					String form_depth = String.format("%05d", depth);
+					double dnum = Double.parseDouble(form_depth);
+					b.setLocalDepth(dnum);
+				}
+			    else {
+			    	int depth = channel.getDepth().getValue().intValue();
+					String form_depth = String.format("%5d", depth);
+					b.setLocalDepth(Double.parseDouble(form_depth));
+			    }
+
 			}else {
-			    b.setLocalDepth(channel.getDepth().getValue());	    
+				if (channel.getDepth().getValue() <= 999) {
+					b.setLocalDepth(channel.getDepth().getValue());
+				}
+				else if (channel.getDepth().getValue() >= 1000 &&
+						channel.getDepth().getValue() >= 9999) {
+			    	int depth = channel.getDepth().getValue().intValue();
+					String form_depth = String.format("%05d", depth);
+					b.setLocalDepth(Double.parseDouble(form_depth));
+				}
+			    else {
+			    	int depth = channel.getDepth().getValue().intValue();
+					String form_depth = String.format("%5d", depth);
+					b.setLocalDepth(Double.parseDouble(form_depth));
+			    }
 		    }
 		}
 		try {

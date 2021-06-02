@@ -66,7 +66,7 @@ public class XmlToSeedFileConverterTest {
 
 	}
 	
-	@Test
+    @Test
 	public void b62b58() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("ResponeB60Order.xml").getFile());
@@ -206,8 +206,7 @@ public class XmlToSeedFileConverterTest {
 		B050 sta = list.get(0);
 		assertEquals(225.9, sta.getElevation(),0);
 		B052 chan = sta.getB052s().get(0);
-		assertEquals(225.0, chan.getElevation(), 0);
-		assertEquals(0.0, chan.getLocalDepth(), 0);
+		assertEquals(-250, chan.getLocalDepth(), 0);
 
 	}
 
