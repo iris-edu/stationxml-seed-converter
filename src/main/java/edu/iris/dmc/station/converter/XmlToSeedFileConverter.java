@@ -41,6 +41,7 @@ import edu.iris.dmc.seed.control.station.B051;
 import edu.iris.dmc.seed.control.station.B052;
 import edu.iris.dmc.seed.control.station.B053;
 import edu.iris.dmc.seed.control.station.B054;
+import edu.iris.dmc.seed.control.station.B055;
 import edu.iris.dmc.seed.control.station.B057;
 import edu.iris.dmc.seed.control.station.B058;
 import edu.iris.dmc.seed.control.station.B059;
@@ -60,6 +61,7 @@ import edu.iris.dmc.station.mapper.InstrumentSensitivityToBlocketteMapper;
 import edu.iris.dmc.station.mapper.MetadataConverterException;
 import edu.iris.dmc.station.mapper.PolesZerosMapper;
 import edu.iris.dmc.station.mapper.PolynomialMapper;
+import edu.iris.dmc.station.mapper.ResponseListMapper;
 import edu.iris.dmc.station.mapper.SensitivityToBlocketteMapper;
 import edu.iris.dmc.station.mapper.StageGainToBlocketteMapper;
 import edu.iris.dmc.station.mapper.StationBlocketteMapper;
@@ -136,7 +138,6 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 						b051.setLookupKey(b031.getLookupKey());
 						out.write(b051);
 					}
-
 					b050.setNumberOfChannels(station.getChannels().size());
 					for (Channel channel : station.getChannels()) {
 						B052 b052 = ChannelBlocketteMapper.map(channel);
@@ -261,6 +262,20 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 										}
 									}
 									if (stage.getResponseList() != null) {
+										B055 b055 = ResponseListMapper.map(stage.getResponseList());
+										if (stage.getResponseList().getInputUnits() != null) {
+											B034 b03405 = UnitsMapper.map(stage.getResponseList().getInputUnits());
+											b03405 = (B034) dictionary.put(b03405);
+											b055.setSignalInputUnit(b03405.getLookupKey());
+										}
+										if (stage.getResponseList().getOutputUnits() != null) {
+											B034 b03406 = UnitsMapper.map(stage.getResponseList().getOutputUnits());
+											b03406 = (B034) dictionary.put(b03406);
+											b055.setSignalOutputUnit(b03406.getLookupKey());
+										}
+										b055.setStageSequence(stage.getNumber().intValue());
+										
+										out.write(b055);
 
 									}
 									if (stage.getDecimation() != null) {

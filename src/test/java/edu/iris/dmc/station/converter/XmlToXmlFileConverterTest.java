@@ -16,6 +16,7 @@ import edu.iris.dmc.IrisUtil;
 import edu.iris.dmc.fdsn.station.model.Channel;
 import edu.iris.dmc.fdsn.station.model.FDSNStationXML;
 import edu.iris.dmc.fdsn.station.model.Network;
+import edu.iris.dmc.fdsn.station.model.ResponseList;
 import edu.iris.dmc.fdsn.station.model.ResponseStage;
 import edu.iris.dmc.fdsn.station.model.Station;
 import edu.iris.dmc.seed.Volume;
@@ -98,6 +99,45 @@ public class XmlToXmlFileConverterTest {
 
 		
 
+
+	}
+
+	@Test
+	public void B55Format() throws Exception {
+
+		File xml = new File(XmlToXmlFileConverterTest.class.getClassLoader().getResource("MTML_Mag_ResponseList.xml").getFile());
+		FDSNStationXML documentOG = IrisUtil.readXml(xml);
+		assertTrue((documentOG.getSchemaVersion().doubleValue()==1.1));
+		Network network = documentOG.getNetwork().get(0);
+		Station station = network.getStations().get(0);
+		Channel channel = station.getChannels().get(0);
+		ResponseStage stage = channel.getResponse().getStage().get(0);
+		assertTrue(stage.getStageGain() != null);
+		assertTrue(stage.getResponseList() != null);
+		ResponseList resplist = stage.getResponseList();
+		System.out.println(resplist);
+		File convertedXML = new File("convertedxml");
+		XmlToXmlFileConverter.getInstance().convert(xml, convertedXML);
+		FDSNStationXML document = IrisUtil.readXml(convertedXML);
+		assertTrue((document.getSchemaVersion().doubleValue()==1.1));
+		Network network2 = document.getNetwork().get(0);
+		Station station2 = network2.getStations().get(0);
+		Channel channel2 = station2.getChannels().get(0);
+		ResponseStage stage2 = channel2.getResponse().getStage().get(0);
+		assertTrue(stage2.getResponseList() != null);
+		ResponseList resplist2 = stage.getResponseList();
+		System.out.println(resplist2.getDescription());
+		System.out.println(resplist2.getInputUnits());
+		System.out.println(resplist2.getOutputUnits());
+		System.out.println(resplist2.getResponseListElement().get(0).getAmplitude().getValue());
+		System.out.println(resplist2.getResponseListElement().get(0).getFrequency().getValue());
+		System.out.println(resplist2.getResponseListElement().get(0).getPhase().getValue());
+		System.out.println(resplist2.getResponseListElement().get(1).getAmplitude().getValue());
+		System.out.println(resplist2.getResponseListElement().get(1).getFrequency().getValue());
+		System.out.println(resplist2.getResponseListElement().get(1).getPhase().getValue());
+		System.out.println(resplist2.getResponseListElement().get(2).getAmplitude().getValue());
+		System.out.println(resplist2.getResponseListElement().get(2).getFrequency().getValue());
+		System.out.println(resplist2.getResponseListElement().get(2).getPhase().getValue());
 
 	}
 	
