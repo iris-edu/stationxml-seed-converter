@@ -191,7 +191,7 @@ public class XmlToSeedFileConverterTest {
 	}
 	
 	@Test
-	public void lessthanzerodepth() throws Exception {
+	public void lessThanZeroDepth() throws Exception {
 
 		File xml = new File(XmlToSeedFileConverterTest.class.getClassLoader().getResource("depthcheck.xml").getFile());
 
