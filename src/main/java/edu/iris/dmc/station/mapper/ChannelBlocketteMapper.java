@@ -128,41 +128,9 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		}
 
 		if (channel.getDepth() != null) {
-			//Checks for negative depth values
-			if(channel.getDepth().getValue() < 0) {
-				if (channel.getDepth().getValue() >= -99) {
-					b.setLocalDepth(channel.getDepth().getValue());
-				}
-			    else if(channel.getDepth().getValue() < -99 &&
-						channel.getDepth().getValue() >= -999){
-					int depth = channel.getDepth().getValue().intValue();
-					String formDepth = String.format("%05d", depth);
-					double dnum = Double.parseDouble(formDepth);
-					b.setLocalDepth(dnum);
-				}
-			    else {
-			    	int depth = channel.getDepth().getValue().intValue();
-					String formDepth = String.format("%5d", depth);
-					b.setLocalDepth(Double.parseDouble(formDepth));
-			    }
-
-			}else {
-				if (channel.getDepth().getValue() <= 999) {
-					b.setLocalDepth(channel.getDepth().getValue());
-				}
-				else if (channel.getDepth().getValue() >= 1000 &&
-						channel.getDepth().getValue() >= 9999) {
-			    	int depth = channel.getDepth().getValue().intValue();
-					String formDepth = String.format("%05d", depth);
-					b.setLocalDepth(Double.parseDouble(formDepth));
-				}
-			    else {
-			    	int depth = channel.getDepth().getValue().intValue();
-					String formDepth = String.format("%5d", depth);
-					b.setLocalDepth(Double.parseDouble(formDepth));
-			    }
-		    }
+            b.setLocalDepth(channel.getDepth().getValue());
 		}
+
 		try {
 			if (channel.getAzimuth() != null) {
 				b.setAzimuth(channel.getAzimuth().getValue());
