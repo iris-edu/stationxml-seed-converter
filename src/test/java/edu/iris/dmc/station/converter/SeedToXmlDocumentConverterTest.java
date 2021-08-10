@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -345,6 +346,54 @@ public class SeedToXmlDocumentConverterTest {
 			assertTrue(B55xml.getResponseListElement().get(0).getFrequency()!=null);
 			assertTrue(B55xml.getResponseListElement().get(0).getAmplitude()!=null);
 			assertTrue(B55xml.getResponseListElement().get(0).getPhase()!=null);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void frac_sec() {
+		File source = null;
+
+		source = new File(
+				XmlToSeedDocumentConverterTest.class.getClassLoader().getResource("frac_sec.dataless").getFile());
+
+		Volume volume;
+
+		try {
+			volume = IrisUtil.readSeed(source);
+			B050 b50 = volume.getB050s().get(0);
+			int size  = b50.getB052s().size();
+			BTime cdstartdate = null;
+			BTime cdenddate = null;
+			BTime sdstartdate = b50.getStartTime();
+			BTime sdenddate = b50.getEndTime();
+			System.out.println("\n Station Dataless Test");
+			System.out.println(sdstartdate);
+			System.out.println(sdenddate);
+			for(int i=0; i< size; i++) {
+				B052 b52 = b50.getB052s().get(i);
+				cdstartdate = b52.getStartTime();
+				cdenddate = b52.getEndTime();
+			}
+
+			FDSNStationXML document = SeedToXmlDocumentConverter.getInstance().convert(volume);
+			List<Network> netlist = document.getNetwork();
+			Network net = netlist.get(0);
+			Station sta = net.getStations().get(0);
+			ZonedDateTime sxstartdate = sta.getStartDate();
+			ZonedDateTime sxenddate = sta.getEndDate();
+			Channel cha = sta.getChannels().get(0);
+			ZonedDateTime cxstartdate = cha.getStartDate();
+			ZonedDateTime cxenddate = cha.getEndDate();
+			assertEquals(sdstartdate.toString().substring(17, 21), sxstartdate.toString().substring(19, 23));
+			assertEquals(sdenddate.toString().substring(17, 21), sxenddate.toString().substring(19, 23));
+			assertEquals(cdstartdate.toString().substring(17, 21), cxstartdate.toString().substring(19, 23));
+			assertEquals(cdenddate.toString().substring(17, 21), cxenddate.toString().substring(19, 23));
+
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
