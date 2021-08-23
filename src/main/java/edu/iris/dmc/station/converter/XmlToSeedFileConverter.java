@@ -440,7 +440,7 @@ public class XmlToSeedFileConverter implements MetadataFileFormatConverter<File>
 			FDSNStationXML document = IrisUtil.readXml(source);
 			Volume volume = XmlToSeedDocumentConverter.getInstance().convert(document);
 			if (volume == null) {
-				throw new IOException("An error occured,vVolume is null");
+				throw new IOException("An error occured, Volume is null");
 			}
 			if (args != null && !args.isEmpty()) {
 				B010 b010 = volume.getB010();

@@ -128,15 +128,9 @@ public class ChannelBlocketteMapper extends AbstractMapper {
 		}
 
 		if (channel.getDepth() != null) {
-			if(channel.getDepth().getValue() < 0) {
-				b.setLocalDepth(0);
-				b.setElevation(channel.getElevation().getValue()+channel.getDepth().getValue());
-				logger.warning("StationXML depth is less than 0, output dataless depth value is"
-						+ " set to 0 and elevation is set to elevation+depth.");
-			}else {
-			    b.setLocalDepth(channel.getDepth().getValue());	    
-		    }
+            b.setLocalDepth(channel.getDepth().getValue());
 		}
+
 		try {
 			if (channel.getAzimuth() != null) {
 				b.setAzimuth(channel.getAzimuth().getValue());
