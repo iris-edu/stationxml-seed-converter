@@ -72,7 +72,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -138,20 +138,17 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
+				<version>1.6.13</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<nexusUrl>https://oss.sonatype.org</nexusUrl>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
             </plugin>
             <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
                  <artifactId>maven-gpg-plugin</artifactId>
-                 <configuration>
-                  <skip>true</skip>
-                 </configuration>
                  <version>1.5</version>
                  <executions>
                      <execution>
@@ -187,7 +184,7 @@
 		<dependency>
 			<groupId>edu.iris.dmc</groupId>
 			<artifactId>fdsn-stationxml-model</artifactId>
-			<version>1.6.1</version>
+			<version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
